@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+
+{% block title %}Dự đoán điểm - Hệ thống E-Learning{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="bi bi-graph-up-arrow me-2"></i>Dự đoán điểm AI</h1>
+    <p class="text-muted">Dự đoán điểm bài kiểm tra dự kiến của bạn bằng Machine Learning (Random Forest)</p>
+</div>
+
+<!-- Algorithm Info -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="alert alert-primary">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h6><i class="bi bi-cpu me-2"></i>Mô hình Hồi quy Random Forest</h6>
+                    <p class="mb-0 small">
+                        Dự đoán điểm kiểm tra dựa trên: hiệu suất lịch sử của bạn, độ khó khóa học,
+                        thời gian sử dụng, tiến độ, video đã xem và ghi chú đã ghi.
+                    </p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <span class="badge bg-primary p-2">100 Cây quyết định (Decision Trees)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Course Selector -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-search me-2"></i>Chọn Khóa học</h5>
+            </div>
+            <div class="card-body">
+                <form method="GET" action="{{ url_for('grade_predictor') }}" class="row g-3 align-items-center">
+                    <div class="col-md-8">
+                        <select name="course_id" class="form-select form-select-lg">
+                            <option value="">-- Chọn một khóa học để dự đoán điểm của bạn --</option>
+                            {% for course in all_courses %}
+                            <option value="{{ course.course_id }}" {% if course.course_id==course_id %}selected{% endif
+                                %}>
+                                {{ course.course_id }} - {{ course.title }} ({{ course.difficulty }})
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                            <i class="bi bi-lightning me-2"></i>Dự đoán điểm
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if prediction %}
+<!-- Prediction Result -->
+<div class="row mb-4">
+    <div class="col-lg-6">
+        <div class="card border-primary">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-bullseye me-2"></i>Điểm dự đoán</h5>
+            </div>
+            <div class="card-body text-center py-5">
+                <div class="predicted-score-display">
+                    <div
+                        class="score-circle {% if prediction.predicted_score >= 80 %}bg-success{% elif prediction.predicted_score >= 60 %}bg-warning{% else %}bg-danger{% endif %}">
+                        <span class="score-number">{{ prediction.predicted_score }}</span>
+                        <span class="score-percent">%</span>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <span
+                        class="badge bg-{{ 'success' if prediction.confidence == 'High' else ('warning' if prediction.confidence == 'Medium' else 'secondary') }} p-2">
+                        <i class="bi bi-shield-check me-1"></i>Độ tin cậy {{ prediction.confidence }}
+                    </span>
+                </div>
+
+                <div class="mt-3">
+                    {% if prediction.predicted_score >= 80 %}
+                    <p class="text-success mb-0"><i class="bi bi-emoji-smile me-1"></i>Xuất sắc! Bạn có khả năng đạt điểm rất tốt.</p>
+                    {% elif prediction.predicted_score >= 60 %}
+                    <p class="text-warning mb-0"><i class="bi bi-emoji-neutral me-1"></i>Tốt. Việc ôn tập có thể giúp cải thiện điểm số của bạn.</p>
+                    {% else %}
+                    <p class="text-danger mb-0"><i class="bi bi-emoji-frown me-1"></i>Hãy cân nhắc dành thêm thời gian cho khóa học này trước khi làm bài kiểm tra.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-header">
+                <h5><i class="bi bi-info-circle me-2"></i>Chi tiết dự đoán</h5>
+            </div>
+            <div class="card-body">
+                {% if selected_course %}
+                <div class="mb-4">
+                    <h6>Khóa học: {{ selected_course.title }}</h6>
+                    <span
+                        class="badge bg-{{ 'success' if selected_course.difficulty == 'Beginner' else ('warning' if selected_course.difficulty == 'Intermediate' else 'danger') }}">
+                        {{ selected_course.difficulty }}
+                    </span>
+                </div>
+                {% endif %}
+
+                <div class="mb-3">
+                    <strong>Điểm trung bình của bạn:</strong> {{ prediction.student_avg }}%
+                </div>
+
+                {% if prediction.factors %}
+                <div class="mb-3">
+                    <strong>Các yếu tố đóng góp hàng đầu:</strong>
+                    <ul class="mt-2">
+                        {% for factor in prediction.factors %}
+                        <li>{{ factor.feature | replace('_', ' ') | title }}: {{ factor.importance }}%</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <div class="alert alert-info mt-3 mb-0">
+                    <small>
+                        <i class="bi bi-lightbulb me-1"></i>
+                        <strong>Mẹo:</strong> Để cải thiện điểm dự đoán, hãy xem thêm video,
+                        ghi chú và dành nhiều thời gian hơn cho tài liệu khóa học.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How it Works -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-gear me-2"></i>Cách hoạt động của Dự đoán</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="text-center p-3">
+                            <i class="bi bi-database fs-1 text-primary"></i>
+                            <h6 class="mt-2">1. Thu thập dữ liệu</h6>
+                            <p class="small text-muted">Lịch sử học tập, điểm bài kiểm tra, thời gian và dữ liệu hoạt động của bạn</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-center p-3">
+                            <i class="bi bi-cpu fs-1 text-success"></i>
+                            <h6 class="mt-2">2. Xử lý ML</h6>
+                            <p class="small text-muted">Random Forest phân tích 10 đặc trưng sử dụng 100 cây quyết định</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-center p-3">
+                            <i class="bi bi-graph-up fs-1 text-warning"></i>
+                            <h6 class="mt-2">3. Dự đoán điểm</h6>
+                            <p class="small text-muted">Xuất ra điểm dự kiến kèm mức độ tin cậy</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<style>
+    .score-circle {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .score-number {
+        font-size: 4rem;
+        font-weight: bold;
+        line-height: 1;
+    }
+
+    .score-percent {
+        font-size: 1.5rem;
+    }
+</style>
+{% endblock %}

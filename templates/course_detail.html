@@ -1,0 +1,250 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ course.title }} - E-Learning System{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{{ url_for('courses') }}" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left me-1"></i>Quay lại danh mục
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                        <h2>{{ course.title }}</h2>
+                        <p class="text-muted mb-2">
+                            <i class="bi bi-person me-1"></i>{{ course.instructor }}
+                        </p>
+                    </div>
+                    <span
+                        class="badge bg-{{ 'success' if course.difficulty == 'Beginner' else ('warning' if course.difficulty == 'Intermediate' else 'danger') }} fs-6">
+                        {{ course.difficulty }}
+                    </span>
+                </div>
+
+                <div class="mb-4">
+                    <span class="badge bg-primary me-2">{{ course.category }}</span>
+                    <span class="badge bg-secondary">{{ course.subcategory }}</span>
+                </div>
+
+                <h5>Mô tả</h5>
+                <p>{{ course.description }}</p>
+
+                {% if course.prerequisites and course.prerequisites != 'None' %}
+                <div class="alert alert-warning">
+                    <strong><i class="bi bi-exclamation-triangle me-2"></i>Điều kiện tiên quyết:</strong>
+                    {{ course.prerequisites }}
+                </div>
+                {% endif %}
+
+                <div class="row mt-4">
+                    <div class="col-md-4 mb-3">
+                        <div class="text-center p-3 border rounded">
+                            <i class="bi bi-clock fs-3 text-primary"></i>
+                            <div class="mt-2">
+                                <strong>{{ course.duration_hours }} Giờ</strong><br>
+                                <small class="text-muted">Khoảng thời gian</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="text-center p-3 border rounded">
+                            <i class="bi bi-star-fill fs-3 text-warning"></i>
+                            <div class="mt-2">
+                                <strong>{{ course.rating }}</strong><br>
+                                <small class="text-muted">Đánh giá</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="text-center p-3 border rounded">
+                            <i class="bi bi-people fs-3 text-success"></i>
+                            <div class="mt-2">
+                                <strong>{{ course.total_enrollments }}</strong><br>
+                                <small class="text-muted">Học viên</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% if not enrolled %}
+                <div class="d-grid gap-2 mt-4">
+                    <button onclick="enrollCourse()" class="btn btn-primary btn-lg">
+                        <i class="bi bi-plus-circle me-2"></i>Đăng ký học
+                    </button>
+                </div>
+                {% else %}
+                <div class="d-grid gap-2 mt-4">
+                    <a href="{{ url_for('course_learn', course_id=course.course_id) }}" class="btn btn-success btn-lg">
+                        <i class="bi bi-play-circle me-2"></i>Bắt đầu học
+                    </a>
+                    <button onclick="unenrollCourse()" class="btn btn-outline-danger">
+                        <i class="bi bi-x-circle me-2"></i>Bỏ khoá học
+                    </button>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Syllabus/Modules -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5><i class="bi bi-list-task me-2"></i>Giáo trình khoá học</h5>
+            </div>
+            <div class="card-body">
+                {% if modules %}
+                <div class="list-group">
+                    {% for module in modules %}
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h6 class="mb-1">
+                                    <span class="badge bg-light text-dark me-2">{{ module.module_number }}</span>
+                                    {{module.module_title }}
+                                </h6>
+                                <p class="mb-1 small text-muted">{{ module.description }}</p>
+                                <small class="text-muted">
+                                    <i
+                                        class="bi bi-{{ 'play-circle' if module.module_type == 'video' else ('clipboard-check' if module.module_type == 'quiz' else 'file-text') }} me-1"></i>
+                                    {{ module.module_type|capitalize }}
+                                    <span class="ms-2"><i class="bi bi-clock me-1"></i>{{ module.duration_minutes }}
+                                        phút</span>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted">Hiện chưa có mô-đun nào.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Reviews -->
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-chat-quote me-2"></i>Nhận xét của học viên</h5>
+            </div>
+            <div class="card-body">
+                {% if ratings %}
+                {% for rating in ratings[:5] %}
+                <div class="mb-3 pb-3 border-bottom">
+                    <div class="d-flex justify-content-between">
+                        <strong>Học viên {{ rating.student_id }}</strong>
+                        <small class="text-muted">{{ rating.rating_date }}</small>
+                    </div>
+                    <div class="mb-2">
+                        {% for i in range(5) %}
+                        <i class="bi bi-star{{ '-fill text-warning' if i < rating.rating|int else '' }}"></i>
+                        {% endfor %}
+                        <span class="ms-2">{{ rating.rating }}/5.0</span>
+                    </div>
+                    <p class="mb-0">{{ rating.review_text }}</p>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p class="text-muted">Chưa có đánh giá nào. Hãy là người đầu tiên đánh giá khóa học này!</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card sticky-top" style="top: 20px;">
+            <div class="card-body">
+                <h5 class="card-title">Thông tin khóa học</h5>
+                <hr>
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <i class="bi bi-tag me-2 text-primary"></i>
+                        <strong>Loại:</strong> {{ course.category }}
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-diagram-3 me-2 text-primary"></i>
+                        <strong>Danh mục phụ:</strong> {{ course.subcategory }}
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-speedometer me-2 text-primary"></i>
+                        <strong>Khó khăn:</strong> {{ course.difficulty }}
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-clock me-2 text-primary"></i>
+                        <strong>Thời gian:</strong> {{ course.duration_hours }} giờ
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-percent me-2 text-primary"></i>
+                        <strong>Tỉ lệ hoàn thành</strong> {{ course.completion_rate }}%
+                    </li>
+                    {% if course.tags %}
+                    <li class="mb-2">
+                        <i class="bi bi-tags me-2 text-primary"></i>
+                        <strong>Tags:</strong><br>
+                        {% for tag in course.tags.split() %}
+                        <span class="badge bg-light text-dark mt-1 me-1">{{ tag }}</span>
+                        {% endfor %}
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function enrollCourse() {
+        if (confirm('Bạn có muốn đăng ký khóa học này không?')) {
+            fetch('/api/enroll', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ course_id: '{{ course.course_id }}' })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        location.reload();
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Đã xảy ra lỗi. Vui lòng thử lại.');
+                });
+        }
+    }
+
+    function unenrollCourse() {
+        if (confirm('Bạn có chắc chắn muốn bỏ khóa học này không? Tiến trình học tập của bạn sẽ được lưu lại.')) {
+            fetch('/api/unenroll', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ course_id: '{{ course.course_id }}' })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        location.reload();
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Đã xảy ra lỗi. Vui lòng thử lại.');
+                });
+        }
+    }
+</script>
+
+{% endblock %}

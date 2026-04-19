@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ quiz_title }} - Bài kiểm tra{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 900px;">
+    <div class="mb-3">
+        <a href="{{ url_for('course_learn', course_id=course.course_id) }}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left me-1"></i>Quay lại khóa học
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0"><i class="bi bi-clipboard-check me-2"></i>{{ quiz_title }}</h3>
+            <p class="mb-0 mt-2">{{ course.title }}</p>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle me-2"></i>
+                <strong>Hướng dẫn:</strong> Trả lời tất cả các câu hỏi và nhấp vào Gửi khi hoàn thành. Bạn cần đạt 60% để vượt qua.
+            </div>
+
+            <div class="mb-4">
+                <strong>Tổng số câu hỏi:</strong> {{ questions|length }}
+                <span class="ms-3"><strong>Điểm đạt:</strong> 60%</span>
+            </div>
+
+            <form method="POST" action="{{ url_for('quiz_take', course_id=course.course_id, quiz_title=quiz_title) }}">
+                <input type="hidden" name="start_time" value="{{ start_time }}">
+
+                {% for question in questions %}
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <strong>Câu hỏi {{ question.question_number }}</strong>
+                        <span
+                            class="badge bg-{{ 'success' if question.difficulty == 'Beginner' else ('warning' if question.difficulty == 'Intermediate' else 'danger') }} ms-2">
+                            {{ question.difficulty }}
+                        </span>
+                        <span class="badge bg-secondary ms-1">{{ question.points }} điểm</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="lead">{{ question.question_text }}</p>
+
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="question_{{ question.question_id }}"
+                                value="A" id="q{{ question.question_id }}_a" required>
+                            <label class="form-check-label" for="q{{ question.question_id }}_a">
+                                <strong>A.</strong> {{ question.option_a }}
+                            </label>
+                        </div>
+
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="question_{{ question.question_id }}"
+                                value="B" id="q{{ question.question_id }}_b">
+                            <label class="form-check-label" for="q{{ question.question_id }}_b">
+                                <strong>B.</strong> {{ question.option_b }}
+                            </label>
+                        </div>
+
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="question_{{ question.question_id }}"
+                                value="C" id="q{{ question.question_id }}_c">
+                            <label class="form-check-label" for="q{{ question.question_id }}_c">
+                                <strong>C.</strong> {{ question.option_c }}
+                            </label>
+                        </div>
+
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="question_{{ question.question_id }}"
+                                value="D" id="q{{ question.question_id }}_d">
+                            <label class="form-check-label" for="q{{ question.question_id }}_d">
+                                <strong>D.</strong> {{ question.option_d }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="bi bi-check-circle me-2"></i>Nộp bài kiểm tra
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Scroll to top when page loads
+    window.scrollTo(0, 0);
+
+    // Warn before leaving page
+    let formSubmitted = false;
+    document.querySelector('form').addEventListener('submit', function () {
+        formSubmitted = true;
+    });
+
+    window.addEventListener('beforeunload', function (e) {
+        if (!formSubmitted) {
+            e.preventDefault();
+            e.returnValue = '';
+        }
+    });
+</script>
+
+{% endblock %}

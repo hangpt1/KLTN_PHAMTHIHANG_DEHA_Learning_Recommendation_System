@@ -1,0 +1,36 @@
+course_id,title,category,subcategory,difficulty,duration_hours,instructor,description,prerequisites,tags,rating,total_enrollments,completion_rate
+C001,Introduction to Python Programming,Programming,Python,Beginner,25,Dr. Anil Kumar,Learn Python basics including variables data types loops and functions,None,python basics programming fundamentals,4.5,1250,78.5
+C002,Advanced Python and OOP,Programming,Python,Advanced,40,Dr. Anil Kumar,Master object-oriented programming design patterns and advanced Python concepts,C001,python oop design-patterns advanced,4.7,680,71.2
+C003,Data Structures and Algorithms,Programming,DSA,Intermediate,50,Prof. Sunita Rao,Comprehensive coverage of arrays linked lists trees graphs and algorithms,C001,dsa algorithms data-structures,4.6,920,65.8
+C004,Machine Learning Fundamentals,Data Science,ML,Intermediate,45,Dr. Rajesh Verma,Introduction to supervised and unsupervised learning algorithms,C001 C008,machine-learning supervised unsupervised,4.8,1100,68.4
+C005,Deep Learning with TensorFlow,Data Science,DL,Advanced,55,Dr. Rajesh Verma,Neural networks CNNs RNNs and deep learning architectures,C004,deep-learning tensorflow neural-networks,4.7,520,58.9
+C006,Natural Language Processing,Data Science,NLP,Advanced,50,Dr. Meena Sharma,Text processing sentiment analysis and language models,C004,nlp text-processing sentiment-analysis,4.6,480,55.2
+C007,Computer Vision Basics,Data Science,CV,Intermediate,40,Dr. Meena Sharma,Image processing object detection and visual recognition,C004,computer-vision image-processing opencv,4.5,560,62.1
+C008,Statistics for Data Science,Mathematics,Statistics,Beginner,30,Prof. Kavitha Menon,Probability distributions hypothesis testing and statistical inference,None,statistics probability data-analysis,4.4,1450,82.3
+C009,Linear Algebra Essentials,Mathematics,Algebra,Intermediate,35,Prof. Kavitha Menon,Matrices vectors eigenvalues and their applications in ML,None,linear-algebra matrices vectors,4.3,890,70.5
+C010,Calculus for Machine Learning,Mathematics,Calculus,Intermediate,38,Prof. Ravi Shankar,Derivatives integrals and optimization for ML applications,None,calculus optimization gradients,4.2,720,67.8
+C011,SQL and Database Fundamentals,Database,SQL,Beginner,28,Dr. Priya Nair,Relational databases SQL queries and database design,None,sql database relational-db,4.6,1680,85.4
+C012,NoSQL and MongoDB,Database,NoSQL,Intermediate,32,Dr. Priya Nair,Document databases MongoDB operations and schema design,C011,nosql mongodb document-db,4.4,590,72.1
+C013,Big Data with Apache Spark,Data Engineering,Big Data,Advanced,48,Prof. Vikram Joshi,Distributed computing Spark RDDs and data processing,C011 C001,big-data spark distributed-computing,4.5,420,54.6
+C014,Data Visualization with Python,Data Science,Visualization,Beginner,22,Dr. Anita Desai,Matplotlib Seaborn and interactive visualizations,C001,visualization matplotlib seaborn plotly,4.7,1320,88.2
+C015,Tableau for Business Analytics,Data Science,Visualization,Beginner,20,Dr. Anita Desai,Dashboard creation and business intelligence with Tableau,None,tableau bi dashboards analytics,4.5,980,90.1
+C016,Web Development with HTML CSS,Web Development,Frontend,Beginner,30,Prof. Kiran Patel,Building responsive websites with HTML5 and CSS3,None,html css web-development frontend,4.4,1580,84.6
+C017,JavaScript Fundamentals,Web Development,Frontend,Beginner,35,Prof. Kiran Patel,Core JavaScript concepts DOM manipulation and ES6 features,C016,javascript frontend es6 dom,4.5,1420,79.8
+C018,React.js Development,Web Development,Frontend,Intermediate,45,Prof. Kiran Patel,Building modern SPAs with React hooks and state management,C017,react frontend spa hooks,4.8,890,68.5
+C019,Node.js Backend Development,Web Development,Backend,Intermediate,42,Dr. Sameer Khan,Server-side JavaScript REST APIs and Express framework,C017,nodejs backend express api,4.6,780,70.2
+C020,Cloud Computing with AWS,Cloud,AWS,Intermediate,50,Dr. Neha Gupta,EC2 S3 Lambda and cloud architecture on AWS,None,aws cloud serverless ec2,4.7,650,65.8
+C021,DevOps and CI/CD,Cloud,DevOps,Advanced,55,Dr. Neha Gupta,Docker Kubernetes and continuous deployment pipelines,C020,devops docker kubernetes cicd,4.5,380,52.4
+C022,Cybersecurity Fundamentals,Security,Basics,Beginner,28,Prof. Ajay Mishra,Network security encryption and security best practices,None,cybersecurity encryption network-security,4.4,920,78.9
+C023,Ethical Hacking,Security,Offensive,Advanced,45,Prof. Ajay Mishra,Penetration testing vulnerability assessment and security auditing,C022,ethical-hacking pentesting security,4.6,340,48.5
+C024,Data Mining Techniques,Data Science,Mining,Intermediate,40,Dr. Sunita Rao,Association rules clustering and pattern discovery,C008,data-mining association clustering,4.5,680,69.2
+C025,Recommendation Systems,Data Science,ML,Advanced,42,Dr. Rajesh Verma,Collaborative filtering content-based and hybrid systems,C004,recommendations collaborative-filtering,4.8,420,61.5
+C026,Time Series Analysis,Data Science,Analytics,Intermediate,35,Prof. Ravi Shankar,Forecasting ARIMA and seasonal decomposition,C008,time-series forecasting arima,4.4,520,66.8
+C027,Business Intelligence Concepts,Business,BI,Beginner,25,Dr. Lakshmi Iyer,BI fundamentals KPIs and decision support systems,None,business-intelligence kpi analytics,4.3,1120,86.5
+C028,Project Management Basics,Business,Management,Beginner,22,Dr. Lakshmi Iyer,Agile Scrum and project lifecycle management,None,project-management agile scrum,4.2,1350,89.2
+C029,Git and Version Control,Tools,DevTools,Beginner,15,Prof. Vikram Joshi,Git workflows branching and collaboration,None,git version-control github,4.6,1890,92.4
+C030,Data Warehousing Concepts,Database,DW,Intermediate,38,Dr. Priya Nair,Star schema ETL and dimensional modeling,C011,data-warehouse etl olap,4.5,540,68.9
+C031,Python for Data Analysis,Data Science,Python,Intermediate,42,Dr. Anil Kumar,Pandas NumPy and data manipulation techniques,C001,pandas numpy data-analysis,4.8,1180,75.6
+C032,Feature Engineering,Data Science,ML,Intermediate,30,Dr. Rajesh Verma,Feature extraction selection and transformation techniques,C004,feature-engineering ml preprocessing,4.6,480,70.1
+C033,Model Deployment with Flask,Data Science,MLOps,Intermediate,28,Dr. Sameer Khan,Deploying ML models as REST APIs,C004 C019,flask deployment mlops api,4.5,350,63.8
+C034,A/B Testing and Experimentation,Data Science,Analytics,Intermediate,25,Prof. Kavitha Menon,Statistical testing hypothesis validation and experiment design,C008,ab-testing experimentation statistics,4.4,420,74.5
+C035,Introduction to R Programming,Programming,R,Beginner,28,Prof. Sunita Rao,R basics data manipulation and statistical computing,None,r-programming statistics data-analysis,4.3,680,76.8

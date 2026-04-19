@@ -1,0 +1,293 @@
+{% extends 'base.html' %}
+
+{% block title %}Phân tích - Hệ thống E-Learning{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="bi bi-graph-up me-2"></i>Phân tích hiệu suất
+    </h1>
+    <p class="text-muted">Trực quan hóa tiến trình học tập và xu hướng hiệu suất của bạn.</p>
+</div>
+
+<!-- Summary Stats -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card bg-primary">
+            <div class="stat-icon"><i class="bi bi-clock-history"></i></div>
+            <div class="stat-value">{{ total_time }}h</div>
+            <div class="stat-label">Tổng thời gian học tập</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card bg-success">
+            <div class="stat-icon"><i class="bi bi-play-circle"></i></div>
+            <div class="stat-value">{{ total_videos }}</div>
+            <div class="stat-label">Video đã xem</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card bg-info">
+            <div class="stat-icon"><i class="bi bi-journal-check"></i></div>
+            <div class="stat-value">{{ quiz_history|length }}</div>
+            <div class="stat-label">Các bài kiểm tra đã làm</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card bg-warning">
+            <div class="stat-icon"><i class="bi bi-collection"></i></div>
+            <div class="stat-value">{{ courses|length }}</div>
+            <div class="stat-label">Các khóa học đang hoạt động</div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row 1 -->
+<div class="row g-4 mb-4">
+    <!-- Quiz Score Trend -->
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-graph-up-arrow me-2"></i>Xu hướng điểm bài kiểm tra</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="quizTrendChart" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Performance -->
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-pie-chart me-2"></i>Hiệu suất danh mục</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="categoryChart" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row 2 -->
+<div class="row g-4 mb-4">
+    <!-- Course Progress -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-bar-chart me-2"></i>Tiến độ hoàn thành khóa học</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="progressChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Score Distribution -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-distribute-vertical me-2"></i>Phân phối điểm bài kiểm tra</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="distributionChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Category Details Table -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-table me-2"></i>Chi tiết hiệu suất theo từng danh mục</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Danh mục</th>
+                                <th>Điểm trung bình</th>
+                                <th>Trạng thái</th>
+                                <th>Tiến độ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for category, score in performance.scores.items() %}
+                            <tr>
+                                <td><strong>{{ category }}</strong></td>
+                                <td>{{ "%.1f"|format(score) }}%</td>
+                                <td>
+                                    {% if score >= 80 %}
+                                    <span class="badge bg-success"><i
+                                            class="bi bi-check-circle me-1"></i>Xuất sắc</span>
+                                    {% elif score >= 60 %}
+                                    <span class="badge bg-warning"><i
+                                            class="bi bi-exclamation-circle me-1"></i>Tốt</span>
+                                    {% else %}
+                                    <span class="badge bg-danger"><i class="bi bi-x-circle me-1"></i>Cần cải thiện</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 20px;">
+                                        <div class="progress-bar bg-{{ 'success' if score >= 80 else ('warning' if score >= 60 else 'danger') }}"
+                                            style="width: {{ score }}%">{{ "%.0f"|format(score) }}%</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Quiz Data from Backend
+    const quizHistory = {{ quiz_history | tojson | safe }};
+    const categoryScores = {{ performance.scores | tojson | safe }};
+    const courses = {{ courses | tojson | safe }};
+
+    // Chart 1: Quiz Score Trend
+    if (quizHistory.length > 0) {
+        const quizLabels = quizHistory.map((q, i) => `Quiz ${i + 1}`);
+        const quizScores = quizHistory.map(q => q.score_percentage);
+
+        new Chart(document.getElementById('quizTrendChart'), {
+            type: 'line',
+            data: {
+                labels: quizLabels,
+                datasets: [{
+                    label: 'Quiz Score (%)',
+                    data: quizScores,
+                    borderColor: '#4e73df',
+                    backgroundColor: 'rgba(78, 115, 223, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 5,
+                    pointBackgroundColor: '#4e73df'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: { display: true, text: 'Score (%)' }
+                    }
+                }
+            }
+        });
+    } else {
+        document.getElementById('quizTrendChart').parentElement.innerHTML =
+            '<div class="text-center text-muted py-5"><i class="bi bi-bar-chart fs-1"></i><p>Không có dữ liệu bài kiểm tra</p></div>';
+    }
+
+    // Chart 2: Category Performance (Doughnut)
+    if (Object.keys(categoryScores).length > 0) {
+        const catLabels = Object.keys(categoryScores);
+        const catData = Object.values(categoryScores);
+        const catColors = ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796'];
+
+        new Chart(document.getElementById('categoryChart'), {
+            type: 'doughnut',
+            data: {
+                labels: catLabels,
+                datasets: [{
+                    data: catData,
+                    backgroundColor: catColors.slice(0, catLabels.length),
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+    } else {
+        document.getElementById('categoryChart').parentElement.innerHTML =
+            '<div class="text-center text-muted py-5"><i class="bi bi-pie-chart fs-1"></i><p>Không có dữ liệu danh mục</p></div>';
+    }
+
+    // Chart 3: Course Progress (Horizontal Bar)
+    if (courses.length > 0) {
+        const courseLabels = courses.map(c => c.title.substring(0, 20) + '...');
+        const progressData = courses.map(c => c.progress || 0);
+
+        new Chart(document.getElementById('progressChart'), {
+            type: 'bar',
+            data: {
+                labels: courseLabels,
+                datasets: [{
+                    label: 'Progress (%)',
+                    data: progressData,
+                    backgroundColor: progressData.map(p => p >= 70 ? '#1cc88a' : (p >= 40 ? '#f6c23e' : '#e74a3b')),
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { beginAtZero: true, max: 100 }
+                }
+            }
+        });
+    } else {
+        document.getElementById('progressChart').parentElement.innerHTML =
+            '<div class="text-center text-muted py-5"><i class="bi bi-bar-chart fs-1"></i><p>Không có dữ liệu khóa học</p></div>';
+    }
+
+    // Chart 4: Score Distribution (Histogram-like)
+    if (quizHistory.length > 0) {
+        const bins = [0, 0, 0, 0, 0]; // 0-20, 21-40, 41-60, 61-80, 81-100
+        quizHistory.forEach(q => {
+            const score = q.score_percentage;
+            if (score <= 20) bins[0]++;
+            else if (score <= 40) bins[1]++;
+            else if (score <= 60) bins[2]++;
+            else if (score <= 80) bins[3]++;
+            else bins[4]++;
+        });
+
+        new Chart(document.getElementById('distributionChart'), {
+            type: 'bar',
+            data: {
+                labels: ['0-20%', '21-40%', '41-60%', '61-80%', '81-100%'],
+                datasets: [{
+                    label: 'Number of Quizzes',
+                    data: bins,
+                    backgroundColor: ['#e74a3b', '#fd7e14', '#f6c23e', '#1cc88a', '#4e73df'],
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'Count' } }
+                }
+            }
+        });
+    } else {
+        document.getElementById('distributionChart').parentElement.innerHTML =
+            '<div class="text-center text-muted py-5"><i class="bi bi-distribute-vertical fs-1"></i><p>Không có dữ liệu</p></div>';
+    }
+</script>
+{% endblock %}

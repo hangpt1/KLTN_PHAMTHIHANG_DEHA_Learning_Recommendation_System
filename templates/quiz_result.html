@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block title %}Kết quả bài kiểm tra - {{ quiz_title }}{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 900px;">
+    <div class="card">
+        <div class="card-header text-center {{ 'bg-success' if passed else 'bg-danger' }} text-white">
+            <h2 class="mb-0">
+                <i class="bi bi-{{ 'check-circle' if passed else 'x-circle' }} me-2"></i>
+                {{ 'Đã qua bài kiểm tra!' if passed else 'Trượt bài kiểm tra' }}
+            </h2>
+        </div>
+        <div class="card-body">
+            <!-- Score Summary -->
+            <div class="row text-center mb-4">
+                <div class="col-md-4">
+                    <div class="p-3 border rounded">
+                        <h1 class="display-4 {{ 'text-success' if passed else 'text-danger' }}">{{ percentage }}%</h1>
+                        <p class="text-muted mb-0">Điểm của bạn</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 border rounded">
+                        <h1 class="display-4 text-primary">{{ correct }}/{{ total }}</h1>
+                        <p class="text-muted mb-0">Câu trả lời đúng</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 border rounded">
+                        <h1 class="display-4 text-secondary">60%</h1>
+                        <p class="text-muted mb-0">Điểm đạt</p>
+                    </div>
+                </div>
+            </div>
+
+            {% if passed %}
+            <div class="alert alert-success">
+                <i class="bi bi-trophy me-2"></i>
+                <strong>Chúc mừng!</strong> Bạn đã vượt qua bài kiểm tra này. Tiến độ của bạn đã được lưu.
+            </div>
+            {% else %}
+            <div class="alert alert-warning">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                <strong>Tiếp tục học!</strong> Xem lại tài liệu và thử lại. Bạn có thể làm lại bài kiểm tra này bất cứ lúc nào.
+            </div>
+            {% endif %}
+
+            <!-- Question Review -->
+            <h5 class="mt-4 mb-3">Xem lại câu trả lời</h5>
+            {% for question in questions %}
+            {% set user_answer = answers.get(question.question_id|string, '') %}
+            {% set is_correct = user_answer == question.correct_answer %}
+
+            <div class="card mb-3 border-{{ 'success' if is_correct else 'danger' }}">
+                <div class="card-header bg-light">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <strong>Câu hỏi {{ question.question_number }}</strong>
+                        <span class="badge bg-{{ 'success' if is_correct else 'danger' }}">
+                            <i class="bi bi-{{ 'check' if is_correct else 'x' }} me-1"></i>
+                            {{ 'Đúng' if is_correct else 'Sai' }}
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="fw-bold">{{ question.question_text }}</p>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            {% for opt, label in [('A', question.option_a), ('B', question.option_b), ('C',
+                            question.option_c), ('D', question.option_d)] %}
+                            <div
+                                class="mb-2 p-2 rounded 
+                                {{ 'bg-success text-white' if opt == question.correct_answer else '' }}
+                                {{ 'bg-danger text-white' if opt == user_answer and opt != question.correct_answer else '' }}">
+                                <strong>{{ opt }}.</strong> {{ label }}
+                                {% if opt == question.correct_answer %}
+                                <i class="bi bi-check-circle ms-2"></i>
+                                {% endif %}
+                                {% if opt == user_answer and opt != question.correct_answer %}
+                                <i class="bi bi-x-circle ms-2"></i>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-6">
+                            {% if not is_correct %}
+                            <div class="alert alert-info mb-0">
+                                <strong>Câu trả lời đúng:</strong> {{ question.correct_answer }} -
+                                {% if question.correct_answer == 'A' %}{{ question.option_a }}
+                                {% elif question.correct_answer == 'B' %}{{ question.option_b }}
+                                {% elif question.correct_answer == 'C' %}{{ question.option_c }}
+                                {% else %}{{ question.option_d }}{% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- Action Buttons -->
+            <div class="d-grid gap-2 mt-4">
+                <a href="{{ url_for('course_learn', course_id=course_id) }}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-arrow-left me-2"></i>Tiếp tục học
+                </a>
+                {% if not passed %}
+                <a href="{{ url_for('quiz_take', course_id=course_id, quiz_title=quiz_title) }}"
+                    class="btn btn-outline-warning">
+                    <i class="bi bi-arrow-clockwise me-2"></i>Làm lại bài kiểm tra
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

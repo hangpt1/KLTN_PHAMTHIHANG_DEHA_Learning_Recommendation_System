@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}Đăng ký - Hệ thống E-Learning{% endblock %}
+
+{% block login_content %}
+<div class="login-container">
+    <div class="login-card" style="max-width: 500px;">
+        <div class="login-header">
+            <div class="login-logo">
+                <i class="bi bi-person-plus-fill"></i>
+            </div>
+            <h2>Tạo tài khoản mới</h2>
+            <p>Tham gia Hệ thống Gợi ý E-Learning</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }} mb-4">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('register') }}">
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <label for="name" class="form-label">Họ và tên *</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Nhập họ và tên của bạn"
+                        required>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <label for="email" class="form-label">Địa chỉ Email *</label>
+                    <input type="email" class="form-control" id="email" name="email"
+                        placeholder="email.cua.ban@example.com" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="age" class="form-label">Tuổi</label>
+                    <input type="number" class="form-control" id="age" name="age" value="20" min="16" max="80">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="education" class="form-label">Trình độ học vấn</label>
+                    <select class="form-select" id="education" name="education">
+                        <option value="High School">Trung học phổ thông</option>
+                        <option value="Undergraduate" selected>Đại học</option>
+                        <option value="Graduate">Sau đại học</option>
+                        <option value="Postgraduate">Nghiên cứu sinh</option>
+                        <option value="Professional">Chuyên gia</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="major" class="form-label">Chuyên ngành/Lĩnh vực</label>
+                    <select class="form-select" id="major" name="major">
+                        <option value="Computer Science" selected>Computer Science (Khoa học máy tính)</option>
+                        <option value="Data Science">Data Science (Khoa học dữ liệu)</option>
+                        <option value="Engineering">Engineering (Kỹ thuật)</option>
+                        <option value="Business">Business (Kinh doanh)</option>
+                        <option value="Design">Design (Thiết kế)</option>
+                        <option value="Other">Khác</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="learning_style" class="form-label">Phong cách học</label>
+                    <select class="form-select" id="learning_style" name="learning_style">
+                        <option value="Visual" selected>Trực quan (Visual)</option>
+                        <option value="Auditory">Thính giác (Auditory)</option>
+                        <option value="Reading">Đọc/Viết (Reading/Writing)</option>
+                        <option value="Kinesthetic">Thực hành (Hands-on)</option>
+                    </select>
+                </div>
+
+                <div class="col-12 mb-4">
+                    <label for="preferred_difficulty" class="form-label">Độ khó mong muốn</label>
+                    <select class="form-select" id="preferred_difficulty" name="preferred_difficulty">
+                        <option value="Beginner">Người mới bắt đầu (Beginner)</option>
+                        <option value="Intermediate" selected>Trung bình (Intermediate)</option>
+                        <option value="Advanced">Nâng cao (Advanced)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success btn-lg w-100">
+                <i class="bi bi-check-circle me-2"></i>Tạo tài khoản
+            </button>
+        </form>
+
+        <div class="text-center mt-4">
+            <p class="text-muted mb-0">Đã có tài khoản?</p>
+            <a href="{{ url_for('login') }}" class="btn btn-outline-primary mt-2">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Đăng nhập
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

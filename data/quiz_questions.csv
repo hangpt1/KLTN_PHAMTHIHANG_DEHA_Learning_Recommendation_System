@@ -1,0 +1,136 @@
+question_id,course_id,quiz_title,question_number,question_text,option_a,option_b,option_c,option_d,correct_answer,difficulty,points
+Q001,C001,Python Basics Quiz 1,1,What is the correct file extension for Python files?,".py",".python",".pt",".p","A","Beginner",5
+Q002,C001,Python Basics Quiz 1,2,Which of the following is a correct variable name in Python?,"1variable","variable_1","variable-1","variable 1","B","Beginner",5
+Q003,C001,Python Basics Quiz 1,3,What is the output of: print(type(5)),"<class 'int'>","<class 'float'>","<class 'str'>","<class 'number'>","A","Beginner",5
+Q004,C001,Python Basics Quiz 1,4,"Which function is used to get input from the user?","input()","get()","scan()","read()","A","Beginner",5
+Q005,C001,Python Basics Quiz 1,5,What does the len() function do?,Returns the length of an object,Returns the last element,Deletes an element,Creates a new list,"A","Beginner",5
+Q006,C001,Python Basics Quiz 1,6,"What is the output of: print(3 + 2 * 2)","10","7","14","8","B","Beginner",5
+Q007,C001,Python Basics Quiz 1,7,Which operator is used for exponentiation in Python?,"^","**","exp()","pow","B","Beginner",5
+Q008,C001,Python Basics Quiz 1,8,How do you create a comment in Python?,# This is a comment,// This is a comment,/* This is a comment */,-- This is a comment,"A","Beginner",5
+Q009,C001,Python Basics Quiz 1,9,"What is the correct way to create a string in Python?","'Hello'","Both A and B","""Hello""","All of the above","D","Beginner",5
+Q010,C001,Python Basics Quiz 1,10,Which keyword is used to define a function?,def,function,func,define,"A","Beginner",5
+Q011,C001,Python Basics Quiz 1,11,What is the output of: bool(0)?,True,False,0,Error,"B","Beginner",5
+Q012,C001,Python Basics Quiz 1,12,Which of these is NOT a Python data type?,int,real,float,str,"B","Beginner",5
+Q013,C001,Python Basics Quiz 1,13,How do you create a list in Python?,"list = []","list = ()","list = {}","list = <>","A","Beginner",5
+Q014,C001,Python Basics Quiz 1,14,"What is the output of: print('Hello' + 'World')","Hello World","HelloWorld","Error","Hello+World","B","Beginner",5
+Q015,C001,Python Basics Quiz 1,15,Which method adds an element at the end of a list?,"append()","add()","insert()","push()","A","Beginner",5
+Q016,C001,Python Basics Quiz 1,16,What is the correct syntax for an if statement?,"if x > 5:","if (x > 5)","if x > 5 then:","if x > 5 {}","A","Beginner",5
+Q017,C001,Python Basics Quiz 1,17,How do you create a dictionary in Python?,"dict = {}","dict = []","dict = ()","dict = <>","A","Beginner",5
+Q018,C001,Python Basics Quiz 1,18,What keyword is used for loops in Python?,for,loop,foreach,while,"A","Beginner",5
+Q019,C001,Python Basics Quiz 1,19,Which symbol is used for floor division in Python?,"/","//","%","div","B","Beginner",5
+Q020,C001,Python Basics Quiz 1,20,What does the continue statement do in a loop?,Exits the loop,Skips to next iteration,Restarts the loop,Pauses the loop,"B","Beginner",5
+Q021,C001,Python Basics Quiz 2,1,"What is the output of: print([1, 2, 3][1])","1","2","3","Error","B","Beginner",4
+Q022,C001,Python Basics Quiz 2,2,Which method removes and returns the last item from a list?,"pop()","remove()","delete()","clear()","A","Beginner",4
+Q023,C001,Python Basics Quiz 2,3,What is a tuple in Python?,An immutable list,A mutable list,A dictionary,A set,"A","Beginner",4
+Q024,C001,Python Basics Quiz 2,4,How do you import a module in Python?,import module_name,include module_name,require module_name,using module_name,"A","Beginner",4
+Q025,C001,Python Basics Quiz 2,5,What is the purpose of the pass statement?,Placeholder for future code,Ends the program,Returns a value,Raises an exception,"A","Beginner",4
+Q026,C001,Python Basics Quiz 2,6,"What is the output of: print(range(5))","0 1 2 3 4","range(0, 5)","[0, 1, 2, 3, 4]","1 2 3 4 5","B","Beginner",4
+Q027,C001,Python Basics Quiz 2,7,Which operator checks for equality in Python?,"=","==","===","equals","B","Beginner",4
+Q028,C001,Python Basics Quiz 2,8,What does the 'is' operator check?,Value equality,Identity,Type,Both A and B,"B","Beginner",4
+Q029,C001,Python Basics Quiz 2,9,How do you handle exceptions in Python?,try-except,try-catch,error-handle,exception-catch,"A","Beginner",4
+Q030,C001,Python Basics Quiz 2,10,What is the purpose of __init__ method?,Constructor,Destructor,Static method,Class method,"A","Beginner",4
+Q031,C001,Python Basics Quiz 2,11,Which function converts a string to an integer?,"int()","str()","float()","convert()","A","Beginner",4
+Q032,C001,Python Basics Quiz 2,12,What is list comprehension?,Shorthand for creating lists,List documentation,List sorting,List searching,"A","Beginner",4
+Q033,C001,Python Basics Quiz 2,13,Which keyword is used to create a class?,class,def,object,struct,"A","Beginner",4
+Q034,C001,Python Basics Quiz 2,14,What does the 'self' parameter represent?,Current instance,Static reference,Global variable,Module name,"A","Beginner",4
+Q035,C001,Python Basics Quiz 2,15,"What is the output of: print(10 % 3)","3","1","0","10","B","Beginner",4
+Q036,C001,Python Basics Quiz 2,16,Which method converts all characters in a string to lowercase?,"lower()","lowercase()","toLower()","downcase()","A","Beginner",4
+Q037,C001,Python Basics Quiz 2,17,What is a lambda function?,Anonymous function,Named function,Built-in function,Class method,"A","Beginner",4
+Q038,C001,Python Basics Quiz 2,18,Which function returns the maximum value?,max(),maximum(),highest(),top(),"A","Beginner",4
+Q039,C001,Python Basics Quiz 2,19,What does the split() method do?,Divides string into list,Joins strings,Removes spaces,Reverses string,"A","Beginner",4
+Q040,C001,Python Basics Quiz 2,20,How do you create a set in Python?,"set = {}","set = set()","Both A and B","set = []","B","Beginner",4
+Q041,C001,Python Basics Quiz 2,21,What is the global keyword used for?,Access global variables,Create global functions,Define global classes,Import modules,"A","Beginner",4
+Q042,C001,Python Basics Quiz 2,22,Which method joins elements of a list into a string?,"join()","concat()","merge()","combine()","A","Beginner",4
+Q043,C001,Python Basics Quiz 2,23,What does the enumerate() function return?,Index and value pairs,Only indices,Only values,Length of iterable,"A","Beginner",4
+Q044,C001,Python Basics Quiz 2,24,Which statement is used to exit a program?,exit(),quit(),Both A and B,stop(),"C","Beginner",4
+Q045,C001,Python Basics Quiz 2,25,What is the purpose of docstrings?,Document code,Execute code,Comment code,Debug code,"A","Beginner",4
+Q046,C003,Arrays and Lists Quiz,1,What is the time complexity of accessing an element in an array by index?,O(1),O(n),O(log n),O(n^2),"A","Intermediate",5
+Q047,C003,Arrays and Lists Quiz,2,Which data structure uses LIFO principle?,Stack,Queue,Array,Tree,"A","Intermediate",5
+Q048,C003,Arrays and Lists Quiz,3,What is the space complexity of an array of size n?,O(n),O(1),O(log n),O(n^2),"A","Intermediate",5
+Q049,C003,Arrays and Lists Quiz,4,Which operation is NOT efficient in an array?,Random access,Insertion at beginning,Search by index,Updating element,"B","Intermediate",5
+Q050,C003,Arrays and Lists Quiz,5,What is a dynamic array?,Array that can resize,Fixed size array,2D array,Circular array,"A","Intermediate",5
+Q051,C003,Arrays and Lists Quiz,6,Which algorithm is best for searching in a sorted array?,Binary search,Linear search,Jump search,Interpolation search,"A","Intermediate",5
+Q052,C003,Arrays and Lists Quiz,7,What is the worst-case time complexity of bubble sort?,O(n^2),O(n),O(n log n),O(log n),"A","Intermediate",5
+Q053,C003,Arrays and Lists Quiz,8,Which sorting algorithm is most efficient for large datasets?,Quick sort,Bubble sort,Insertion sort,Selection sort,"A","Intermediate",5
+Q054,C003,Arrays and Lists Quiz,9,What is a subarray?,Contiguous part of array,Non-contiguous elements,Copy of array,Reverse of array,"A","Intermediate",5
+Q055,C003,Arrays and Lists Quiz,10,Which technique is used for finding duplicates in an array?,Hashing,Sorting only,Linear scan only,All of the above,"D","Intermediate",5
+Q056,C003,Arrays and Lists Quiz,11,What is the sliding window technique used for?,Subarray problems,Sorting,Searching,Tree traversal,"A","Intermediate",5
+Q057,C003,Arrays and Lists Quiz,12,Which data structure can implement both stack and queue?,Deque,Array only,Linked list only,Tree,"A","Intermediate",5
+Q058,C003,Arrays and Lists Quiz,13,What is the time complexity of array rotation by k positions?,O(n),O(k),O(n*k),O(1),"A","Intermediate",5
+Q059,C003,Arrays and Lists Quiz,14,Which algorithm finds the kth largest element efficiently?,Quick select,Linear search,Binary search,Bubble sort,"A","Intermediate",5
+Q060,C003,Arrays and Lists Quiz,15,What is a sparse array?,Array with mostly zero values,Dense array,Small array,Large array,"A","Intermediate",5
+Q061,C003,Arrays and Lists Quiz,16,Which technique is used for merging two sorted arrays?,Two pointers,One pointer,No pointers,Three pointers,"A","Intermediate",5
+Q062,C003,Arrays and Lists Quiz,17,What is the maximum sum subarray problem?,Find subarray with largest sum,Find longest subarray,Find smallest subarray,Find median,"A","Intermediate",5
+Q063,C003,Arrays and Lists Quiz,18,Which algorithm solves the maximum sum subarray problem in O(n)?,Kadane's algorithm,Divide and conquer,Brute force,Dynamic programming,"A","Intermediate",5
+Q064,C003,Arrays and Lists Quiz,19,What is a circular array?,Array where end connects to beginning,Square array,Triangular array,Nested array,"A","Intermediate",5
+Q065,C003,Arrays and Lists Quiz,20,Which operation has O(1) time complexity in an array?,Access by index,Insertion,Deletion,Search,"A","Intermediate",5
+Q066,C004,ML Fundamentals Test,1,What is supervised learning?,Learning with labeled data,Learning without labels,Reinforcement learning,Transfer learning,"A","Intermediate",3
+Q067,C004,ML Fundamentals Test,2,Which is a classification algorithm?,Logistic Regression,Linear Regression,K-means,PCA,"A","Intermediate",3
+Q068,C004,ML Fundamentals Test,3,What is overfitting?,Model too complex for data,Model too simple,Perfect model,Balanced model,"A","Intermediate",3
+Q069,C004,ML Fundamentals Test,4,Which metric measures classification accuracy?,Accuracy score,MSE,RMSE,R-squared,"A","Intermediate",3
+Q070,C004,ML Fundamentals Test,5,What is cross-validation?,Model validation technique,Training method,Feature selection,Data cleaning,"A","Intermediate",3
+Q071,C004,ML Fundamentals Test,6,Which algorithm is used for clustering?,K-means,Decision tree,SVM,Naive Bayes,"A","Intermediate",3
+Q072,C004,ML Fundamentals Test,7,What is feature scaling?,Normalizing features,Selecting features,Creating features,Removing features,"A","Intermediate",3
+Q073,C004,ML Fundamentals Test,8,Which is an ensemble method?,Random Forest,Linear Regression,K-NN,Naive Bayes,"A","Intermediate",3
+Q074,C004,ML Fundamentals Test,9,What does bias-variance tradeoff mean?,Balance between underfitting and overfitting,Training speed,Model size,Data quality,"A","Intermediate",3
+Q075,C004,ML Fundamentals Test,10,Which algorithm is best for linear relationships?,Linear Regression,Decision Tree,K-means,PCA,"A","Intermediate",3
+Q076,C004,ML Fundamentals Test,11,What is gradient descent?,Optimization algorithm,Classification method,Clustering technique,Feature selection,"A","Intermediate",3
+Q077,C004,ML Fundamentals Test,12,Which is a dimensionality reduction technique?,PCA,SVM,K-NN,Naive Bayes,"A","Intermediate",3
+Q078,C004,ML Fundamentals Test,13,What is the purpose of train-test split?,Evaluate model performance,Train faster,Use less data,Create features,"A","Intermediate",3
+Q079,C004,ML Fundamentals Test,14,Which algorithm handles non-linear data well?,SVM with kernel,Linear Regression,Ridge Regression,Lasso,"A","Intermediate",3
+Q080,C004,ML Fundamentals Test,15,What is regularization?,Prevent overfitting,Speed up training,Clean data,Select features,"A","Intermediate",3
+Q081,C004,ML Fundamentals Test,16,Which metric is used for regression?,RMSE,Accuracy,Precision,Recall,"A","Intermediate",3
+Q082,C004,ML Fundamentals Test,17,What is a confusion matrix?,Table showing prediction results,Loss function,Activation function,Optimization method,"A","Intermediate",3
+Q083,C004,ML Fundamentals Test,18,Which is an unsupervised learning task?,Clustering,Classification,Regression,Prediction,"A","Intermediate",3
+Q084,C004,ML Fundamentals Test,19,What is the curse of dimensionality?,Problems with high-dimensional data,Slow training,Small dataset,Bad labels,"A","Intermediate",3
+Q085,C004,ML Fundamentals Test,20,Which algorithm is instance-based?,K-NN,Decision Tree,Naive Bayes,Logistic Regression,"A","Intermediate",3
+Q086,C004,ML Fundamentals Test,21,What is bagging?,Bootstrap aggregating,Single model,Feature selection,Data cleaning,"A","Intermediate",3
+Q087,C004,ML Fundamentals Test,22,Which is a distance metric?,Euclidean distance,Accuracy,Precision,F1-score,"A","Intermediate",3
+Q088,C004,ML Fundamentals Test,23,What is boosting?,Sequential ensemble method,Parallel method,Feature selection,Data augmentation,"A","Intermediate",3
+Q089,C004,ML Fundamentals Test,24,Which handles categorical data?,One-hot encoding,Normalization,Standardization,PCA,"A","Intermediate",3
+Q090,C004,ML Fundamentals Test,25,What is transfer learning?,Using pre-trained models,Training from scratch,Fine-tuning only,Data augmentation,"A","Intermediate",3
+Q091,C004,ML Fundamentals Test,26,Which is a tree-based algorithm?,Decision Tree,K-NN,SVM,Naive Bayes,"A","Intermediate",3
+Q092,C004,ML Fundamentals Test,27,What is precision in classification?,True positives / (TP + FP),Accuracy,Recall,F1-score,"A","Intermediate",3
+Q093,C004,ML Fundamentals Test,28,Which handles imbalanced data?,SMOTE,Nothing needed,Remove data,Ignore problem,"A","Intermediate",3
+Q094,C004,ML Fundamentals Test,29,What is a hyperparameter?,Parameter set before training,Learned parameter,Model output,Data feature,"A","Intermediate",3
+Q095,C004,ML Fundamentals Test,30,Which is a probabilistic classifier?,Naive Bayes,K-NN,Decision Tree,SVM,"A","Intermediate",3
+Q096,C005,Neural Networks Quiz,1,What is a perceptron?,Basic neural network unit,Activation function,Loss function,Optimizer,"A","Intermediate",4
+Q097,C005,Neural Networks Quiz,2,Which activation function is most commonly used in hidden layers?,ReLU,Sigmoid,Tanh,Linear,"A","Intermediate",4
+Q098,C005,Neural Networks Quiz,3,What is backpropagation?,Algorithm to update weights,Forward pass,Activation,Pooling,"A","Intermediate",4
+Q099,C005,Neural Networks Quiz,4,Which is a common loss function for classification?,Cross-entropy,MSE,MAE,Huber,"A","Intermediate",4
+Q100,C005,Neural Networks Quiz,5,What is the purpose of dropout?,Prevent overfitting,Speed up training,Initialize weights,Activate neurons,"A","Intermediate",4
+Q101,C005,Neural Networks Quiz,6,Which optimizer is widely used?,Adam,None,Simple,Basic,"A","Intermediate",4
+Q102,C005,Neural Networks Quiz,7,What is a deep neural network?,Network with many layers,Single layer,Two layers,Shallow network,"A","Intermediate",4
+Q103,C005,Neural Networks Quiz,8,Which layer type is used in CNNs?,Convolutional,Only dense,Only pooling,Only dropout,"A","Intermediate",4
+Q104,C005,Neural Networks Quiz,9,What is batch normalization?,Normalize layer inputs,Normalize output,Normalize weights,Normalize data,"A","Intermediate",4
+Q105,C005,Neural Networks Quiz,10,Which is a vanishing gradient solution?,ReLU,Sigmoid,Linear,None,"A","Intermediate",4
+Q106,C005,Neural Networks Quiz,11,What is transfer learning in deep learning?,Use pre-trained networks,Train from scratch,Fine-tune only,Freeze all layers,"A","Intermediate",4
+Q107,C005,Neural Networks Quiz,12,Which architecture is used for sequences?,RNN,CNN,MLP,Autoencoder,"A","Intermediate",4
+Q108,C005,Neural Networks Quiz,13,What is an epoch?,One full pass through data,One batch,One sample,One weight update,"A","Intermediate",4
+Q109,C005,Neural Networks Quiz,14,Which prevents overfitting besides dropout?,Regularization,More layers,Larger batches,Faster learning,"A","Intermediate",4
+Q110,C005,Neural Networks Quiz,15,What is the learning rate?,Step size for weight updates,Number of epochs,Batch size,Number of layers,"A","Intermediate",4
+Q111,C005,Neural Networks Quiz,16,Which layer reduces spatial dimensions?,Pooling,Dense,Dropout,Batch norm,"A","Intermediate",4
+Q112,C005,Neural Networks Quiz,17,What is a residual connection?,Skip connection,Normal connection,Dropout,Pooling,"A","Intermediate",4
+Q113,C005,Neural Networks Quiz,18,Which is used for object detection?,YOLO,ResNet only,VGG only,AlexNet only,"A","Intermediate",4
+Q114,C005,Neural Networks Quiz,19,What is attention mechanism?,Focus on relevant parts,Skip parts,Remove parts,Average parts,"A","Intermediate",4
+Q115,C005,Neural Networks Quiz,20,Which handles variable-length sequences?,LSTM,CNN,MLP,Autoencoder,"A","Intermediate",4
+Q116,C008,Probability Quiz,1,What is the probability of getting heads in a fair coin toss?,0.5,0.25,0.75,1.0,"A","Beginner",5
+Q117,C008,Probability Quiz,2,What is the sum of all probabilities in a sample space?,1,0,0.5,Infinity,"A","Beginner",5
+Q118,C008,Probability Quiz,3,If two events are independent what is P(A and B)?,P(A) * P(B),P(A) + P(B),P(A) - P(B),P(A) / P(B),"A","Beginner",5
+Q119,C008,Probability Quiz,4,What is conditional probability?,P(A|B) = P(A and B)/P(B),P(A) + P(B),P(A) * P(B),P(A) - P(B),"A","Beginner",5
+Q120,C008,Probability Quiz,5,Which distribution is used for binary outcomes?,Binomial,Normal,Poisson,Exponential,"A","Beginner",5
+Q121,C008,Probability Quiz,6,What is the expected value of a fair die?,3.5,3,4,6,"A","Beginner",5
+Q122,C008,Probability Quiz,7,What does the Central Limit Theorem state?,Sample means approach normal distribution,All data is normal,Variance is constant,Mean is zero,"A","Beginner",5
+Q123,C008,Probability Quiz,8,What is variance?,Measure of spread,Mean value,Median,Mode,"A","Beginner",5
+Q124,C008,Probability Quiz,9,Which theorem relates conditional probabilities?,Bayes' Theorem,Central Limit,Law of Large Numbers,Chebyshev's,"A","Beginner",5
+Q125,C008,Probability Quiz,10,What is a random variable?,Variable with probabilistic values,Constant,Deterministic value,Fixed number,"A","Beginner",5
+Q126,C008,Probability Quiz,11,What is the probability of an impossible event?,0,0.5,1,Undefined,"A","Beginner",5
+Q127,C008,Probability Quiz,12,What is the complement rule?,P(not A) = 1 - P(A),P(A) + 1,P(A) * 0,P(A) - 1,"A","Beginner",5
+Q128,C008,Probability Quiz,13,Which describes the normal distribution?,Bell-shaped curve,Uniform,Exponential,Discrete,"A","Beginner",5
+Q129,C008,Probability Quiz,14,What is standard deviation?,Square root of variance,Mean,Median,Variance squared,"A","Beginner",5
+Q130,C008,Probability Quiz,15,What is mutually exclusive?,Events cannot occur together,Independent events,Dependent events,All events,"A","Beginner",5
+Q131,C008,Probability Quiz,16,What is the law of large numbers?,Sample mean approaches population mean,All samples equal,Small samples best,Mean is constant,"A","Beginner",5
+Q132,C008,Probability Quiz,17,What is a probability distribution?,Function showing probabilities,Single value,Deterministic function,Constant,"A","Beginner",5
+Q133,C008,Probability Quiz,18,What is covariance?,Measure of joint variability,Variance,Mean,Standard deviation,"A","Beginner",5
+Q134,C008,Probability Quiz,19,What is correlation?,Standardized covariance,Variance,Mean difference,Sum,"A","Beginner",5
+Q135,C008,Probability Quiz,20,What is a confidence interval?,Range for parameter estimate,Single value,Exact parameter,Distribution,"A","Beginner",5

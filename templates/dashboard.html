@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+
+{% block title %}Bảng điều khiển - Hệ thống E-Learning{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="bi bi-speedometer2 me-2"></i>Bảng điều khiển học tập</h1>
+    <p class="text-muted">Chào mừng, {{ student.name }}!</p>
+</div>
+
+<!-- Stats Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card bg-primary">
+            <div class="stat-icon"><i class="bi bi-book"></i></div>
+            <div class="stat-value">{{ student.total_courses_completed }}</div>
+            <div class="stat-label">Khoá học đã hoàn thành</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card bg-success">
+            <div class="stat-icon"><i class="bi bi-trophy"></i></div>
+            <div class="stat-value">{{ "%.1f"|format(student.avg_quiz_score) }}%</div>
+            <div class="stat-label">Điểm trung bình</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card bg-info">
+            <div class="stat-icon"><i class="bi bi-clock"></i></div>
+            <div class="stat-value">{{ "%.1f"|format(student.total_time_spent_hours) }}h</div>
+            <div class="stat-label">Tổng thời gian đã sử dụng</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card bg-warning">
+            <div class="stat-icon"><i class="bi bi-lightning"></i></div>
+            <div class="stat-value">{{ student.preferred_difficulty }}</div>
+            <div class="stat-label">Mức độ ưa thích</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Current Courses -->
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-collection-play me-2"></i>Các khóa học đã đăng ký</h5>
+            </div>
+            <div class="card-body">
+                {% if courses %}
+                <div class="course-list">
+                    {% for course in courses %}
+                    <div class="course-item">
+                        <div class="course-info">
+                            <h6>{{ course.title }}</h6>
+                            <span
+                                class="badge bg-{{ 'success' if course.difficulty == 'Beginner' else ('warning' if course.difficulty == 'Intermediate' else 'danger') }}">
+                                {{ course.difficulty }}
+                            </span>
+                            <span class="text-muted ms-2">{{ course.category }}</span>
+                        </div>
+                        <div class="course-progress">
+                            <div class="progress">
+                                <div class="progress-bar" style="width: {{ course.progress|default(0) }}%"></div>
+                            </div>
+                            <span class="progress-text">{{ course.progress|default(0)|int }}%</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center text-muted py-4">
+                    <i class="bi bi-inbox fs-1"></i>
+                    <p class="mt-2">Chưa có khoá học nào được đăng ký</p>
+                    <a href="{{ url_for('courses') }}" class="btn btn-primary mt-2">
+                        <i class="bi bi-search me-2"></i>Duyệt các khóa học
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Performance Analysis -->
+    <div class="col-lg-4">
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5><i class="bi bi-emoji-smile me-2"></i>Điểm mạnh</h5>
+            </div>
+            <div class="card-body">
+                {% if performance.strengths %}
+                {% for subject in performance.strengths %}
+                <span class="badge bg-success-subtle text-success me-1 mb-1 p-2">
+                    <i class="bi bi-check-circle me-1"></i>{{ subject }}
+                </span>
+                {% endfor %}
+                {% else %}
+                <p class="text-muted mb-0">Hãy làm thêm các bài kiểm tra để xác định điểm mạnh của bạn.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h5><i class="bi bi-exclamation-triangle me-2"></i>Các lĩnh vực cần cải thiện</h5>
+            </div>
+            <div class="card-body">
+                {% if performance.weaknesses %}
+                {% for subject in performance.weaknesses %}
+                <span class="badge bg-danger-subtle text-danger me-1 mb-1 p-2">
+                    <i class="bi bi-arrow-up-circle me-1"></i>{{ subject }}
+                </span>
+                {% endfor %}
+                {% else %}
+                <p class="text-muted mb-0">Tuyệt vời! Không phát hiện điểm yếu nào.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-lightning me-2"></i>Thao tác nhanh</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="{{ url_for('recommendations') }}" class="btn btn-primary btn-lg">
+                        <i class="bi bi-stars me-2"></i>Nhận đề xuất
+                    </a>
+                    <a href="{{ url_for('learning_path') }}" class="btn btn-success btn-lg">
+                        <i class="bi bi-signpost-split me-2"></i>Xem Lộ trình học tập
+                    </a>
+                    <a href="{{ url_for('analytics') }}" class="btn btn-info btn-lg">
+                        <i class="bi bi-graph-up me-2"></i>Xem Phân tích
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Student Info -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-person-badge me-2"></i>Thông tin hồ sơ</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <strong>Mã sinh viên:</strong><br>{{ student.student_id }}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Trình độ học vấn:</strong><br>{{ student.education_level }}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Chuyên ngành:</strong><br>{{ student.major }}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Phong cách học:</strong><br>{{ student.learning_style }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

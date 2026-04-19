@@ -1,0 +1,70 @@
+module_id,course_id,module_number,module_title,module_type,duration_minutes,content_url,description,order
+M001,C001,1,Python Installation and Setup,video,30,https://example.com/videos/python-intro,Learn how to install Python and set up your development environment,1
+M002,C001,2,Variables and Data Types,video,45,https://example.com/videos/python-variables,Understanding Python variables strings numbers and basic data types,2
+M003,C001,3,Practice: Data Types Quiz,quiz,20,quiz:Python Basics Quiz 1,Test your knowledge of Python data types,3
+M004,C001,4,Control Flow - If Statements,video,40,https://example.com/videos/python-if,Learn conditional statements and decision making in Python,4
+M005,C001,5,Loops and Iterations,video,50,https://example.com/videos/python-loops,Master for loops while loops and iteration techniques,5
+M006,C001,6,Functions and Modules,video,55,https://example.com/videos/python-functions,Create reusable code with functions and modules,6
+M007,C001,7,Practice: Python Basics Quiz 2,quiz,25,quiz:Python Basics Quiz 2,Comprehensive quiz on Python fundamentals,7
+M008,C001,8,Final Project: Calculator App,assignment,90,https://example.com/assignments/calculator,Build a command-line calculator using Python,8
+M009,C002,1,Classes and Objects,video,50,https://example.com/videos/python-oop-1,Introduction to object-oriented programming concepts,1
+M010,C002,2,Inheritance and Polymorphism,video,60,https://example.com/videos/python-oop-2,Advanced OOP concepts and design patterns,2
+M011,C002,3,Design Patterns,video,70,https://example.com/videos/design-patterns,Common design patterns in Python,3
+M012,C003,1,Arrays and Lists,video,45,https://example.com/videos/dsa-arrays,Understanding arrays and list data structures,1
+M013,C003,2,Practice: Arrays Quiz,quiz,20,quiz:Arrays and Lists Quiz,Test your array knowledge,2
+M014,C003,3,Linked Lists,video,50,https://example.com/videos/dsa-linked-lists,Singly and doubly linked lists implementation,3
+M015,C003,4,Practice: Linked Lists Quiz,quiz,25,quiz:Linked Lists Quiz,Quiz on linked list operations,4
+M016,C003,5,Trees and Graphs,video,60,https://example.com/videos/dsa-trees,Binary trees BST and graph algorithms,5
+M017,C003,6,Practice: Trees Quiz,quiz,30,quiz:Trees and Graphs Quiz,Test your tree algorithm knowledge,6
+M018,C004,1,Introduction to Machine Learning,video,40,https://example.com/videos/ml-intro,Overview of ML concepts and applications,1
+M019,C004,2,Supervised Learning Basics,video,50,https://example.com/videos/ml-supervised,Classification and regression fundamentals,2
+M020,C004,3,Practice: ML Fundamentals,quiz,30,quiz:ML Fundamentals Test,Quiz on basic ML concepts,3
+M021,C004,4,Unsupervised Learning,video,45,https://example.com/videos/ml-unsupervised,Clustering and dimensionality reduction,4
+M022,C004,5,Model Evaluation,video,40,https://example.com/videos/ml-evaluation,Cross-validation metrics and testing,5
+M023,C004,6,Practice: ML Algorithms,quiz,25,quiz:ML Algorithms Quiz,Test your ML algorithm knowledge,6
+M024,C004,7,Final Project: Prediction Model,assignment,120,https://example.com/assignments/ml-project,Build a complete ML prediction model,7
+M025,C005,1,Neural Networks Fundamentals,video,50,https://example.com/videos/dl-neural-nets,Introduction to artificial neural networks,1
+M026,C005,2,Practice: Neural Networks,quiz,25,quiz:Neural Networks Quiz,Quiz on neural network concepts,2
+M027,C005,3,Convolutional Neural Networks,video,60,https://example.com/videos/dl-cnn,CNNs for image processing,3
+M028,C005,4,Practice: CNN Quiz,quiz,30,quiz:CNN Architecture Quiz,Test your CNN knowledge,4
+M029,C005,5,Recurrent Neural Networks,video,55,https://example.com/videos/dl-rnn,RNNs and sequence modeling,5
+M030,C005,6,Practice: Deep Learning,quiz,30,quiz:Deep Learning Quiz 1,Comprehensive DL quiz,6
+M031,C006,1,Text Processing Basics,video,45,https://example.com/videos/nlp-text,Tokenization and text preprocessing,1
+M032,C006,2,Practice: Text Processing,quiz,20,quiz:Text Processing Quiz,Quiz on NLP basics,2
+M033,C006,3,Sentiment Analysis,video,50,https://example.com/videos/nlp-sentiment,Building sentiment classifiers,3
+M034,C006,4,Language Models,video,60,https://example.com/videos/nlp-models,Understanding transformer architectures,4
+M035,C006,5,Practice: NLP Advanced,quiz,25,quiz:NLP Advanced Quiz,Advanced NLP concepts quiz,5
+M036,C007,1,Image Processing Fundamentals,video,40,https://example.com/videos/cv-basics,Introduction to computer vision,1
+M037,C007,2,Object Detection,video,55,https://example.com/videos/cv-detection,YOLO and object detection algorithms,2
+M038,C007,3,Practice: Computer Vision,quiz,20,quiz:Computer Vision Quiz,CV concepts quiz,3
+M039,C008,1,Probability Basics,video,35,https://example.com/videos/stats-prob,Introduction to probability theory,1
+M040,C008,2,Practice: Probability,quiz,20,quiz:Probability Quiz,Test probability concepts,2
+M041,C008,3,Statistical Distributions,video,40,https://example.com/videos/stats-dist,Normal binomial and other distributions,3
+M042,C008,4,Practice: Distributions,quiz,25,quiz:Distributions Quiz,Quiz on statistical distributions,4
+M043,C008,5,Hypothesis Testing,video,45,https://example.com/videos/stats-testing,T-tests ANOVA and statistical inference,5
+M044,C008,6,Practice: Hypothesis Testing,quiz,20,quiz:Hypothesis Testing,Statistical tests quiz,6
+M045,C009,1,Matrices and Vectors,video,40,https://example.com/videos/algebra-basics,Linear algebra fundamentals,1
+M046,C009,2,Practice: Matrix Operations,quiz,20,quiz:Matrix Operations Quiz,Quiz on matrix operations,2
+M047,C009,3,Eigenvalues and Eigenvectors,video,45,https://example.com/videos/algebra-eigen,Understanding eigenvalues,3
+M048,C009,4,Practice: Linear Algebra,quiz,20,quiz:Eigenvectors Quiz,Linear algebra quiz,4
+M049,C014,1,Matplotlib Basics,video,30,https://example.com/videos/viz-matplotlib,Creating plots with Matplotlib,1
+M050,C014,2,Practice: Matplotlib,quiz,15,quiz:Matplotlib Basics Quiz,Matplotlib concepts quiz,2
+M051,C014,3,Seaborn for Statistical Plots,video,35,https://example.com/videos/viz-seaborn,Advanced visualization with Seaborn,3
+M052,C014,4,Practice: Visualization,quiz,15,quiz:Seaborn Basics Quiz,Seaborn quiz,4
+M053,C015,1,Tableau Interface,video,25,https://example.com/videos/tableau-intro,Getting started with Tableau,1
+M054,C015,2,Building Dashboards,video,40,https://example.com/videos/tableau-dashboards,Creating interactive dashboards,2
+M055,C015,3,Practice: Tableau Basics,quiz,15,quiz:Tableau Basics Quiz,Tableau fundamentals quiz,3
+M056,C018,1,React Fundamentals,video,45,https://example.com/videos/react-basics,Components and JSX,1
+M057,C018,2,React Hooks,video,50,https://example.com/videos/react-hooks,useState useEffect and custom hooks,2
+M058,C018,3,Practice: React Hooks,quiz,20,quiz:React Hooks Quiz,Hooks concepts quiz,3
+M059,C018,4,State Management,video,55,https://example.com/videos/react-state,Managing complex application state,4
+M060,C018,5,Practice: React State,quiz,20,quiz:React State Quiz,State management quiz,5
+M061,C022,1,Network Security Basics,video,35,https://example.com/videos/security-network,Firewalls and network protection,1
+M062,C022,2,Encryption Fundamentals,video,40,https://example.com/videos/security-encryption,Symmetric and asymmetric encryption,2
+M063,C022,3,Practice: Security Basics,quiz,25,quiz:Security Basics Quiz,Cybersecurity fundamentals quiz,3
+M064,C031,1,Introduction to Pandas,video,40,https://example.com/videos/pandas-intro,DataFrames and Series basics,1
+M065,C031,2,Practice: Pandas Fundamentals,quiz,20,quiz:Pandas Fundamentals,Pandas basics quiz,2
+M066,C031,3,NumPy Arrays,video,35,https://example.com/videos/numpy-arrays,Array operations and broadcasting,3
+M067,C031,4,Practice: NumPy,quiz,20,quiz:NumPy Arrays Quiz,NumPy concepts quiz,4
+M068,C031,5,Data Manipulation,video,50,https://example.com/videos/pandas-advanced,Advanced pandas techniques,5
+M069,C031,6,Practice: Data Analysis,quiz,20,quiz:Data Analysis Quiz,Data manipulation quiz,6

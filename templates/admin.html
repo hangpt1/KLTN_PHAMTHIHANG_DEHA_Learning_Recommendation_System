@@ -1,0 +1,290 @@
+{% extends 'base.html' %}
+
+{% block title %}Bảng dữ liệu - Hệ thống E-Learning{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="bi bi-database me-2"></i>Bảng dữ liệu (Góc nhìn Quản trị)</h1>
+    <p class="text-muted">Xem dữ liệu thô từ kho dữ liệu (Data Warehouse)</p>
+</div>
+
+<!-- Tab Navigation -->
+<ul class="nav nav-tabs nav-fill mb-4" id="dataTabs" role="tablist">
+    <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#students" type="button">
+            <i class="bi bi-people me-2"></i>Sinh viên ({{ students|length }})
+        </button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#courses" type="button">
+            <i class="bi bi-book me-2"></i>Khóa học ({{ courses|length }})
+        </button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#activities" type="button">
+            <i class="bi bi-activity me-2"></i>Hoạt động ({{ activities|length }})
+        </button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#quizzes" type="button">
+            <i class="bi bi-journal-check me-2"></i>Bài kiểm tra ({{ quizzes|length }})
+        </button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#ratings" type="button">
+            <i class="bi bi-star me-2"></i>Đánh giá ({{ ratings|length }})
+        </button>
+    </li>
+</ul>
+
+<!-- Tab Content -->
+<div class="tab-content" id="dataTabsContent">
+    <!-- Students Table -->
+    <div class="tab-pane fade show active" id="students">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-people me-2"></i>Bảng Sinh viên</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive" style="max-height: 500px;">
+                    <table class="table table-striped table-hover mb-0 table-sm">
+                        <thead class="table-dark sticky-top">
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên</th>
+                                <th>Email</th>
+                                <th>Tuổi</th>
+                                <th>Học vấn</th>
+                                <th>Chuyên ngành</th>
+                                <th>Phong cách học</th>
+                                <th>Độ khó</th>
+                                <th>Khóa học</th>
+                                <th>Điểm TB</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for s in students %}
+                            <tr>
+                                <td><code>{{ s.student_id }}</code></td>
+                                <td>{{ s.name }}</td>
+                                <td>{{ s.email }}</td>
+                                <td>{{ s.age }}</td>
+                                <td>{{ s.education_level }}</td>
+                                <td>{{ s.major }}</td>
+                                <td>{{ s.learning_style }}</td>
+                                <td>{{ s.preferred_difficulty }}</td>
+                                <td>{{ s.total_courses_completed }}</td>
+                                <td>{{ "%.1f"|format(s.avg_quiz_score) }}%</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Courses Table -->
+    <div class="tab-pane fade" id="courses">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-book me-2"></i>Bảng Khóa học</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive" style="max-height: 500px;">
+                    <table class="table table-striped table-hover mb-0 table-sm">
+                        <thead class="table-dark sticky-top">
+                            <tr>
+                                <th>ID</th>
+                                <th>Tiêu đề</th>
+                                <th>Danh mục</th>
+                                <th>Danh mục con</th>
+                                <th>Độ khó</th>
+                                <th>Thời lượng</th>
+                                <th>Giảng viên</th>
+                                <th>Đánh giá</th>
+                                <th>Số lượt đăng ký</th>
+                                <th>Tỉ lệ hoàn thành</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for c in courses %}
+                            <tr>
+                                <td><code>{{ c.course_id }}</code></td>
+                                <td>{{ c.title }}</td>
+                                <td>{{ c.category }}</td>
+                                <td>{{ c.subcategory }}</td>
+                                <td>
+                                    <span
+                                        class="badge bg-{{ 'success' if c.difficulty == 'Beginner' else ('warning' if c.difficulty == 'Intermediate' else 'danger') }}">
+                                        {{ c.difficulty }}
+                                    </span>
+                                </td>
+                                <td>{{ c.duration_hours }}h</td>
+                                <td>{{ c.instructor }}</td>
+                                <td><i class="bi bi-star-fill text-warning"></i> {{ c.rating }}</td>
+                                <td>{{ c.total_enrollments }}</td>
+                                <td>{{ c.completion_rate }}%</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Activities Table -->
+    <div class="tab-pane fade" id="activities">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-activity me-2"></i>Bảng Nhật ký hoạt động</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive" style="max-height: 500px;">
+                    <table class="table table-striped table-hover mb-0 table-sm">
+                        <thead class="table-dark sticky-top">
+                            <tr>
+                                <th>Log ID</th>
+                                <th>Sinh viên</th>
+                                <th>Khóa học</th>
+                                <th>Hoạt động</th>
+                                <th>Ngày</th>
+                                <th>Thời gian (phút)</th>
+                                <th>Tiến độ</th>
+                                <th>Bài học</th>
+                                <th>Video</th>
+                                <th>Ghi chú</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for a in activities %}
+                            <tr>
+                                <td><code>{{ a.log_id }}</code></td>
+                                <td>{{ a.student_id }}</td>
+                                <td>{{ a.course_id }}</td>
+                                <td>{{ a.activity_type }}</td>
+                                <td>{{ a.activity_date }}</td>
+                                <td>{{ a.time_spent_minutes }}</td>
+                                <td>{{ a.progress_percentage }}%</td>
+                                <td>{{ a.module_completed }}</td>
+                                <td>{{ '✓' if a.video_watched else '✗' }}</td>
+                                <td>{{ '✓' if a.notes_taken else '✗' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quizzes Table -->
+    <div class="tab-pane fade" id="quizzes">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-journal-check me-2"></i>Bảng Kết quả Bài kiểm tra</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive" style="max-height: 500px;">
+                    <table class="table table-striped table-hover mb-0 table-sm">
+                        <thead class="table-dark sticky-top">
+                            <tr>
+                                <th>Quiz ID</th>
+                                <th>Sinh viên</th>
+                                <th>Khóa học</th>
+                                <th>Ngày</th>
+                                <th>Tiêu đề</th>
+                                <th>Câu hỏi</th>
+                                <th>Đúng</th>
+                                <th>Điểm</th>
+                                <th>Thời gian</th>
+                                <th>Đã qua</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for q in quizzes %}
+                            <tr>
+                                <td><code>{{ q.quiz_id }}</code></td>
+                                <td>{{ q.student_id }}</td>
+                                <td>{{ q.course_id }}</td>
+                                <td>{{ q.quiz_date }}</td>
+                                <td>{{ q.quiz_title }}</td>
+                                <td>{{ q.total_questions }}</td>
+                                <td>{{ q.correct_answers }}</td>
+                                <td>
+                                    <span class="badge bg-{{ 'success' if q.score_percentage >= 60 else 'danger' }}">
+                                        {{ "%.1f"|format(q.score_percentage) }}%
+                                    </span>
+                                </td>
+                                <td>{{ q.time_taken_minutes }}m</td>
+                                <td>{{ '✓' if q.passed else '✗' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ratings Table -->
+    <div class="tab-pane fade" id="ratings">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-star me-2"></i>Bảng Đánh giá</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive" style="max-height: 500px;">
+                    <table class="table table-striped table-hover mb-0 table-sm">
+                        <thead class="table-dark sticky-top">
+                            <tr>
+                                <th>Rating ID</th>
+                                <th>Sinh viên</th>
+                                <th>Khóa học</th>
+                                <th>Ngày</th>
+                                <th>Đánh giá</th>
+                                <th>Độ khó</th>
+                                <th>Nội dung</th>
+                                <th>Giảng viên</th>
+                                <th>Khuyến nghị</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for r in ratings %}
+                            <tr>
+                                <td><code>{{ r.rating_id }}</code></td>
+                                <td>{{ r.student_id }}</td>
+                                <td>{{ r.course_id }}</td>
+                                <td>{{ r.rating_date }}</td>
+                                <td>
+                                    {% for i in range(r.rating|int) %}
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    {% endfor %}
+                                    {{ r.rating }}
+                                </td>
+                                <td>{{ r.difficulty_rating }}</td>
+                                <td>{{ r.content_quality }}</td>
+                                <td>{{ r.instructor_rating }}</td>
+                                <td>{{ '✓' if r.would_recommend else '✗' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Data Source Info -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="alert alert-secondary">
+            <i class="bi bi-info-circle me-2"></i>
+            <strong>Nguồn dữ liệu:</strong> Tất cả dữ liệu được tải từ các tệp CSV trong thư mục <code>data/</code>.
+            Đây là Data Warehouse được sử dụng bởi công cụ gợi ý ML (Machine Learning).
+        </div>
+    </div>
+</div>
+{% endblock %}

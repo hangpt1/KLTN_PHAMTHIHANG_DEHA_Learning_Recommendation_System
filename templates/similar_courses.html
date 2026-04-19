@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+
+{% block title %}Khóa học tương tự - Hệ thống E-Learning{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="bi bi-diagram-3 me-2"></i>Các khóa học tương tự</h1>
+    <p class="text-muted">Tìm các khóa học tương tự với khóa học đã chọn bằng Độ tương đồng Cosine (Cosine Similarity)
+    </p>
+</div>
+
+<!-- Course Selector -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="GET" action="{{ url_for('similar_courses') }}" class="row g-3 align-items-center">
+                    <div class="col-auto">
+                        <label class="col-form-label"><strong>Chọn khóa học:</strong></label>
+                    </div>
+                    <div class="col-md-6">
+                        <select name="course_id" class="form-select" onchange="this.form.submit()">
+                            {% for course in all_courses %}
+                            <option value="{{ course.course_id }}" {% if course.course_id==course_id %}selected{% endif
+                                %}>
+                                {{ course.course_id }} - {{ course.title }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-search me-1"></i>Tìm tương tự
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Selected Course Info -->
+{% if selected %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-primary">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-bookmark-star me-2"></i>Khóa học đã chọn</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h4>{{ selected.title }}</h4>
+                        <p class="text-muted mb-2">{{ selected.description }}</p>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-secondary">{{ selected.category }}</span>
+                            <span
+                                class="badge bg-{{ 'success' if selected.difficulty == 'Beginner' else ('warning' if selected.difficulty == 'Intermediate' else 'danger') }}">
+                                {{ selected.difficulty }}
+                            </span>
+                            <span class="badge bg-info">{{ selected.duration_hours }} giờ</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <div class="stat-highlight">
+                            <span class="rating-big">
+                                <i class="bi bi-star-fill text-warning"></i>
+                                {{ "%.1f"|format(selected.rating) }}
+                            </span>
+                            <div class="text-muted small">Đánh giá khóa học</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <strong>Tags:</strong>
+                    {% for tag in selected.tags.split(' ') %}
+                    <span class="badge bg-outline-secondary border me-1">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Similar Courses Results -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5><i class="bi bi-collection me-2"></i>Các khóa học tương tự (Lọc dựa trên nội dung)</h5>
+                <span class="badge bg-info">Sử dụng TF-IDF + Độ tương đồng Cosine</span>
+            </div>
+            <div class="card-body p-0">
+                {% if similar %}
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th width="5%">Hạng</th>
+                                <th width="35%">Khóa học</th>
+                                <th width="15%">Danh mục</th>
+                                <th width="10%">Độ khó</th>
+                                <th width="10%">Thời lượng</th>
+                                <th width="10%">Đánh giá</th>
+                                <th width="15%">Độ tương đồng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for course in similar %}
+                            <tr>
+                                <td><span class="rank-badge">{{ loop.index }}</span></td>
+                                <td>
+                                    <strong>{{ course.title }}</strong>
+                                    <br><small class="text-muted">{{ course.course_id }}</small>
+                                </td>
+                                <td><span class="badge bg-secondary">{{ course.category }}</span></td>
+                                <td>
+                                    <span
+                                        class="badge bg-{{ 'success' if course.difficulty == 'Beginner' else ('warning' if course.difficulty == 'Intermediate' else 'danger') }}">
+                                        {{ course.difficulty }}
+                                    </span>
+                                </td>
+                                <td>{{ course.duration_hours }} giờ</td>
+                                <td>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    {{ "%.1f"|format(course.rating) }}
+                                </td>
+                                <td>
+                                    <div class="similarity-bar">
+                                        <div class="similarity-fill" style="width: {{ course.similarity }}%"></div>
+                                    </div>
+                                    <small class="text-success fw-bold">{{ course.similarity }}%</small>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="bi bi-search fs-1 text-muted"></i>
+                    <p class="mt-3 text-muted">Không tìm thấy khóa học tương tự</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Algorithm Explanation -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <!-- <div class="card">
+            <div class="card-header">
+                <h6><i class="bi bi-info-circle me-2"></i>Cách tính Độ tương đồng</h6>
+            </div>
+            <div class="card-body">
+                <ol class="small mb-0">
+                    <li class="mb-2"><strong>Vector hóa TF-IDF:</strong> Chuyển đổi văn bản khóa học (tiêu đề, mô tả, thẻ) thành vector số</li>
+                    <li class="mb-2"><strong>Độ tương đồng Cosine:</strong> Tính góc giữa các vector
+                        <br><code>cos(θ) = (A·B) / (||A|| × ||B||)</code>
+                    </li>
+                    <li><strong>Xếp hạng:</strong> Sắp xếp theo điểm tương đồng (0% đến 100%)</li>
+                </ol>
+            </div>
+        </div> -->
+    </div>
+    <div class="col-md-6">
+        <!-- <div class="card bg-dark text-white">
+            <div class="card-header">
+                <h6><i class="bi bi-code-slash me-2"></i>Điểm cuối API (API Endpoint)</h6>
+            </div>
+            <div class="card-body">
+                <code class="text-info">GET /api/similar/{{ course_id }}</code>
+                <a href="{{ url_for('api_similar', course_id=course_id) }}" target="_blank"
+                    class="btn btn-outline-light btn-sm ms-3">
+                    <i class="bi bi-box-arrow-up-right me-1"></i>Xem JSON
+                </a>
+            </div>
+        </div> -->
+    </div>
+</div>
+{% endblock %}

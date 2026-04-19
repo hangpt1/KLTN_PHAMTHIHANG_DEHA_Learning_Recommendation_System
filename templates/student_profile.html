@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+
+{% block title %}Hồ sơ học viên - Hệ thống E-Learning{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="bi bi-person-badge me-2"></i>Hồ sơ học viên</h1>
+    <p class="text-muted">Hồ sơ học tập của bạn được phân tích bởi K-Means Clustering</p>
+</div>
+
+<div class="row g-4">
+    <!-- Profile Card -->
+    <div class="col-lg-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="profile-avatar mb-3">
+                    {{ student.name[0] if student.name else 'U' }}
+                </div>
+                <h4>{{ student.name }}</h4>
+                <p class="text-muted">{{ student.student_id }}</p>
+
+                <div class="profile-details text-start mt-4">
+                    <p><i class="bi bi-envelope me-2"></i>{{ student.email }}</p>
+                    <p><i class="bi bi-mortarboard me-2"></i>{{ student.education_level }}</p>
+                    <p><i class="bi bi-book me-2"></i>{{ student.major }}</p>
+                    <p><i class="bi bi-lightbulb me-2"></i>Người học kiểu {{ student.learning_style }}</p>
+                    <p><i class="bi bi-sliders me-2"></i>Ưa thích độ khó {{ student.preferred_difficulty }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Learning Profile (Cluster) -->
+    <div class="col-lg-8">
+        <div class="card border-{{ profile.color }}">
+            <div class="card-header bg-{{ profile.color }} text-white">
+                <h5 class="mb-0">
+                    <i class="{{ profile.icon }} me-2"></i>Hồ sơ học tập của bạn
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-3 text-center">
+                        <div class="cluster-badge bg-{{ profile.color }}-subtle">
+                            <i class="{{ profile.icon }} display-4 text-{{ profile.color }}"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <h3 class="text-{{ profile.color }}">{{ profile.name }}</h3>
+                        <p class="lead">{{ profile.description }}</p>
+
+                        <div class="alert alert-{{ profile.color }} mt-3">
+                            <h6><i class="bi bi-cpu me-2"></i>Được xác định bởi K-Means Clustering</h6>
+                            <p class="mb-0 small">
+                                Thuật toán ML của chúng tôi đã phân tích các mẫu học tập của bạn bao gồm điểm bài kiểm tra,
+                                thời gian dành ra, thói quen xem video và hành vi ghi chú để xác định
+                                hồ sơ học tập độc đáo của bạn.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cluster Distribution -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5><i class="bi bi-pie-chart me-2"></i>Phân bố học viên theo Hồ sơ học tập</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for cluster_id, cluster in distribution.items() %}
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="cluster-icon me-3">
+                                {% if cluster_id == profile.cluster_id %}
+                                <i class="bi bi-check-circle-fill text-success fs-4"></i>
+                                {% else %}
+                                <i class="bi bi-circle text-muted fs-4"></i>
+                                {% endif %}
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>{{ cluster.name }}</span>
+                                    <span class="text-muted">{{ cluster.count }} học viên ({{ cluster.percentage
+                                        }}%)</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar" style="width: {{ cluster.percentage }}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Performance Stats -->
+<div class="row mt-4">
+    <div class="col-md-3">
+        <div class="stat-card bg-primary">
+            <div class="stat-icon"><i class="bi bi-trophy"></i></div>
+            <div class="stat-value">{{ "%.1f"|format(student.avg_quiz_score) }}%</div>
+            <div class="stat-label">Điểm trung bình</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card bg-success">
+            <div class="stat-icon"><i class="bi bi-book"></i></div>
+            <div class="stat-value">{{ student.total_courses_completed }}</div>
+            <div class="stat-label">Khóa học đã hoàn thành</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card bg-info">
+            <div class="stat-icon"><i class="bi bi-clock"></i></div>
+            <div class="stat-value">{{ "%.1f"|format(student.total_time_spent_hours) }}h</div>
+            <div class="stat-label">Tổng thời gian đã học</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card bg-warning">
+            <div class="stat-icon"><i class="bi bi-graph-up"></i></div>
+            <div class="stat-value">{{ performance.strengths|length }}</div>
+            <div class="stat-label">Điểm mạnh</div>
+        </div>
+    </div>
+</div>
+
+<!-- Strengths & Weaknesses -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card border-success">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="bi bi-emoji-smile me-2"></i>Điểm mạnh của bạn</h5>
+            </div>
+            <div class="card-body">
+                {% if performance.strengths %}
+                <div class="d-flex flex-wrap gap-2">
+                    {% for subject in performance.strengths %}
+                    <span class="badge bg-success p-2 fs-6">
+                        <i class="bi bi-star-fill me-1"></i>{{ subject }}
+                    </span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted mb-0">Hoàn thành thêm các bài kiểm tra để xác định điểm mạnh của bạn</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="bi bi-exclamation-triangle me-2"></i>Cần cải thiện</h5>
+            </div>
+            <div class="card-body">
+                {% if performance.weaknesses %}
+                <div class="d-flex flex-wrap gap-2">
+                    {% for subject in performance.weaknesses %}
+                    <span class="badge bg-danger p-2 fs-6">
+                        <i class="bi bi-arrow-up-circle me-1"></i>{{ subject }}
+                    </span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted mb-0">Làm tốt lắm! Không phát hiện điểm yếu nào</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, #4e73df, #224abe);
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        color: white;
+        font-weight: bold;
+    }
+
+    .cluster-badge {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .bg-primary-subtle {
+        background-color: rgba(78, 115, 223, 0.1);
+    }
+
+    .bg-success-subtle {
+        background-color: rgba(28, 200, 138, 0.1);
+    }
+
+    .bg-info-subtle {
+        background-color: rgba(54, 185, 204, 0.1);
+    }
+
+    .bg-warning-subtle {
+        background-color: rgba(246, 194, 62, 0.1);
+    }
+</style>
+{% endblock %}

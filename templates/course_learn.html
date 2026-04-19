@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ course.title }} - Learning{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Sidebar - Module List -->
+    <div class="col-md-3">
+        <div class="card sticky-top" style="top: 20px; max-height: 90vh; overflow-y: auto;">
+            <div class="card-header bg-primary text-white">
+                <h6 class="mb-0"><i class="bi bi-list-task me-2"></i>Các mô-đun khóa học</h6>
+            </div>
+            <div class="list-group list-group-flush">
+                {% for module in modules %}
+                <a href="{{ url_for('course_learn', course_id=course.course_id, module_id=module.module_id) }}"
+                    class="list-group-item list-group-item-action {{ 'active' if current_module and current_module.module_id == module.module_id else '' }}">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="flex-grow-1">
+                            <small class="text-muted">Mô-đun {{ module.module_number }}</small>
+                            <div class="small">{{ module.module_title }}</div>
+                        </div>
+                        {% if module.completed %}
+                        <i class="bi bi-check-circle-fill text-success"></i>
+                        {% endif %}
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="col-md-9">
+        <div class="mb-3">
+            <a href="{{ url_for('course_detail', course_id=course.course_id) }}"
+                class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left me-1"></i>Quay lại khóa học
+            </a>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h6 class="mb-3">Tiến độ khóa học</h6>
+                {% set completed_count = modules|selectattr('completed', 'equalto', True)|list|length %}
+                {% set total_count = modules|length %}
+                {% set progress = (completed_count / total_count * 100)|round|int if total_count > 0 else 0 %}
+                <div class="progress" style="height: 25px;">
+                    <div class="progress-bar" role="progressbar" style="width: {{ progress }}%">
+                        {{ progress }}% ({{ completed_count }}/{{ total_count }} mô-đun)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Current Module Content -->
+        {% if current_module %}
+        <div class="card">
+            <div class="card-header">
+                <h4><span class="badge bg-primary me-2">Mô-đun {{ current_module.module_number }}</span>{{
+                    current_module.module_title }}</h4>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">{{ current_module.description }}</p>
+
+                <div class="mb-4">
+                    <small class="text-muted">
+                        <i class="bi bi-clock me-1"></i>Thời lượng: {{ current_module.duration_minutes }} phút
+                        <span class="ms-3"><i
+                                class="bi bi-{{ 'play-circle' if current_module.module_type == 'video' else ('clipboard-check' if current_module.module_type == 'quiz' else 'file-text') }} me-1"></i>Loại:
+                            {{ current_module.module_type|capitalize }}</span>
+                    </small>
+                </div>
+
+                <!-- Content based on module type -->
+                {% if current_module.module_type == 'video' %}
+                <div class="alert alert-info">
+                    <i class="bi bi-play-circle me-2"></i>
+                    <strong>Nội dung Video</strong><br>
+                    Trình phát video sẽ được nhúng vào đây URL: {{ current_module.content_url }}
+                </div>
+                <div class="ratio ratio-16x9 bg-dark mb-3">
+                    <div class="d-flex align-items-center justify-content-center text-white">
+                        <div class="text-center">
+                            <i class="bi bi-play-circle fs-1"></i>
+                            <p class="mt-2">Trình phát video</p>
+                            <small>{{ current_module.content_url }}</small>
+                        </div>
+                    </div>
+                </div>
+
+                {% elif current_module.module_type == 'quiz' %}
+                <div class="alert alert-primary">
+                    <i class="bi bi-clipboard-check me-2"></i>
+                    <strong>Đến giờ kiểm tra!</strong><br>
+                    Hãy kiểm tra kiến ​​thức của bạn với bài trắc nghiệm này.
+                </div>
+                <div class="d-grid">
+                    <a href="{{ url_for('quiz_take', course_id=course.course_id, quiz_title=current_module.content_url.replace('quiz:', '')) }}"
+                        class="btn btn-primary btn-lg">
+                        <i class="bi bi-pencil me-2"></i>Làm bài kiểm tra
+                    </a>
+                </div>
+
+                {% elif current_module.module_type == 'reading' %}
+                <div class="alert alert-info">
+                    <i class="bi bi-file-text me-2"></i>
+                    <strong>Tài liệu đọc</strong><br>
+                    Content URL: {{ current_module.content_url }}
+                </div>
+                <div class="p-4 bg-light rounded">
+                    <p>Nội dung đọc sẽ được hiển thị ở đây từ: {{ current_module.content_url }}</p>
+                </div>
+
+                {% elif current_module.module_type == 'assignment' %}
+                <div class="alert alert-warning">
+                    <i class="bi bi-clipboard-check me-2"></i>
+                    <strong>Bài tập</strong><br>
+                    Giao diện mô tả bài tập và nộp bài sẽ nằm ở đây.
+                </div>
+                <div class="p-4 bg-light rounded">
+                    <p>Giao diện phân công cho: {{ current_module.content_url }}</p>
+                </div>
+                {% endif %}
+
+                <!-- Module Navigation -->
+                <div class="d-flex justify-content-between mt-4">
+                    {% set current_idx = modules.index(current_module) %}
+                    {% if current_idx > 0 %}
+                    <a href="{{ url_for('course_learn', course_id=course.course_id, module_id=modules[current_idx - 1].module_id) }}"
+                        class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-1"></i>Quay lại
+                    </a>
+                    {% else %}
+                    <div></div>
+                    {% endif %}
+
+                    {% if not current_module.completed and current_module.module_type != 'quiz' %}
+                    <button onclick="completeModule('{{ current_module.module_id }}')" class="btn btn-success">
+                        <i class="bi bi-check-circle me-1"></i>Đánh dấu là đã hoàn thành
+                    </button>
+                    {% elif current_module.completed %}
+                    <span class="badge bg-success py-2 px-3">
+                        <i class="bi bi-check-circle me-1"></i>Hoàn thành
+                    </span>
+                    {% else %}
+                    <div></div>
+                    {% endif %}
+
+                    {% if current_idx < modules|length - 1 %} <a
+                        href="{{ url_for('course_learn', course_id=course.course_id, module_id=modules[current_idx + 1].module_id) }}"
+                        class="btn btn-outline-secondary">
+                        Đi tiếp<i class="bi bi-arrow-right ms-1"></i>
+                        </a>
+                        {% else %}
+                        <div></div>
+                        {% endif %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="card">
+            <div class="card-body text-center text-muted py-5">
+                <i class="bi bi-book fs-1"></i>
+                <p class="mt-2">Chọn một mô-đun từ thanh bên để bắt đầu học.</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    function completeModule(moduleId) {
+        fetch('/api/complete-module', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ module_id: moduleId })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Đã xảy ra lỗi. Vui lòng thử lại.');
+            });
+    }
+</script>
+
+{% endblock %}

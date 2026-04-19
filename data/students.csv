@@ -1,0 +1,121 @@
+student_id,name,email,age,education_level,major,enrollment_date,learning_style,preferred_difficulty,total_courses_completed,avg_quiz_score,total_time_spent_hours
+S001,Nguyễn Văn Minh,aarav.sharma@email.com,21,Undergraduate,Computer Science,2023-08-15,Visual,Intermediate,12,78.5,145.5
+S002,Trần Thị Lan,priya.patel@email.com,23,Graduate,Data Science,2023-06-20,Reading,Advanced,18,85.2,210.0
+S003,Lê Văn Hùng,rahul.kumar@email.com,20,Undergraduate,Information Technology,2023-09-01,Kinesthetic,Beginner,5,62.3,48.0
+S004,Phạm Thị Mai,sneha.reddy@email.com,22,Undergraduate,Electronics,2023-07-10,Visual,Intermediate,9,71.8,98.5
+S005,Hoàng Văn Nam,vikram.singh@email.com,25,Graduate,Machine Learning,2023-05-15,Auditory,Advanced,22,89.4,285.0
+S006,Vũ Thị Hương,ananya.gupta@email.com,19,Undergraduate,Computer Science,2024-01-10,Visual,Beginner,3,58.9,32.0
+S007,Đỗ Văn Tuấn,arjun.nair@email.com,24,Graduate,Artificial Intelligence,2023-04-20,Reading,Advanced,25,91.2,320.0
+S008,Bùi Thị Ngọc,kavya.menon@email.com,21,Undergraduate,Mathematics,2023-08-25,Kinesthetic,Intermediate,8,74.6,88.0
+S009,Ngô Văn Dũng,rohan.joshi@email.com,22,Undergraduate,Statistics,2023-07-05,Visual,Intermediate,11,76.3,125.0
+S010,Phan Thị Thảo,divya.iyer@email.com,26,Graduate,Business Analytics,2023-03-15,Reading,Advanced,20,87.8,245.0
+S011,Trịnh Văn Long,aditya.verma@email.com,20,Undergraduate,Computer Science,2023-09-15,Auditory,Beginner,4,55.4,40.0
+S012,Đặng Thị Hoa,meera.krishnan@email.com,23,Graduate,Data Engineering,2023-06-01,Visual,Advanced,16,83.9,195.0
+S013,Hồ Văn Phúc,sanjay.pillai@email.com,21,Undergraduate,Software Engineering,2023-08-01,Kinesthetic,Intermediate,10,72.1,110.0
+S014,Nguyễn Thị Tuyết,neha.saxena@email.com,24,Graduate,Cybersecurity,2023-05-10,Reading,Advanced,19,86.5,230.0
+S015,Lý Văn Sơn,karthik.raman@email.com,19,Undergraduate,Electronics,2023-10-01,Visual,Beginner,2,51.2,22.0
+S016,Trần Thị Hạnh,pooja.desai@email.com,22,Undergraduate,Information Technology,2023-07-20,Auditory,Intermediate,7,68.9,78.0
+S017,Phạm Văn Quang,amit.chopra@email.com,25,Graduate,Cloud Computing,2023-04-05,Reading,Advanced,21,88.1,260.0
+S018,Võ Thị Ly,shruti.bhat@email.com,20,Undergraduate,Computer Science,2023-09-10,Visual,Beginner,6,63.7,55.0
+S019,Nguyễn Văn Khoa,varun.malhotra@email.com,23,Graduate,Data Science,2023-06-15,Kinesthetic,Intermediate,14,79.4,165.0
+S020,Trần Thị Nhung,anjali.srinivasan@email.com,21,Undergraduate,Mathematics,2023-08-05,Reading,Intermediate,9,73.2,95.0
+S021,Đỗ Văn Hải,deepak.rao@email.com,24,Graduate,Machine Learning,2023-05-01,Visual,Advanced,23,90.5,295.0
+S022,Bùi Thị Trang,ishita.sharma@email.com,19,Undergraduate,Statistics,2023-10-10,Auditory,Beginner,3,56.8,28.0
+S023,Lê Văn Tùng,manish.agarwal@email.com,22,Undergraduate,Software Engineering,2023-07-25,Kinesthetic,Intermediate,8,70.5,85.0
+S024,Phạm Thị Ngân,riya.kapoor@email.com,26,Graduate,Artificial Intelligence,2023-03-20,Reading,Advanced,24,92.1,310.0
+S025,Hoàng Văn Phong,suresh.venkat@email.com,20,Undergraduate,Information Technology,2023-09-05,Visual,Beginner,4,59.3,38.0
+S026,Nguyễn Thị Mai Anh,tanvi.mehta@email.com,23,Graduate,Data Analytics,2023-06-10,Reading,Intermediate,15,81.6,180.0
+S027,Trần Văn Đức,uday.prasad@email.com,21,Undergraduate,Computer Science,2023-08-20,Auditory,Intermediate,10,75.8,115.0
+S028,Đặng Thị Yến,vidya.narayanan@email.com,24,Graduate,Cybersecurity,2023-05-20,Visual,Advanced,17,84.7,205.0
+S029,Ngô Văn Bình,yash.kulkarni@email.com,19,Undergraduate,Electronics,2023-10-05,Kinesthetic,Beginner,2,48.9,18.0
+S030,Phan Thị Hồng,zara.khan@email.com,22,Undergraduate,Data Science,2023-07-15,Reading,Intermediate,11,77.2,130.0
+S031,Akash Tripathi,akash.tripathi@email.com,25,Graduate,Cloud Computing,2023-04-15,Visual,Advanced,20,87.3,250.0
+S032,Bhavna Choudhary,bhavna.choudhary@email.com,20,Undergraduate,Mathematics,2023-09-20,Auditory,Beginner,5,61.5,45.0
+S033,Chirag Jain,chirag.jain@email.com,23,Graduate,Machine Learning,2023-06-05,Reading,Advanced,18,86.9,220.0
+S034,Disha Pandey,disha.pandey@email.com,21,Undergraduate,Statistics,2023-08-10,Visual,Intermediate,7,69.8,72.0
+S035,Eshaan Bose,eshaan.bose@email.com,24,Graduate,Data Engineering,2023-05-05,Kinesthetic,Advanced,16,82.4,188.0
+S036,Fatima Sheikh,fatima.sheikh@email.com,19,Undergraduate,Computer Science,2023-10-15,Reading,Beginner,3,54.6,25.0
+S037,Gaurav Tiwari,gaurav.tiwari@email.com,22,Undergraduate,Software Engineering,2023-07-30,Visual,Intermediate,9,73.9,100.0
+S038,Harini Subramanian,harini.subramanian@email.com,26,Graduate,Business Analytics,2023-03-25,Auditory,Advanced,22,89.8,275.0
+S039,Ishan Dhawan,ishan.dhawan@email.com,20,Undergraduate,Information Technology,2023-09-25,Kinesthetic,Beginner,4,57.2,35.0
+S040,Jyoti Mohan,jyoti.mohan@email.com,23,Graduate,Data Science,2023-06-25,Reading,Intermediate,13,78.9,155.0
+S041,Kartik Shetty,kartik.shetty@email.com,21,Undergraduate,Computer Science,2023-08-30,Visual,Intermediate,8,71.4,82.0
+S042,Lakshmi Nambiar,lakshmi.nambiar@email.com,24,Graduate,Artificial Intelligence,2023-05-25,Reading,Advanced,21,88.6,265.0
+S043,Mohit Bansal,mohit.bansal@email.com,19,Undergraduate,Electronics,2023-10-20,Auditory,Beginner,2,52.8,20.0
+S044,Nidhi Garg,nidhi.garg@email.com,22,Undergraduate,Mathematics,2023-07-08,Visual,Intermediate,10,74.1,108.0
+S045,Om Prakash,om.prakash@email.com,25,Graduate,Cybersecurity,2023-04-10,Kinesthetic,Advanced,19,85.9,235.0
+S046,Pallavi Roy,pallavi.roy@email.com,20,Undergraduate,Statistics,2023-09-12,Reading,Beginner,5,60.2,42.0
+S047,Qasim Ahmed,qasim.ahmed@email.com,23,Graduate,Cloud Computing,2023-06-18,Visual,Advanced,17,83.5,198.0
+S048,Rashmi Hegde,rashmi.hegde@email.com,21,Undergraduate,Data Science,2023-08-08,Auditory,Intermediate,9,72.6,92.0
+S049,Sameer Patil,sameer.patil@email.com,24,Graduate,Machine Learning,2023-05-12,Reading,Advanced,20,87.1,255.0
+S050,Tara Oberoi,tara.oberoi@email.com,19,Undergraduate,Computer Science,2023-10-25,Visual,Beginner,3,55.9,30.0
+S051,Rohit Singh,therohitjagan@gmail.com,23,Undergraduate,Computer Science,2024-03-31,Visual,Beginner,0,0.0,0.0
+S052,Ankit Das,ankit.das@email.com,22,Undergraduate,Computer Science,2024-01-15,Visual,Intermediate,7,72.5,85.0
+S053,Ritu Sharma,ritu.sharma@email.com,24,Graduate,Data Science,2023-06-11,Reading,Advanced,19,88.2,240.0
+S054,Kunal Mehra,kunal.mehra@email.com,20,Undergraduate,Mathematics,2023-09-22,Kinesthetic,Beginner,4,60.1,40.0
+S055,Simran Kaur,simran.kaur@email.com,23,Graduate,Business Analytics,2023-05-19,Auditory,Intermediate,14,79.5,165.0
+S056,Raj Malhotra,raj.malhotra@email.com,25,Graduate,Machine Learning,2023-04-01,Visual,Advanced,22,90.1,290.0
+S057,Neeraj Singh,neeraj.singh@email.com,21,Undergraduate,Information Technology,2023-08-18,Reading,Intermediate,9,73.8,105.0
+S058,Priyanshi Jain,priyanshi.jain@email.com,19,Undergraduate,Computer Science,2023-10-02,Visual,Beginner,3,58.3,28.0
+S059,Abhishek Yadav,abhishek.yadav@email.com,22,Undergraduate,Software Engineering,2023-07-12,Kinesthetic,Intermediate,8,70.6,90.0
+S060,Sonal Gupta,sonal.gupta@email.com,24,Graduate,Data Engineering,2023-06-02,Reading,Advanced,17,84.9,210.0
+S061,Harsh Vardhan,harsh.vardhan@email.com,20,Undergraduate,Electronics,2023-09-18,Auditory,Beginner,5,62.7,50.0
+S062,Ayesha Khan,ayesha.khan@email.com,23,Graduate,Artificial Intelligence,2023-05-28,Visual,Advanced,21,89.3,270.0
+S063,Nikhil Verma,nikhil.verma@email.com,21,Undergraduate,Statistics,2023-08-03,Reading,Intermediate,10,75.4,120.0
+S064,Pooja Singh,pooja.singh@email.com,19,Undergraduate,Mathematics,2023-10-12,Visual,Beginner,4,57.6,35.0
+S065,Arpit Mishra,arpit.mishra@email.com,25,Graduate,Cloud Computing,2023-04-18,Reading,Advanced,20,87.9,260.0
+S066,Kriti Agarwal,kriti.agarwal@email.com,22,Undergraduate,Computer Science,2023-07-28,Kinesthetic,Intermediate,11,76.2,130.0
+S067,Rahul Sinha,rahul.sinha@email.com,24,Graduate,Data Science,2023-06-30,Visual,Advanced,18,85.7,225.0
+S068,Tanushree Roy,tanushree.roy@email.com,20,Undergraduate,Electronics,2023-09-08,Auditory,Beginner,3,54.8,25.0
+S069,Vivek Sharma,vivek.sharma@email.com,23,Graduate,Machine Learning,2023-05-07,Reading,Advanced,19,88.6,245.0
+S070,Megha Kapoor,megha.kapoor@email.com,21,Undergraduate,Information Technology,2023-08-14,Visual,Intermediate,8,71.9,95.0
+S071,Aman Batra,aman.batra@email.com,22,Undergraduate,Software Engineering,2023-07-21,Kinesthetic,Intermediate,9,73.5,100.0
+S072,Sakshi Verma,sakshi.verma@email.com,24,Graduate,Data Analytics,2023-06-09,Reading,Advanced,16,83.2,205.0
+S073,Rohan Kapoor,rohan.kapoor@email.com,20,Undergraduate,Mathematics,2023-09-27,Visual,Beginner,5,61.3,45.0
+S074,Divyansh Gupta,divyansh.gupta@email.com,25,Graduate,Cybersecurity,2023-04-25,Auditory,Advanced,22,90.0,280.0
+S075,Neha Mehta,neha.mehta@email.com,21,Undergraduate,Computer Science,2023-08-11,Visual,Intermediate,10,74.8,118.0
+S076,Sahil Arora,sahil.arora@email.com,23,Graduate,Cloud Computing,2023-06-14,Reading,Advanced,18,86.4,235.0
+S077,Isha Malhotra,isha.malhotra@email.com,19,Undergraduate,Statistics,2023-10-18,Auditory,Beginner,4,59.2,33.0
+S078,Adarsh Pandey,adarsh.pandey@email.com,22,Undergraduate,Software Engineering,2023-07-03,Kinesthetic,Intermediate,8,72.7,92.0
+S079,Karan Khanna,karan.khanna@email.com,24,Graduate,Artificial Intelligence,2023-05-30,Visual,Advanced,21,89.7,275.0
+S080,Shreya Nair,shreya.nair@email.com,21,Undergraduate,Data Science,2023-08-17,Reading,Intermediate,11,77.0,135.0
+S081,Nguyễn Văn An,nguyenvanan81@email.com,21,Undergraduate,Computer Science,2023-08-12,Visual,Intermediate,9,74.2,102.0
+S082,Trần Thị Bích,tranthibich82@email.com,22,Undergraduate,Mathematics,2023-07-15,Reading,Intermediate,8,72.5,95.0
+S083,Lê Văn Cường,levancuong83@email.com,20,Undergraduate,Information Technology,2023-09-01,Kinesthetic,Beginner,4,60.3,42.0
+S084,Phạm Thị Dung,phamthidung84@email.com,23,Graduate,Data Science,2023-06-10,Visual,Advanced,17,85.6,210.0
+S085,Hoàng Văn Đức,hoangvanduc85@email.com,24,Graduate,Machine Learning,2023-05-05,Auditory,Advanced,20,88.9,260.0
+S086,Vũ Thị Hạnh,vuthihanh86@email.com,19,Undergraduate,Computer Science,2023-10-01,Visual,Beginner,3,57.4,30.0
+S087,Đỗ Văn Hải,dovanhai87@email.com,21,Undergraduate,Software Engineering,2023-08-20,Kinesthetic,Intermediate,10,75.0,120.0
+S088,Bùi Thị Lan,buithilan88@email.com,22,Undergraduate,Statistics,2023-07-25,Reading,Intermediate,9,73.8,110.0
+S089,Ngô Văn Long,ngovanlong89@email.com,23,Graduate,Artificial Intelligence,2023-06-15,Visual,Advanced,18,86.2,225.0
+S090,Phan Thị Mai,phanthimai90@email.com,20,Undergraduate,Mathematics,2023-09-10,Auditory,Beginner,5,61.7,48.0
+S091,Nguyễn Văn Nam,nguyenvannam91@email.com,24,Graduate,Cloud Computing,2023-05-20,Reading,Advanced,21,89.5,275.0
+S092,Trần Thị Oanh,tranthioanh92@email.com,21,Undergraduate,Information Technology,2023-08-05,Visual,Intermediate,8,72.9,98.0
+S093,Lê Văn Phúc,levanphuc93@email.com,22,Undergraduate,Computer Science,2023-07-30,Kinesthetic,Intermediate,9,74.1,105.0
+S094,Phạm Thị Quỳnh,phamthiquynh94@email.com,23,Graduate,Data Analytics,2023-06-25,Reading,Advanced,16,84.3,200.0
+S095,Hoàng Văn Sơn,hoangvanson95@email.com,20,Undergraduate,Electronics,2023-09-15,Auditory,Beginner,4,59.8,40.0
+S096,Vũ Thị Trang,vuthitrang96@email.com,21,Undergraduate,Mathematics,2023-08-18,Visual,Intermediate,7,71.6,88.0
+S097,Đỗ Văn Tuấn,dovantuan97@email.com,24,Graduate,Cybersecurity,2023-05-10,Reading,Advanced,19,87.2,240.0
+S098,Bùi Thị Yến,buithiyen98@email.com,19,Undergraduate,Computer Science,2023-10-05,Visual,Beginner,3,56.2,28.0
+S099,Ngô Văn Bình,ngovanbinh99@email.com,22,Undergraduate,Software Engineering,2023-07-12,Kinesthetic,Intermediate,8,70.9,92.0
+S100,Phan Thị Hồng,phanthihong100@email.com,23,Graduate,Data Science,2023-06-18,Reading,Advanced,17,85.1,215.0
+S101,Nguyễn Thị Ánh,nguyenthianh101@email.com,20,Undergraduate,Mathematics,2023-09-20,Auditory,Beginner,5,62.0,50.0
+S102,Trần Văn Bảo,tranvanbao102@email.com,25,Graduate,Machine Learning,2023-04-15,Visual,Advanced,22,90.2,300.0
+S103,Lê Thị Cẩm,lethicam103@email.com,21,Undergraduate,Information Technology,2023-08-22,Reading,Intermediate,9,73.5,100.0
+S104,Phạm Văn Duy,phamvanduy104@email.com,23,Graduate,Artificial Intelligence,2023-06-05,Visual,Advanced,18,86.8,230.0
+S105,Hoàng Thị Giang,hoangthigiang105@email.com,22,Undergraduate,Statistics,2023-07-18,Kinesthetic,Intermediate,8,72.4,95.0
+S106,Vũ Văn Hiếu,vuvan106@email.com,19,Undergraduate,Computer Science,2023-10-10,Auditory,Beginner,4,58.1,35.0
+S107,Đỗ Thị Khánh,dothikhanh107@email.com,24,Graduate,Data Engineering,2023-05-25,Reading,Advanced,17,84.7,210.0
+S108,Bùi Văn Lâm,buivanlam108@email.com,21,Undergraduate,Software Engineering,2023-08-02,Visual,Intermediate,10,75.3,118.0
+S109,Ngô Thị Mai,ngothimai109@email.com,20,Undergraduate,Mathematics,2023-09-05,Kinesthetic,Beginner,5,61.2,46.0
+S110,Phan Văn Nam,phanvannam110@email.com,23,Graduate,Cloud Computing,2023-06-12,Reading,Advanced,19,87.6,250.0
+S111,Nguyễn Văn Phú,nguyenvanphu111@email.com,22,Undergraduate,Information Technology,2023-07-28,Visual,Intermediate,8,73.0,97.0
+S112,Trần Thị Quyên,tranthiquyen112@email.com,21,Undergraduate,Computer Science,2023-08-16,Auditory,Intermediate,9,74.5,110.0
+S113,Lê Văn Quý,levanquy113@email.com,24,Graduate,Cybersecurity,2023-05-08,Reading,Advanced,20,88.0,260.0
+S114,Phạm Thị Sen,phamthisen114@email.com,19,Undergraduate,Electronics,2023-10-12,Visual,Beginner,3,55.6,27.0
+S115,Hoàng Văn Tài,hoangvantai115@email.com,22,Undergraduate,Mathematics,2023-07-10,Kinesthetic,Intermediate,7,70.8,85.0
+S116,Vũ Thị Thu,vuthithu116@email.com,23,Graduate,Data Science,2023-06-22,Reading,Advanced,16,84.9,205.0
+S117,Đỗ Văn Vinh,dovanvinh117@email.com,20,Undergraduate,Computer Science,2023-09-25,Auditory,Beginner,4,59.0,38.0
+S118,Bùi Thị Xuân,buithixuan118@email.com,21,Undergraduate,Software Engineering,2023-08-28,Visual,Intermediate,9,73.7,108.0
+S119,Ngô Văn Yên,ngovanyen119@email.com,24,Graduate,Machine Learning,2023-05-02,Reading,Advanced,21,89.1,270.0
+S120,Phan Thị Ánh,phanthianh120@email.com,22,Undergraduate,Statistics,2023-07-14,Kinesthetic,Intermediate,8,72.2,93.0

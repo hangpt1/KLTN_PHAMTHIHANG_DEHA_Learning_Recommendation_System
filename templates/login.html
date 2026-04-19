@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Đăng nhập - Hệ thống E-Learning{% endblock %}
+
+{% block login_content %}
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <div class="login-logo">
+                <i class="bi bi-mortarboard-fill"></i>
+            </div>
+            <h2>Hệ thống Gợi ý E-Learning</h2>
+            <p>Học tập cá nhân hóa sử dụng Machine Learning</p>
+        </div>
+
+        <form method="POST" action="{{ url_for('login') }}">
+            <div class="mb-4">
+                <label for="student_id" class="form-label">Mã sinh viên (Student ID)</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                    <input type="text" class="form-control form-control-lg" id="student_id" name="student_id"
+                        placeholder="Nhập Mã sinh viên của bạn (VD: S001)" required>
+                </div>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ 'danger' if category == 'error' else category }} mb-4">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <button type="submit" class="btn btn-primary btn-lg w-100">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Đăng nhập
+            </button>
+        </form>
+
+        <div class="login-demo mt-4">
+            <p class="text-muted mb-2"><small>Các mã sinh viên Demo:</small></p>
+            <div class="demo-ids">
+                {% for student in sample_students %}
+                <button type="button" class="btn btn-outline-secondary btn-sm demo-id-btn"
+                    onclick="document.getElementById('student_id').value='{{ student.student_id }}'">
+                    {{ student.student_id }} - {{ student.name }}
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="text-center mt-4 pt-3 border-top">
+            <p class="text-muted mb-2">Người dùng mới?</p>
+            <a href="{{ url_for('register') }}" class="btn btn-outline-success">
+                <i class="bi bi-person-plus me-2"></i>Tạo tài khoản
+            </a>
+        </div>
+
+        <div class="login-footer mt-4">
+            <small class="text-muted">
+                Dự án Kho dữ liệu & Khai phá dữ liệu (Data Warehouse & Data Mining)<br>
+                Hệ thống Gợi ý lai (Hybrid Recommendation System) dùng Machine Learning
+            </small>
+        </div>
+    </div>
+</div>
+{% endblock %}

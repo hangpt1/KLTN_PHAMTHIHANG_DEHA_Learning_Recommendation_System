@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+
+{% block title %}Gợi ý - Hệ thống E-Learning{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="bi bi-stars me-2"></i>Gợi ý cá nhân hóa</h1>
+    <p class="text-muted">Các khóa học được gợi ý cho bạn dựa trên Mô hình Hybrid ML (Content-Based + Collaborative Filtering)</p>
+</div>
+
+<!-- Algorithm Info -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="alert alert-info">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h6><i class="bi bi-cpu me-2"></i>Công cụ gợi ý Hybrid</h6>
+                    <p class="mb-0 small">
+                        Kết hợp <strong>Lọc dựa trên nội dung (TF-IDF + Cosine Similarity)</strong> với
+                        <strong>Lọc cộng tác (Ma trận User-Item)</strong> sử dụng trọng số 40:60.
+                    </p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <span class="badge bg-primary p-2 me-2">Nội dung: 40%</span>
+                    <span class="badge bg-success p-2">Cộng tác: 60%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recommendations Table -->
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5><i class="bi bi-list-stars me-2"></i>Top 10 khóa học được gợi ý</h5>
+        <span class="badge bg-primary">{{ recommendations|length }} khóa học</span>
+    </div>
+    <div class="card-body p-0">
+        {% if recommendations %}
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th width="5%">#</th>
+                        <th width="30%">Khóa học</th>
+                        <th width="15%">Danh mục</th>
+                        <th width="10%">Độ khó</th>
+                        <th width="10%">Thời lượng</th>
+                        <th width="10%">Đánh giá</th>
+                        <th width="20%">Điểm Hybrid</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rec in recommendations %}
+                    <tr>
+                        <td><span class="rank-badge">{{ loop.index }}</span></td>
+                        <td>
+                            <strong>{{ rec.title }}</strong>
+                            <br><small class="text-muted">{{ rec.course_id }}</small>
+                            {% if rec.explanations %}
+                            <div class="mt-2">
+                                {% for exp in rec.explanations %}
+                                <span class="badge bg-light text-dark me-1 mb-1" title="{{ exp.text }}">
+                                    <i class="{{ exp.icon }} text-primary me-1"></i>{{ exp.text[:30] }}{% if
+                                    exp.text|length > 30 %}...{% endif %}
+                                </span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </td>
+                        <td><span class="badge bg-secondary">{{ rec.category }}</span></td>
+                        <td>
+                            <span
+                                class="badge bg-{{ 'success' if rec.difficulty == 'Beginner' else ('warning' if rec.difficulty == 'Intermediate' else 'danger') }}">
+                                {{ rec.difficulty }}
+                            </span>
+                        </td>
+                        <td>{{ rec.duration_hours }} giờ</td>
+                        <td>
+                            <span class="rating">
+                                <i class="bi bi-star-fill text-warning"></i>
+                                {{ "%.1f"|format(rec.rating) }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="score-bar">
+                                <div class="score-fill" style="width: {{ (rec.hybrid_score * 100)|int }}%"></div>
+                            </div>
+                            <small class="text-muted">{{ "%.4f"|format(rec.hybrid_score) }}</small>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="bi bi-emoji-frown fs-1 text-muted"></i>
+            <p class="mt-3 text-muted">Chưa có gợi ý nào. Hãy bắt đầu tham gia các khóa học để nhận gợi ý cá nhân hóa.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Score Legend -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h6><i class="bi bi-info-circle me-2"></i>Cách tính Điểm Hybrid</h6>
+            </div>
+            <div class="card-body">
+                <p class="small mb-2">
+                    <strong>Điểm nội dung:</strong> Dựa trên vector hóa TF-IDF của mô tả khóa học và độ tương đồng cosine với các khóa học bạn đã học.
+                </p>
+                <p class="small mb-2">
+                    <strong>Điểm cộng tác:</strong> Dựa trên đánh giá từ người dùng tương tự sử dụng ma trận User-Item và độ tương đồng cosine.
+                </p>
+                <p class="small mb-0">
+                    <strong>Điểm cuối cùng:</strong> <code>0.4 × Nội dung + 0.6 × Cộng tác</code>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h6><i class="bi bi-bar-chart me-2"></i>Diễn giải điểm số</h6>
+            </div>
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <div class="score-bar me-3" style="width: 100px;">
+                        <div class="score-fill bg-success" style="width: 80%"></div>
+                    </div>
+                    <small>0.8+ : Rất được khuyến nghị</small>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <div class="score-bar me-3" style="width: 100px;">
+                        <div class="score-fill bg-primary" style="width: 60%"></div>
+                    </div>
+                    <small>0.5-0.8 : Khá phù hợp</small>
+                </div>
+                <div class="d-flex align-items-center">
+                    <div class="score-bar me-3" style="width: 100px;">
+                        <div class="score-fill bg-secondary" style="width: 30%"></div>
+                    </div>
+                    <small>0.3-0.5 : Phù hợp vừa phải</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- API Info -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card bg-dark text-white">
+            <div class="card-header">
+                <h6><i class="bi bi-code-slash me-2"></i>Điểm cuối API (API Endpoint)</h6>
+            </div>
+            <div class="card-body">
+                <code class="text-info">GET /api/recommend/{{ session.student_id }}</code>
+                <a href="{{ url_for('api_recommend', student_id=session.student_id) }}" target="_blank"
+                    class="btn btn-outline-light btn-sm ms-3">
+                    <i class="bi bi-box-arrow-up-right me-1"></i>Xem JSON
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

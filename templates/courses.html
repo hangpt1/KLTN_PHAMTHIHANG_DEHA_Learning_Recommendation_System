@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}Danh mục Khoá học - Hệ thống E-Learning{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="bi bi-book-half me-2"></i>Danh mục Khoá học</h1>
+    <p class="text-muted">Duyệt và đăng ký các khoá học</p>
+</div>
+
+<!-- Filters -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" action="{{ url_for('courses') }}" class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label">Tìm kiếm</label>
+                <input type="text" name="search" class="form-control" placeholder="Tìm kiếm khoá học..."
+                    value="{{ search_query }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Danh mục</label>
+                <select name="category" class="form-select">
+                    <option value="">Tất cả danh mục</option>
+                    {% for cat in categories %}
+                    <option value="{{ cat }}" {% if selected_category==cat %}selected{% endif %}>{{ cat }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Độ khó</label>
+                <select name="difficulty" class="form-select">
+                    <option value="">Tất cả cấp độ</option>
+                    {% for diff in difficulties %}
+                    <option value="{{ diff }}" {% if selected_difficulty==diff %}selected{% endif %}>{{ diff }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-400"><i class="bi bi-search me-1"></i> Lọc</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Course Grid -->
+<div class="row g-4">
+    {% if courses %}
+    {% for course in courses %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 course-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <span
+                        class="badge bg-{{ 'success' if course.difficulty == 'Beginner' else ('warning' if course.difficulty == 'Intermediate' else 'danger') }}">
+                        {{ course.difficulty }}
+                    </span>
+                    {% if course.enrolled %}
+                    <span class="badge bg-primary"><i class="bi bi-check-circle me-1"></i>Đã đăng ký</span>
+                    {% endif %}
+                </div>
+
+                <h5 class="card-title">{{ course.title }}</h5>
+                <p class="text-muted small mb-2">
+                    <i class="bi bi-tag me-1"></i>{{ course.category }} - {{ course.subcategory }}
+                </p>
+                <p class="card-text small text-truncate-3">{{ course.description }}</p>
+
+                <div class="mb-3">
+                    <small class="text-muted">
+                        <i class="bi bi-person me-1"></i>{{ course.instructor }}<br>
+                        <i class="bi bi-clock me-1"></i>{{ course.duration_hours }} giờ<br>
+                        <i class="bi bi-star-fill me-1 text-warning"></i>{{ course.rating }} đánh giá
+                    </small>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('course_detail', course_id=course.course_id) }}"
+                        class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-info-circle me-1"></i>Xem chi tiết
+                    </a>
+
+                    {% if course.enrolled %}
+                    <a href="{{ url_for('course_learn', course_id=course.course_id) }}" class="btn btn-success btn-sm">
+                        <i class="bi bi-play-circle me-1"></i>Tiếp tục học
+                    </a>
+                    {% else %}
+                    <button onclick="enrollCourse('{{ course.course_id }}')" class="btn btn-primary btn-sm">
+                        <i class="bi bi-plus-circle me-1"></i>Đăng ký ngay
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="col-12">
+        <div class="text-center text-muted py-5">
+            <i class="bi bi-inbox fs-1"></i>
+            <p class="mt-2">Không tìm thấy khoá học nào. Hãy thử điều chỉnh bộ lọc của bạn.</p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .course-card {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .course-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .text-truncate-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
+
+<script>
+    function enrollCourse(courseId) {
+        if (confirm('Bạn có muốn đăng ký khoá học này không?')) {
+            fetch('/api/enroll', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ course_id: courseId })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        location.reload();
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Đã có lỗi xảy ra. Vui lòng thử lại.');
+                });
+        }
+    }
+</script>
+
+{% endblock %}
