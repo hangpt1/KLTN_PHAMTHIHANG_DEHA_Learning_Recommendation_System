@@ -12,10 +12,6 @@ import os
 
 
 class ContentBasedRecommender:
-    """
-    Content-Based Filtering using TF-IDF and Cosine Similarity.
-    Recommends courses based on course content similarity.
-    """
     
     def __init__(self, courses):
         """

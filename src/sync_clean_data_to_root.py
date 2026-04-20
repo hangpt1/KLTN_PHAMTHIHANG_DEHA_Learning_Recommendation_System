@@ -1,9 +1,4 @@
-"""
-Promote curated cleaned data back to the root data/*.csv files.
 
-This keeps the original file schemas used by the Flask app while replacing the
-raw timestamps with cleaned ones and generating a denser activity log.
-"""
 
 from __future__ import annotations
 
