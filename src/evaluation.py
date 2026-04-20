@@ -423,6 +423,117 @@ class RecommendationEvaluator:
         
         return results
     
+    def evaluate_recommenders_kfold(self, k_folds=5, k_values=[5, 10],
+                                    relevance_threshold=4.0, hybrid_weights=(0.4, 0.6)):
+        """
+        Run K-Fold Cross-Validation evaluation on all recommenders.
+        
+        Args:
+            k_folds: Number of folds for cross-validation
+            k_values: List of K values for metrics (e.g., [5, 10])
+            relevance_threshold: Minimum rating to consider an item relevant
+            hybrid_weights: Tuple of (content_weight, collaborative_weight)
+            
+        Returns:
+            dict: Average metrics across all folds + detailed per-fold results
+        """
+        print("\n" + "=" * 70)
+        print(f"  K-FOLD CROSS-VALIDATION ({k_folds} FOLDS)")
+        print("=" * 70)
+        
+        fold_results = {
+            'Content-Based': [],
+            'Collaborative Filtering': [],
+            'Hybrid': []
+        }
+        
+        for fold in range(k_folds):
+            print(f"\n{'='*70}")
+            print(f"  FOLD {fold + 1}/{k_folds} (random_state={fold})")
+            print(f"{'='*70}")
+            
+            # Reset data để tránh side effects
+            self.train_data = None
+            self.test_data = None
+            
+            # Chia dữ liệu với random_state khác nhau cho mỗi fold
+            self.split_data(random_state=fold, min_train_items=1)
+            
+            # Chạy evaluation trên fold này
+            fold_metrics = self.evaluate_models(
+                k_values=k_values,
+                relevance_threshold=relevance_threshold,
+                random_state=fold,
+                hybrid_weights=hybrid_weights
+            )
+            
+            # Lưu kết quả
+            for model_name, metrics in fold_metrics.items():
+                fold_results[model_name].append(metrics)
+        
+        # Tính trung bình kết quả từ tất cả folds
+        print("\n" + "=" * 70)
+        print("  K-FOLD CROSS-VALIDATION RESULTS (AVERAGED)")
+        print("=" * 70)
+        
+        averaged_results = {}
+        
+        for model_name, metrics_list in fold_results.items():
+            print(f"\n{model_name}:")
+            print("-" * 70)
+            
+            # Lấy các key của metrics từ fold đầu tiên
+            if metrics_list:
+                metric_keys = metrics_list[0].keys()
+                averaged_metrics = {}
+                
+                for key in metric_keys:
+                    # Lấy giá trị từ tất cả folds
+                    values = [m[key] for m in metrics_list]
+                    
+                    # Tính trung bình
+                    if isinstance(values[0], (int, float)):
+                        avg_value = np.mean(values)
+                        std_value = np.std(values)
+                        averaged_metrics[key] = {
+                            'mean': avg_value,
+                            'std': std_value,
+                            'values': values
+                        }
+                        print(f"  {key}: {avg_value:.4f} ± {std_value:.4f}")
+                    else:
+                        # Nếu không phải số, chỉ lấy giá trị từ fold 1
+                        averaged_metrics[key] = values[0]
+                        print(f"  {key}: {values[0]}")
+                
+                averaged_results[model_name] = averaged_metrics
+        
+        # Tạo DataFrame tổng hợp kết quả
+        summary_data = []
+        
+        for model_name, metrics in averaged_results.items():
+            row = {'Model': model_name}
+            for metric_name, metric_value in metrics.items():
+                if isinstance(metric_value, dict):
+                    row[f"{metric_name}_mean"] = metric_value['mean']
+                    row[f"{metric_name}_std"] = metric_value['std']
+                else:
+                    row[metric_name] = metric_value
+            summary_data.append(row)
+        
+        summary_df = pd.DataFrame(summary_data)
+        
+        print("\n" + "=" * 70)
+        print("  SUMMARY TABLE")
+        print("=" * 70)
+        print(summary_df.to_string())
+        
+        return {
+            'summary': summary_df,
+            'fold_results': fold_results,
+            'detailed_results': averaged_results
+        }
+    
     def find_best_hybrid_weights(self, weight_grid, k_values=[5, 10],
                                  relevance_threshold=4.0, random_state=42,
                                  target_metric='F1@10'):
