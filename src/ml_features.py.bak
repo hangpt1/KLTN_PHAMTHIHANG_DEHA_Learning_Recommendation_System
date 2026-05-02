@@ -12,7 +12,6 @@ from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics import silhouette_score
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -28,37 +27,7 @@ class GradePredictor:
         self.scaler = StandardScaler()
         self.is_fitted = False
         self.feature_names = []
-
-    def build_feature_row(self, student_id, course_id, students_df, activities_df, courses_df):
-        """Build a single feature row for a (student_id, course_id) pair."""
-        student = students_df[students_df['student_id'] == student_id]
-        if student.empty:
-            return None
-        student = student.iloc[0]
-
-        course = courses_df[courses_df['course_id'] == course_id]
-        if course.empty:
-            return None
-        course = course.iloc[0]
-
-        activity = activities_df[
-            (activities_df['student_id'] == student_id) &
-            (activities_df['course_id'] == course_id)
-        ]
-
-        return {
-            'avg_quiz_score': student['avg_quiz_score'],
-            'total_courses_completed': student['total_courses_completed'],
-            'total_time_spent_hours': student['total_time_spent_hours'],
-            'course_difficulty': {'Beginner': 1, 'Intermediate': 2, 'Advanced': 3}.get(course['difficulty'], 2),
-            'course_duration': course['duration_hours'],
-            'course_rating': course['rating'],
-            'time_spent_on_course': activity['time_spent_minutes'].sum() if not activity.empty else 0,
-            'progress_percentage': activity['progress_percentage'].max() if not activity.empty else 0,
-            'videos_watched': activity['video_watched'].sum() if not activity.empty else 0,
-            'notes_taken': activity['notes_taken'].sum() if not activity.empty else 0,
-        }
-
+    
     def prepare_features(self, students_df, activities_df, quizzes_df, courses_df):
         """Prepare features for training."""
         features_list = []
@@ -68,9 +37,37 @@ class GradePredictor:
             student_id = quiz['student_id']
             course_id = quiz['course_id']
             
-            features = self.build_feature_row(student_id, course_id, students_df, activities_df, courses_df)
-            if features is None:
+            # Get student info
+            student = students_df[students_df['student_id'] == student_id]
+            if student.empty:
                 continue
+            student = student.iloc[0]
+            
+            # Get course info
+            course = courses_df[courses_df['course_id'] == course_id]
+            if course.empty:
+                continue
+            course = course.iloc[0]
+            
+            # Get student's activity on this course
+            activity = activities_df[
+                (activities_df['student_id'] == student_id) & 
+                (activities_df['course_id'] == course_id)
+            ]
+            
+            # Build feature vector
+            features = {
+                'avg_quiz_score': student['avg_quiz_score'],
+                'total_courses_completed': student['total_courses_completed'],
+                'total_time_spent_hours': student['total_time_spent_hours'],
+                'course_difficulty': {'Beginner': 1, 'Intermediate': 2, 'Advanced': 3}.get(course['difficulty'], 2),
+                'course_duration': course['duration_hours'],
+                'course_rating': course['rating'],
+                'time_spent_on_course': activity['time_spent_minutes'].sum() if not activity.empty else 0,
+                'progress_percentage': activity['progress_percentage'].max() if not activity.empty else 0,
+                'videos_watched': activity['video_watched'].sum() if not activity.empty else 0,
+                'notes_taken': activity['notes_taken'].sum() if not activity.empty else 0,
+            }
             
             features_list.append(features)
             targets.append(quiz['score_percentage'])
@@ -104,10 +101,38 @@ class GradePredictor:
         if not self.is_fitted:
             return {'predicted_score': 70.0, 'confidence': 'Low', 'factors': []}
         
-        features = self.build_feature_row(student_id, course_id, students_df, activities_df, courses_df)
-        if features is None:
+        # Get student info
+        student = students_df[students_df['student_id'] == student_id]
+        if student.empty:
             return {'predicted_score': 70.0, 'confidence': 'Low', 'factors': []}
-
+        student = student.iloc[0]
+        
+        # Get course info
+        course = courses_df[courses_df['course_id'] == course_id]
+        if course.empty:
+            return {'predicted_score': 70.0, 'confidence': 'Low', 'factors': []}
+        course = course.iloc[0]
+        
+        # Get activity
+        activity = activities_df[
+            (activities_df['student_id'] == student_id) & 
+            (activities_df['course_id'] == course_id)
+        ]
+        
+        # Build feature vector
+        features = {
+            'avg_quiz_score': student['avg_quiz_score'],
+            'total_courses_completed': student['total_courses_completed'],
+            'total_time_spent_hours': student['total_time_spent_hours'],
+            'course_difficulty': {'Beginner': 1, 'Intermediate': 2, 'Advanced': 3}.get(course['difficulty'], 2),
+            'course_duration': course['duration_hours'],
+            'course_rating': course['rating'],
+            'time_spent_on_course': activity['time_spent_minutes'].sum() if not activity.empty else 0,
+            'progress_percentage': activity['progress_percentage'].max() if not activity.empty else 0,
+            'videos_watched': activity['video_watched'].sum() if not activity.empty else 0,
+            'notes_taken': activity['notes_taken'].sum() if not activity.empty else 0,
+        }
+        
         X = pd.DataFrame([features])
         X_scaled = self.scaler.transform(X)
         
@@ -122,10 +147,6 @@ class GradePredictor:
                 factors.append({'feature': name, 'importance': round(imp * 100, 1)})
         
         # Determine confidence based on data availability
-        activity = activities_df[
-            (activities_df['student_id'] == student_id) &
-            (activities_df['course_id'] == course_id)
-        ]
         confidence = 'High' if not activity.empty and features['progress_percentage'] > 50 else 'Medium'
         if activity.empty:
             confidence = 'Low'
@@ -134,10 +155,8 @@ class GradePredictor:
             'predicted_score': round(predicted_score, 1),
             'confidence': confidence,
             'factors': factors,
-            'course_difficulty': courses_df[courses_df['course_id'] == course_id].iloc[0]['difficulty']
-            if (courses_df['course_id'] == course_id).any() else None,
-            'student_avg': students_df[students_df['student_id'] == student_id].iloc[0]['avg_quiz_score']
-            if (students_df['student_id'] == student_id).any() else None
+            'course_difficulty': course['difficulty'],
+            'student_avg': student['avg_quiz_score']
         }
 
 
@@ -225,25 +244,6 @@ class StudentClusterer:
         
         print(f"[StudentClusterer] Clustered {len(X)} students into {self.n_clusters} groups")
         return True
-
-    def silhouette(self, students_df, activities_df, quizzes_df):
-        """
-        Compute silhouette score on scaled features for the fitted clustering model.
-        Returns None when undefined (e.g., 1 cluster).
-        """
-        if not self.is_fitted:
-            return None
-
-        X, _ = self.prepare_features(students_df, activities_df, quizzes_df)
-        if X is None or len(X) < 2:
-            return None
-
-        X_scaled = self.scaler.transform(X)
-        labels = self.model.predict(X_scaled)
-        if len(set(labels)) < 2:
-            return None
-
-        return float(silhouette_score(X_scaled, labels))
     
     def get_cluster(self, student_id, students_df, activities_df, quizzes_df):
         """Get cluster assignment for a student."""
