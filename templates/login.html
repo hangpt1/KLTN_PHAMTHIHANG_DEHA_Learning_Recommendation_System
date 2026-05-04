@@ -9,17 +9,17 @@
             <div class="login-logo">
                 <i class="bi bi-mortarboard-fill"></i>
             </div>
-            <h2>Hệ thống Gợi ý E-Learning</h2>
+            <h2>DEHA LMS</h2>
             <p>Học tập cá nhân hóa sử dụng Machine Learning</p>
         </div>
 
         <form method="POST" action="{{ url_for('login') }}">
             <div class="mb-4">
-                <label for="student_id" class="form-label">Mã sinh viên (Student ID)</label>
+                <label for="student_id" class="form-label">Mã nhân viên</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="bi bi-person"></i></span>
                     <input type="text" class="form-control form-control-lg" id="student_id" name="student_id"
-                        placeholder="Nhập Mã sinh viên của bạn (VD: S001)" required>
+                        placeholder="Nhập mã nhân viên của bạn" required>
                 </div>
             </div>
 
@@ -59,8 +59,6 @@
 
         <div class="login-footer mt-4">
             <small class="text-muted">
-                Dự án Kho dữ liệu & Khai phá dữ liệu (Data Warehouse & Data Mining)<br>
-                Hệ thống Gợi ý lai (Hybrid Recommendation System) dùng Machine Learning
             </small>
         </div>
     </div>
