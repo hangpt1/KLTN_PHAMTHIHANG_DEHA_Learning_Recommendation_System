@@ -24,43 +24,127 @@ class GradePredictor:
     """
     
     def __init__(self):
-        self.model = RandomForestRegressor(n_estimators=100, random_state=42)
-        self.scaler = StandardScaler()
+        # Two modes:
+        # - pre_start: predict before a student starts the course (no course-specific activity features)
+        # - in_progress: predict after the student has interacted with the course (includes activity features)
+        self.model_pre_start = RandomForestRegressor(n_estimators=300, random_state=42)
+        self.model_in_progress = RandomForestRegressor(n_estimators=300, random_state=42)
+        # Tree-based models do not require scaling; keep scalers only for backward compatibility.
+        self.scaler_pre_start = StandardScaler()
+        self.scaler_in_progress = StandardScaler()
         self.is_fitted = False
-        self.feature_names = []
+        self.is_fitted_pre_start = False
+        self.is_fitted_in_progress = False
+        self.feature_names_pre_start = []
+        self.feature_names_in_progress = []
 
-    def build_feature_row(self, student_id, course_id, students_df, activities_df, courses_df):
-        """Build a single feature row for a (student_id, course_id) pair."""
+    def _student_history_stats(
+        self,
+        student_id,
+        students_df,
+        quizzes_df,
+        module_progress_df=None,
+        exclude_course_id=None,
+    ):
+        """
+        Compute student-level aggregates from logs rather than relying on precomputed
+        columns in students.csv (which can be stale).
+        """
         student = students_df[students_df['student_id'] == student_id]
         if student.empty:
             return None
-        student = student.iloc[0]
 
+        student_quizzes = quizzes_df[quizzes_df['student_id'] == student_id].copy()
+        if exclude_course_id is not None and not student_quizzes.empty:
+            student_quizzes = student_quizzes[student_quizzes['course_id'] != exclude_course_id]
+
+        avg_quiz_score = float(student_quizzes['score_percentage'].mean()) if not student_quizzes.empty else 0.0
+        quiz_attempts = int(len(student_quizzes))
+        pass_rate = float(student_quizzes['passed'].mean() * 100) if not student_quizzes.empty else 0.0
+
+        total_time_spent_hours = 0.0
+        if module_progress_df is not None:
+            mp = module_progress_df[module_progress_df['student_id'] == student_id]
+            if not mp.empty and 'time_spent_minutes' in mp.columns:
+                total_time_spent_hours = float(mp['time_spent_minutes'].sum()) / 60.0
+
+        # Fallback to students.csv if module_progress isn't available
+        if total_time_spent_hours == 0.0:
+            try:
+                total_time_spent_hours = float(student.iloc[0].get('total_time_spent_hours', 0.0) or 0.0)
+            except Exception:
+                total_time_spent_hours = 0.0
+
+        # total_courses_completed is best derived from enrollments, but not always passed here.
+        # Use students.csv as a fallback.
+        try:
+            total_courses_completed = int(student.iloc[0].get('total_courses_completed', 0) or 0)
+        except Exception:
+            total_courses_completed = 0
+
+        return {
+            'avg_quiz_score': avg_quiz_score,
+            'quiz_attempts': quiz_attempts,
+            'pass_rate': pass_rate,
+            'total_courses_completed': total_courses_completed,
+            'total_time_spent_hours': total_time_spent_hours,
+        }
+
+    def build_feature_row(
+        self,
+        student_id,
+        course_id,
+        students_df,
+        activities_df,
+        quizzes_df,
+        courses_df,
+        module_progress_df=None,
+        mode='pre_start',
+    ):
+        """Build a single feature row for a (student_id, course_id) pair."""
         course = courses_df[courses_df['course_id'] == course_id]
         if course.empty:
             return None
         course = course.iloc[0]
 
-        activity = activities_df[
-            (activities_df['student_id'] == student_id) &
-            (activities_df['course_id'] == course_id)
-        ]
+        # Exclude current course from history aggregates to reduce leakage in evaluation.
+        history = self._student_history_stats(
+            student_id,
+            students_df,
+            quizzes_df,
+            module_progress_df=module_progress_df,
+            exclude_course_id=course_id,
+        )
+        if history is None:
+            return None
 
-        return {
-            'avg_quiz_score': student['avg_quiz_score'],
-            'total_courses_completed': student['total_courses_completed'],
-            'total_time_spent_hours': student['total_time_spent_hours'],
+        features = {
+            'avg_quiz_score': history['avg_quiz_score'],
+            'quiz_attempts': history['quiz_attempts'],
+            'pass_rate': history['pass_rate'],
+            'total_courses_completed': history['total_courses_completed'],
+            'total_time_spent_hours': history['total_time_spent_hours'],
             'course_difficulty': {'Beginner': 1, 'Intermediate': 2, 'Advanced': 3}.get(course['difficulty'], 2),
             'course_duration': course['duration_hours'],
             'course_rating': course['rating'],
-            'time_spent_on_course': activity['time_spent_minutes'].sum() if not activity.empty else 0,
-            'progress_percentage': activity['progress_percentage'].max() if not activity.empty else 0,
-            'videos_watched': activity['video_watched'].sum() if not activity.empty else 0,
-            'notes_taken': activity['notes_taken'].sum() if not activity.empty else 0,
         }
 
-    def prepare_features(self, students_df, activities_df, quizzes_df, courses_df):
-        """Prepare features for training."""
+        if mode == 'in_progress':
+            activity = activities_df[
+                (activities_df['student_id'] == student_id) &
+                (activities_df['course_id'] == course_id)
+            ]
+            features.update({
+                'time_spent_on_course': float(activity['time_spent_minutes'].sum()) if not activity.empty else 0.0,
+                'progress_percentage': float(activity['progress_percentage'].max()) if not activity.empty else 0.0,
+                'videos_watched': float(activity['video_watched'].sum()) if not activity.empty else 0.0,
+                'notes_taken': float(activity['notes_taken'].sum()) if not activity.empty else 0.0,
+            })
+
+        return features
+
+    def prepare_features(self, students_df, activities_df, quizzes_df, courses_df, module_progress_df=None, mode='pre_start'):
+        """Prepare features for training for a specific mode."""
         features_list = []
         targets = []
         
@@ -68,7 +152,16 @@ class GradePredictor:
             student_id = quiz['student_id']
             course_id = quiz['course_id']
             
-            features = self.build_feature_row(student_id, course_id, students_df, activities_df, courses_df)
+            features = self.build_feature_row(
+                student_id,
+                course_id,
+                students_df,
+                activities_df,
+                quizzes_df,
+                courses_df,
+                module_progress_df=module_progress_df,
+                mode=mode,
+            )
             if features is None:
                 continue
             
@@ -80,44 +173,105 @@ class GradePredictor:
             
         X = pd.DataFrame(features_list)
         y = np.array(targets)
-        self.feature_names = list(X.columns)
+        if mode == 'pre_start':
+            self.feature_names_pre_start = list(X.columns)
+        else:
+            self.feature_names_in_progress = list(X.columns)
         
         return X, y
     
-    def fit(self, students_df, activities_df, quizzes_df, courses_df):
-        """Train the grade predictor."""
-        X, y = self.prepare_features(students_df, activities_df, quizzes_df, courses_df)
-        
-        if X is None or len(X) < 10:
-            print("[GradePredictor] Not enough data to train")
-            return False
-        
-        X_scaled = self.scaler.fit_transform(X)
-        self.model.fit(X_scaled, y)
-        self.is_fitted = True
-        
-        print(f"[GradePredictor] Trained on {len(X)} samples")
-        return True
-    
-    def predict(self, student_id, course_id, students_df, activities_df, courses_df):
-        """Predict expected quiz score for a student on a course."""
-        if not self.is_fitted:
-            return {'predicted_score': 70.0, 'confidence': 'Low', 'factors': []}
-        
-        features = self.build_feature_row(student_id, course_id, students_df, activities_df, courses_df)
+    def fit(self, students_df, activities_df, quizzes_df, courses_df, module_progress_df=None):
+        """Train both grade predictor modes."""
+        ok = False
+
+        X_pre, y_pre = self.prepare_features(
+            students_df, activities_df, quizzes_df, courses_df,
+            module_progress_df=module_progress_df, mode='pre_start'
+        )
+        if X_pre is not None and len(X_pre) >= 10:
+            X_pre_scaled = self.scaler_pre_start.fit_transform(X_pre)
+            self.model_pre_start.fit(X_pre_scaled, y_pre)
+            self.is_fitted_pre_start = True
+            ok = True
+            print(f"[GradePredictor] Trained pre_start on {len(X_pre)} samples")
+        else:
+            print("[GradePredictor] Not enough data to train pre_start model")
+
+        X_in, y_in = self.prepare_features(
+            students_df, activities_df, quizzes_df, courses_df,
+            module_progress_df=module_progress_df, mode='in_progress'
+        )
+        if X_in is not None and len(X_in) >= 10:
+            X_in_scaled = self.scaler_in_progress.fit_transform(X_in)
+            self.model_in_progress.fit(X_in_scaled, y_in)
+            self.is_fitted_in_progress = True
+            ok = True
+            print(f"[GradePredictor] Trained in_progress on {len(X_in)} samples")
+        else:
+            print("[GradePredictor] Not enough data to train in_progress model")
+
+        self.is_fitted = ok
+        return ok
+
+    def predict_pre_start(self, student_id, course_id, students_df, activities_df, quizzes_df, courses_df, module_progress_df=None):
+        return self._predict(student_id, course_id, students_df, activities_df, quizzes_df, courses_df, module_progress_df, mode='pre_start')
+
+    def predict_in_progress(self, student_id, course_id, students_df, activities_df, quizzes_df, courses_df, module_progress_df=None):
+        return self._predict(student_id, course_id, students_df, activities_df, quizzes_df, courses_df, module_progress_df, mode='in_progress')
+
+    def predict(self, student_id, course_id, students_df, activities_df, quizzes_df, courses_df, module_progress_df=None, mode='auto'):
+        """
+        Predict expected quiz score for a student on a course.
+        mode:
+          - auto: use in_progress when activity exists for (student, course), otherwise pre_start
+          - pre_start
+          - in_progress
+        """
+        if mode == 'auto':
+            activity = activities_df[
+                (activities_df['student_id'] == student_id) &
+                (activities_df['course_id'] == course_id)
+            ]
+            mode = 'in_progress' if not activity.empty else 'pre_start'
+
+        return self._predict(student_id, course_id, students_df, activities_df, quizzes_df, courses_df, module_progress_df, mode=mode)
+
+    def _predict(self, student_id, course_id, students_df, activities_df, quizzes_df, courses_df, module_progress_df, mode='pre_start'):
+        if mode == 'in_progress' and not self.is_fitted_in_progress:
+            return {'predicted_score': 70.0, 'confidence': 'Low', 'factors': [], 'mode': mode}
+        if mode == 'pre_start' and not self.is_fitted_pre_start:
+            return {'predicted_score': 70.0, 'confidence': 'Low', 'factors': [], 'mode': mode}
+
+        features = self.build_feature_row(
+            student_id,
+            course_id,
+            students_df,
+            activities_df,
+            quizzes_df,
+            courses_df,
+            module_progress_df=module_progress_df,
+            mode=mode,
+        )
         if features is None:
-            return {'predicted_score': 70.0, 'confidence': 'Low', 'factors': []}
+            return {'predicted_score': 70.0, 'confidence': 'Low', 'factors': [], 'mode': mode}
 
         X = pd.DataFrame([features])
-        X_scaled = self.scaler.transform(X)
-        
-        predicted_score = self.model.predict(X_scaled)[0]
+        if mode == 'pre_start':
+            X_scaled = self.scaler_pre_start.transform(X)
+            predicted_score = self.model_pre_start.predict(X_scaled)[0]
+            importances = self.model_pre_start.feature_importances_
+            feature_names = self.feature_names_pre_start
+        else:
+            X_scaled = self.scaler_in_progress.transform(X)
+            predicted_score = self.model_in_progress.predict(X_scaled)[0]
+            importances = self.model_in_progress.feature_importances_
+            feature_names = self.feature_names_in_progress
+
         predicted_score = max(0, min(100, predicted_score))  # Clamp to 0-100
         
         # Get feature importances
-        importances = self.model.feature_importances_
         factors = []
-        for name, imp in sorted(zip(self.feature_names, importances), key=lambda x: -x[1])[:3]:
+        for name, imp in sorted(zip(feature_names, importances), key=lambda x: -x[1])[:3]:
             if imp > 0.1:
                 factors.append({'feature': name, 'importance': round(imp * 100, 1)})
         
@@ -126,18 +280,22 @@ class GradePredictor:
             (activities_df['student_id'] == student_id) &
             (activities_df['course_id'] == course_id)
         ]
-        confidence = 'High' if not activity.empty and features['progress_percentage'] > 50 else 'Medium'
-        if activity.empty:
-            confidence = 'Low'
+        if mode == 'pre_start':
+            confidence = 'Medium' if factors else 'Low'
+        else:
+            confidence = 'High' if (not activity.empty and features.get('progress_percentage', 0) > 50) else 'Medium'
+            if activity.empty:
+                confidence = 'Low'
         
         return {
             'predicted_score': round(predicted_score, 1),
             'confidence': confidence,
             'factors': factors,
+            'mode': mode,
             'course_difficulty': courses_df[courses_df['course_id'] == course_id].iloc[0]['difficulty']
             if (courses_df['course_id'] == course_id).any() else None,
-            'student_avg': students_df[students_df['student_id'] == student_id].iloc[0]['avg_quiz_score']
-            if (students_df['student_id'] == student_id).any() else None
+            'student_avg': round(float(quizzes_df[quizzes_df['student_id'] == student_id]['score_percentage'].mean()), 1)
+            if not quizzes_df[quizzes_df['student_id'] == student_id].empty else 0.0,
         }
 
 
@@ -439,11 +597,12 @@ if __name__ == '__main__':
     activities = pd.read_csv(os.path.join(DATA_DIR, 'activity_logs.csv'))
     quizzes = pd.read_csv(os.path.join(DATA_DIR, 'quiz_results.csv'))
     ratings = pd.read_csv(os.path.join(DATA_DIR, 'ratings.csv'))
+    module_progress = pd.read_csv(os.path.join(DATA_DIR, 'module_progress.csv'))
     
     print("\n--- Grade Predictor ---")
     predictor = GradePredictor()
-    predictor.fit(students, activities, quizzes, courses)
-    prediction = predictor.predict('S001', 'C001', students, activities, courses)
+    predictor.fit(students, activities, quizzes, courses, module_progress_df=module_progress)
+    prediction = predictor.predict('S001', 'C001', students, activities, quizzes, courses, module_progress_df=module_progress, mode='auto')
     print(f"Predicted score for S001 on C001: {prediction}")
     
     print("\n--- Student Clustering ---")

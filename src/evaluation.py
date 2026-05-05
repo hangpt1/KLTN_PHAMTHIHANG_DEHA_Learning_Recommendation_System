@@ -7,6 +7,7 @@ import pandas as pd
 import numpy as np
 import os
 import sys
+from sklearn.model_selection import KFold
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -424,21 +425,32 @@ class RecommendationEvaluator:
         return results
     
     def evaluate_recommenders_kfold(self, k_folds=5, k_values=[5, 10],
-                                    relevance_threshold=4.0, hybrid_weights=(0.4, 0.6)):
+                                    relevance_threshold=4.0, hybrid_weights=(0.4, 0.6),
+                                    shuffle=True, shuffle_seed=42):
         """
-        Run K-Fold Cross-Validation evaluation on all recommenders.
-        
+        Run K-fold cross-validation on recommendation models.
+
+        Splits disjoint folds over **rating interactions (rows)** in ``self.ratings``
+        via ``sklearn.model_selection.KFold`` (classic disjoint partition).
+
+        Train/test trong mỗi fold là hai tập bản ghi rating không giao nhau; 90%
+        và 10% dòng (ước lượng) lần lượt làm huấn luyện/kiểm thử cho k=10.
+        Lưu ý: chia theo **dòng tương tác**, không chia theo từng người học,
+        nên có thể cùng một người vừa có rating ở tập huấn luyện vừa ở tập kiểm thử.
+
         Args:
-            k_folds: Number of folds for cross-validation
-            k_values: List of K values for metrics (e.g., [5, 10])
-            relevance_threshold: Minimum rating to consider an item relevant
-            hybrid_weights: Tuple of (content_weight, collaborative_weight)
-            
+            k_folds: Số fold
+            k_values: Precision/Recall cutoff K
+            relevance_threshold: Ngưỡng rating coi là mục liên quan
+            hybrid_weights: (content_weight, collaborative_weight)
+            shuffle: ``True`` để ``KFold`` xáo trộn chỉ mục dòng trước khi chia
+            shuffle_seed: Hạt giống của xáo trộn (deterministic)
+
         Returns:
-            dict: Average metrics across all folds + detailed per-fold results
+            dict: ``summary``, ``fold_results``, ``detailed_results``
         """
         print("\n" + "=" * 70)
-        print(f"  K-FOLD CROSS-VALIDATION ({k_folds} FOLDS)")
+        print(f"  CLASSIC K-FOLD ON RATING ROWS ({k_folds} FOLDS)")
         print("=" * 70)
         
         fold_results = {
@@ -447,33 +459,40 @@ class RecommendationEvaluator:
             'Hybrid': []
         }
         
-        for fold in range(k_folds):
+        row_idx = np.arange(len(self.ratings))
+        kf = KFold(
+            n_splits=k_folds,
+            shuffle=shuffle,
+            random_state=shuffle_seed if shuffle else None,
+        )
+
+        for fold, (train_idx, test_idx) in enumerate(kf.split(row_idx)):
             print(f"\n{'='*70}")
-            print(f"  FOLD {fold + 1}/{k_folds} (random_state={fold})")
+            print(f"  FOLD {fold + 1}/{k_folds}: train_rows={len(train_idx)}, "
+                  f"test_rows={len(test_idx)}")
             print(f"{'='*70}")
             
-            # Reset data để tránh side effects
-            self.train_data = None
-            self.test_data = None
+            self.train_data = (
+                self.ratings.iloc[train_idx].reset_index(drop=True)
+            )
+            self.test_data = (
+                self.ratings.iloc[test_idx].reset_index(drop=True)
+            )
             
-            # Chia dữ liệu với random_state khác nhau cho mỗi fold
-            self.split_data(random_state=fold, min_train_items=1)
-            
-            # Chạy evaluation trên fold này
+            # random_state chỉ được dùng nếu train_data là None trong evaluate_models
             fold_metrics = self.evaluate_models(
                 k_values=k_values,
                 relevance_threshold=relevance_threshold,
-                random_state=fold,
-                hybrid_weights=hybrid_weights
+                random_state=fold + shuffle_seed,
+                hybrid_weights=hybrid_weights,
             )
             
-            # Lưu kết quả
             for model_name, metrics in fold_metrics.items():
                 fold_results[model_name].append(metrics)
         
         # Tính trung bình kết quả từ tất cả folds
         print("\n" + "=" * 70)
-        print("  K-FOLD CROSS-VALIDATION RESULTS (AVERAGED)")
+        print("  CLASSIC K-FOLD — AVERAGED RESULTS OVER FOLDS")
         print("=" * 70)
         
         averaged_results = {}
@@ -494,7 +513,10 @@ class RecommendationEvaluator:
                     # Tính trung bình
                     if isinstance(values[0], (int, float)):
                         avg_value = np.mean(values)
-                        std_value = np.std(values)
+                        std_value = (
+                            float(np.std(values, ddof=1))
+                            if len(values) > 1 else 0.0
+                        )
                         averaged_metrics[key] = {
                             'mean': avg_value,
                             'std': std_value,

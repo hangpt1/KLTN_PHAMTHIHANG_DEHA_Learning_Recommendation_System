@@ -1,0 +1,41 @@
+
+========================================================================
+GRADE PREDICTOR EVALUATION (GroupKFold by student_id)
+========================================================================
+[GradePredictor] Trained pre_start on 902 samples
+[GradePredictor] Trained in_progress on 902 samples
+[Fold 1 | pre_start] n_test=226 RMSE=8.9454 MAE=7.3004
+[Fold 1 | in_progress] n_test=226 RMSE=7.9348 MAE=6.6124
+[GradePredictor] Trained pre_start on 903 samples
+[GradePredictor] Trained in_progress on 903 samples
+[Fold 2 | pre_start] n_test=225 RMSE=8.0608 MAE=6.9128
+[Fold 2 | in_progress] n_test=225 RMSE=7.2479 MAE=6.2658
+[GradePredictor] Trained pre_start on 901 samples
+[GradePredictor] Trained in_progress on 901 samples
+[Fold 3 | pre_start] n_test=227 RMSE=7.6599 MAE=6.2404
+[Fold 3 | in_progress] n_test=227 RMSE=7.1935 MAE=5.9613
+[GradePredictor] Trained pre_start on 903 samples
+[GradePredictor] Trained in_progress on 903 samples
+[Fold 4 | pre_start] n_test=225 RMSE=8.3843 MAE=6.5240
+[Fold 4 | in_progress] n_test=225 RMSE=7.0895 MAE=5.8770
+[GradePredictor] Trained pre_start on 903 samples
+[GradePredictor] Trained in_progress on 903 samples
+[Fold 5 | pre_start] n_test=225 RMSE=8.0714 MAE=6.6274
+[Fold 5 | in_progress] n_test=225 RMSE=7.4300 MAE=6.1260
+
+Summary (pre_start): folds=5, total_test=1128, RMSE=8.2243±0.4781, MAE=6.7210±0.4034
+
+Summary (in_progress): folds=5, total_test=1128, RMSE=7.3791±0.3343, MAE=6.1685±0.2899
+
+========================================================================
+STUDENT CLUSTERING EVALUATION (Silhouette score)
+========================================================================
+[StudentClusterer] Clustered 121 students into 4 groups
+Silhouette score: 0.4157
+Cluster distribution:
+  - Cluster 0: Visual Learner (22 students, 18.2%)
+  - Cluster 1: Fast Achiever (38 students, 31.4%)
+  - Cluster 2: Steady Learner (18 students, 14.9%)
+  - Cluster 3: Active Participant (43 students, 35.5%)
+
+✓ ML summary written to: /Users/phamthihang/E-Learning-Recommendation-System/evaluation_results/ml_components_report.txt

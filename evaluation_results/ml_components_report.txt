@@ -1,0 +1,26 @@
+ML COMPONENTS EVALUATION SNAPSHOT
+========================================================================
+
+GRADE PREDICTOR (GroupKFold by student_id, n_splits=5)
+------------------------------------------------------------------------
+  folds: 5
+  in_progress_mae_mean: 6.168514649887786
+  in_progress_mae_std: 0.28990756743748364
+  in_progress_rmse_mean: 7.379137916236584
+  in_progress_rmse_std: 0.33427143414815413
+  in_progress_total_test_samples: 1128
+  pre_start_mae_mean: 6.720979633892453
+  pre_start_mae_std: 0.4034448384158421
+  pre_start_rmse_mean: 8.224349284008394
+  pre_start_rmse_std: 0.4780817359644657
+  pre_start_total_test_samples: 1128
+
+STUDENT CLUSTERING (K-Means)
+------------------------------------------------------------------------
+  silhouette_score: 0.41574248470859654
+  n_clusters_requested: 4
+  distribution:
+    Cluster 0: Visual Learner (22 students, 18.2%)
+    Cluster 1: Fast Achiever (38 students, 31.4%)
+    Cluster 2: Steady Learner (18 students, 14.9%)
+    Cluster 3: Active Participant (43 students, 35.5%)

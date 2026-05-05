@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Run K-Fold Cross-Validation Evaluation for Recommendation System
+Tiến hành đánh giá chéo K-Fold cho hệ thống đề xuất
 """
 
 import os
@@ -20,7 +20,7 @@ def main():
     data_dir = os.path.join(os.path.dirname(__file__), 'data')
     
     print("\n" + "=" * 70)
-    print("  K-FOLD CROSS-VALIDATION FOR RECOMMENDATION SYSTEM")
+    print("  RECOMMENDER EVAL — CLASSIC K-FOLD (BY RATING ROWS, k=10)")
     print("=" * 70)
     
     # Load data
@@ -35,8 +35,8 @@ def main():
     print("\n[Step 2] Initializing evaluator...")
     evaluator = RecommendationEvaluator(ratings, courses)
     
-    # Run K-Fold evaluation
-    print("\n[Step 3] Running K-Fold Cross-Validation (10 folds)...")
+    # sklearn KFold: chia toàn bộ các dòng ratings thành 10 fold rời nhau
+    print("\n[Step 3] Running sklearn KFold (shuffle=True, disjoint rating rows)...")
     kfold_results = evaluator.evaluate_recommenders_kfold(
         k_folds=10,
         k_values=[5, 10],
@@ -61,7 +61,9 @@ def main():
     # Save detailed results
     detailed_path = os.path.join(output_dir, 'kfold_detailed_results.txt')
     with open(detailed_path, 'w') as f:
-        f.write("K-FOLD CROSS-VALIDATION DETAILED RESULTS\n")
+        f.write("CLASSIC K-FOLD RESULTS — disjoint splits on rating ROWS ")
+        f.write("(see sklearn.model_selection.KFold in evaluation.py)\n")
+        f.write("Mean/std computed with np.std(ddof=1) over folds.\n")
         f.write("=" * 70 + "\n\n")
         
         for model_name, metrics in kfold_results['detailed_results'].items():

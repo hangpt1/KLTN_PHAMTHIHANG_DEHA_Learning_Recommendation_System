@@ -8,9 +8,7 @@ from datetime import datetime
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
 import pandas as pd
-import numpy as np
-from recommendation_engine import HybridRecommender, ContentBasedRecommender
-from feature_engineering import FeatureEngineer
+from recommendation_engine import HybridRecommender
 from ml_features import GradePredictor, StudentClusterer, RecommendationExplainer
 
 app = Flask(__name__)
@@ -68,7 +66,13 @@ def get_grade_predictor():
     if _grade_predictor is None:
         data = load_data()
         _grade_predictor = GradePredictor()
-        _grade_predictor.fit(data['students'], data['activities'], data['quizzes'], data['courses'])
+        _grade_predictor.fit(
+            data['students'],
+            data['activities'],
+            data['quizzes'],
+            data['courses'],
+            module_progress_df=data.get('module_progress'),
+        )
     return _grade_predictor
 
 
@@ -109,7 +113,39 @@ def get_student(student_id):
     student = data['students'][data['students']['student_id'] == student_id]
     if student.empty:
         return None
-    return student.iloc[0].to_dict()
+    student_dict = student.iloc[0].to_dict()
+    # Keep dashboard/profile stats consistent even when CSV fields weren't
+    # updated (e.g. module completion updates module_progress, not students.csv).
+    student_dict.update(compute_student_stats(student_id, data))
+    return student_dict
+
+
+def compute_student_stats(student_id, data=None):
+    """
+    Derive dashboard stats from activity/quiz/module/enrollment logs.
+    This avoids stale values in students.csv (which may start at 0).
+    """
+    if data is None:
+        data = load_data()
+
+    enrollments = data['enrollments'][data['enrollments']['student_id'] == student_id]
+    quizzes = data['quizzes'][data['quizzes']['student_id'] == student_id]
+    module_progress = data['module_progress'][data['module_progress']['student_id'] == student_id]
+
+    total_courses_completed = int((enrollments['status'] == 'completed').sum()) if not enrollments.empty else 0
+
+    avg_quiz_score = float(quizzes['score_percentage'].mean()) if not quizzes.empty else 0.0
+
+    # Prefer module_progress time because it's guaranteed to be written by the
+    # learning UI; activity_logs may not be recorded for all interactions.
+    total_time_minutes = float(module_progress['time_spent_minutes'].sum()) if not module_progress.empty else 0.0
+    total_time_spent_hours = total_time_minutes / 60.0
+
+    return {
+        'total_courses_completed': total_courses_completed,
+        'avg_quiz_score': round(avg_quiz_score, 1),
+        'total_time_spent_hours': round(total_time_spent_hours, 1),
+    }
 
 
 def get_student_courses(student_id):
@@ -427,11 +463,10 @@ def complete_module(student_id, module_id, score=None):
     new_df = pd.DataFrame([new_progress])
     csv_path = os.path.join(DATA_DIR, 'module_progress.csv')
     new_df.to_csv(csv_path, mode='a', header=False, index=False)
-    
+    reload_data()
     # Update course progress
     update_course_progress(student_id, module_data['course_id'])
     
-    reload_data()
     
     return True, "Module completed"
 
@@ -742,7 +777,17 @@ def grade_predictor():
     
     if course_id:
         predictor = get_grade_predictor()
-        prediction = predictor.predict(student_id, course_id, data['students'], data['activities'], data['courses'])
+        mode = request.args.get('mode', 'auto')
+        prediction = predictor.predict(
+            student_id,
+            course_id,
+            data['students'],
+            data['activities'],
+            data['quizzes'],
+            data['courses'],
+            module_progress_df=data.get('module_progress'),
+            mode=mode,
+        )
         
         course = data['courses'][data['courses']['course_id'] == course_id]
         if not course.empty:
@@ -753,6 +798,28 @@ def grade_predictor():
                          prediction=prediction,
                          selected_course=selected_course,
                          course_id=course_id)
+
+
+@app.route('/api/grade-predictor/retrain', methods=['POST'])
+def api_grade_predictor_retrain():
+    """
+    API: retrain GradePredictor so new interactions are learned by the model.
+    This does not modify persisted data; it only refreshes the in-memory model.
+    """
+    global _grade_predictor
+    if 'student_id' not in session:
+        return jsonify({'error': 'Not logged in'}), 401
+
+    data = load_data()
+    _grade_predictor = GradePredictor()
+    ok = _grade_predictor.fit(
+        data['students'],
+        data['activities'],
+        data['quizzes'],
+        data['courses'],
+        module_progress_df=data.get('module_progress'),
+    )
+    return jsonify({'success': bool(ok)})
 
 
 @app.route('/student-profile')

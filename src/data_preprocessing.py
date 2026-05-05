@@ -1,8 +1,7 @@
 """
-Data Preprocessing Module for E-Learning Recommendation System
-This module handles ETL (Extract, Transform, Load) operations for the data warehouse.
+Mô-đun xử lý dữ liệu sơ bộ cho hệ thống đề xuất E-Learning
+Mô-đun này xử lý các hoạt động ETL (Trích xuất, Chuyển đổi, Tải) cho kho dữ liệu.
 """
-
 import pandas as pd
 import numpy as np
 from datetime import datetime

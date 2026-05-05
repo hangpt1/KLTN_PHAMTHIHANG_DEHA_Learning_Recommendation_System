@@ -1,0 +1,853 @@
+
+======================================================================
+  RECOMMENDER EVAL — CLASSIC K-FOLD (BY RATING ROWS, k=10)
+======================================================================
+
+[Step 1] Loading data...
+  - Loaded 35 courses
+  - Loaded 3000 ratings
+
+[Step 2] Initializing evaluator...
+
+[Step 3] Running sklearn KFold (shuffle=True, disjoint rating rows)...
+
+======================================================================
+  CLASSIC K-FOLD ON RATING ROWS (10 FOLDS)
+======================================================================
+
+======================================================================
+  FOLD 1/10: train_rows=2700, test_rows=300
+======================================================================
+
+======================================================================
+  MODEL EVALUATION RESULTS
+======================================================================
+
+[Content-Based Filtering] Building TF-IDF matrix...
+  ✓ TF-IDF Matrix Shape: (35, 678)
+  ✓ Vocabulary Size: 678
+[Content-Based Filtering] Computing cosine similarity...
+  ✓ Cosine Similarity Matrix: (35, 35)
+
+[Collaborative Filtering] Building User-Item matrix...
+  ✓ User-Item Matrix Shape: (120, 35)
+  ✓ Sparsity: 53.62%
+[Collaborative Filtering] Computing user similarity...
+[Collaborative Filtering] Computing item similarity...
+  ✓ User Similarity Matrix: (120, 120)
+  ✓ Item Similarity Matrix: (35, 35)
+
+======================================================================
+  HYBRID RECOMMENDATION SYSTEM - MODEL TRAINING
+======================================================================
+
+[Content-Based Filtering] Building TF-IDF matrix...
+  ✓ TF-IDF Matrix Shape: (35, 678)
+  ✓ Vocabulary Size: 678
+[Content-Based Filtering] Computing cosine similarity...
+  ✓ Cosine Similarity Matrix: (35, 35)
+
+[Collaborative Filtering] Building User-Item matrix...
+  ✓ User-Item Matrix Shape: (120, 35)
+  ✓ Sparsity: 53.62%
+[Collaborative Filtering] Computing user similarity...
+[Collaborative Filtering] Computing item similarity...
+  ✓ User Similarity Matrix: (120, 120)
+  ✓ Item Similarity Matrix: (35, 35)
+
+======================================================================
+  MODEL TRAINING COMPLETED
+======================================================================
+
+--- Content-Based ---
+  Precision@5: 0.0447
+  Recall@5:    0.1382
+  F1@5:        0.0676
+  Precision@10: 0.0482
+  Recall@10:    0.3059
+  F1@10:        0.0833
+  RMSE:          N/A
+  MAE:           N/A
+  Coverage:      85.71%
+
+--- Collaborative Filtering ---
+  Precision@5: 0.0494
+  Recall@5:    0.1725
+  F1@5:        0.0768
+  Precision@10: 0.0600
+  Recall@10:    0.3480
+  F1@10:        0.1024
+  RMSE:          1.3326
+  MAE:           1.1576
+  Coverage:      85.71%
+
+--- Hybrid ---
+  Precision@5: 0.0494
+  Recall@5:    0.1569
+  F1@5:        0.0752
+  Precision@10: 0.0447
+  Recall@10:    0.2706
+  F1@10:        0.0767
+  RMSE:          N/A
+  MAE:           N/A
+  Coverage:      91.43%
+
+======================================================================
+  FOLD 2/10: train_rows=2700, test_rows=300
+======================================================================
+
+======================================================================
+  MODEL EVALUATION RESULTS
+======================================================================
+
+[Content-Based Filtering] Building TF-IDF matrix...
+  ✓ TF-IDF Matrix Shape: (35, 678)
+  ✓ Vocabulary Size: 678
+[Content-Based Filtering] Computing cosine similarity...
+  ✓ Cosine Similarity Matrix: (35, 35)
+
+[Collaborative Filtering] Building User-Item matrix...
+  ✓ User-Item Matrix Shape: (120, 35)
+  ✓ Sparsity: 53.48%
+[Collaborative Filtering] Computing user similarity...
+[Collaborative Filtering] Computing item similarity...
+  ✓ User Similarity Matrix: (120, 120)
+  ✓ Item Similarity Matrix: (35, 35)
+
+======================================================================
+  HYBRID RECOMMENDATION SYSTEM - MODEL TRAINING
+======================================================================
+
+[Content-Based Filtering] Building TF-IDF matrix...
+  ✓ TF-IDF Matrix Shape: (35, 678)
+  ✓ Vocabulary Size: 678
+[Content-Based Filtering] Computing cosine similarity...
+  ✓ Cosine Similarity Matrix: (35, 35)
+
+[Collaborative Filtering] Building User-Item matrix...
+  ✓ User-Item Matrix Shape: (120, 35)
+  ✓ Sparsity: 53.48%
+[Collaborative Filtering] Computing user similarity...
+[Collaborative Filtering] Computing item similarity...
+  ✓ User Similarity Matrix: (120, 120)
+  ✓ Item Similarity Matrix: (35, 35)
+
+======================================================================
+  MODEL TRAINING COMPLETED
+======================================================================
+
+--- Content-Based ---
+  Precision@5: 0.0478
+  Recall@5:    0.1187
+  F1@5:        0.0682
+  Precision@10: 0.0533
+  Recall@10:    0.2971
+  F1@10:        0.0903
+  RMSE:          N/A
+  MAE:           N/A
+  Coverage:      91.43%
+
+--- Collaborative Filtering ---
+  Precision@5: 0.0500
+  Recall@5:    0.1223
+  F1@5:        0.0710
+  Precision@10: 0.0554
+  Recall@10:    0.2926
+  F1@10:        0.0932
+  RMSE:          1.2280
+  MAE:           1.0435
+  Coverage:      85.71%
+
+--- Hybrid ---
+  Precision@5: 0.0478
+  Recall@5:    0.1114
+  F1@5:        0.0669
+  Precision@10: 0.0554
+  Recall@10:    0.2917
+  F1@10:        0.0932
+  RMSE:          N/A
+  MAE:           N/A
+  Coverage:      94.29%
+
+======================================================================
+  FOLD 3/10: train_rows=2700, test_rows=300
+======================================================================
+
+======================================================================
+  MODEL EVALUATION RESULTS
+======================================================================
+
+[Content-Based Filtering] Building TF-IDF matrix...
+  ✓ TF-IDF Matrix Shape: (35, 678)
+  ✓ Vocabulary Size: 678
+[Content-Based Filtering] Computing cosine similarity...
+  ✓ Cosine Similarity Matrix: (35, 35)
+
+[Collaborative Filtering] Building User-Item matrix...
+  ✓ User-Item Matrix Shape: (120, 35)
+  ✓ Sparsity: 53.02%
+[Collaborative Filtering] Computing user similarity...
+[Collaborative Filtering] Computing item similarity...
+  ✓ User Similarity Matrix: (120, 120)
+  ✓ Item Similarity Matrix: (35, 35)
+
+======================================================================
+  HYBRID RECOMMENDATION SYSTEM - MODEL TRAINING
+======================================================================
+
+[Content-Based Filtering] Building TF-IDF matrix...
+  ✓ TF-IDF Matrix Shape: (35, 678)
+  ✓ Vocabulary Size: 678
+[Content-Based Filtering] Computing cosine similarity...
+  ✓ Cosine Similarity Matrix: (35, 35)
+
+[Collaborative Filtering] Building User-Item matrix...
+  ✓ User-Item Matrix Shape: (120, 35)
+  ✓ Sparsity: 53.02%
+[Collaborative Filtering] Computing user similarity...
+[Collaborative Filtering] Computing item similarity...
+  ✓ User Similarity Matrix: (120, 120)
+  ✓ Item Similarity Matrix: (35, 35)
+
+======================================================================
+  MODEL TRAINING COMPLETED
+======================================================================
+
+--- Content-Based ---
+  Precision@5: 0.0440
+  Recall@5:    0.1255
+  F1@5:        0.0651
+  Precision@10: 0.0429
+  Recall@10:    0.2500
+  F1@10:        0.0732
+  RMSE:          N/A
+  MAE:           N/A
+  Coverage:      88.57%
+
+--- Collaborative Filtering ---
+  Precision@5: 0.0462
+  Recall@5:    0.1291
+  F1@5:        0.0680
+  Precision@10: 0.0440
+  Recall@10:    0.2546
+  F1@10:        0.0750
+  RMSE:          1.2888
+  MAE:           1.1148
+  Coverage:      88.57%
+
+--- Hybrid ---
+  Precision@5: 0.0484
+  Recall@5:    0.1401
+  F1@5:        0.0719
+  Precision@10: 0.0418
+  Recall@10:    0.2390
+  F1@10:        0.0711
+  RMSE:          N/A
+  MAE:           N/A
+  Coverage:      91.43%
+
+======================================================================
+  FOLD 4/10: train_rows=2700, test_rows=300
+======================================================================
+
+======================================================================
+  MODEL EVALUATION RESULTS
+======================================================================
+
+[Content-Based Filtering] Building TF-IDF matrix...
+  ✓ TF-IDF Matrix Shape: (35, 678)
+  ✓ Vocabulary Size: 678
+[Content-Based Filtering] Computing cosine similarity...
+  ✓ Cosine Similarity Matrix: (35, 35)
+
+[Collaborative Filtering] Building User-Item matrix...
+  ✓ User-Item Matrix Shape: (120, 35)
+  ✓ Sparsity: 53.48%
+[Collaborative Filtering] Computing user similarity...
+[Collaborative Filtering] Computing item similarity...
+  ✓ User Similarity Matrix: (120, 120)
+  ✓ Item Similarity Matrix: (35, 35)
+
+======================================================================
+  HYBRID RECOMMENDATION SYSTEM - MODEL TRAINING
+======================================================================
+
+[Content-Based Filtering] Building TF-IDF matrix...
+  ✓ TF-IDF Matrix Shape: (35, 678)
+  ✓ Vocabulary Size: 678
+[Content-Based Filtering] Computing cosine similarity...
+  ✓ Cosine Similarity Matrix: (35, 35)
+
+[Collaborative Filtering] Building User-Item matrix...
+  ✓ User-Item Matrix Shape: (120, 35)
+  ✓ Sparsity: 53.48%
+[Collaborative Filtering] Computing user similarity...
+[Collaborative Filtering] Computing item similarity...
+  ✓ User Similarity Matrix: (120, 120)
+  ✓ Item Similarity Matrix: (35, 35)
+
+======================================================================
+  MODEL TRAINING COMPLETED
+======================================================================
+
+--- Content-Based ---
+  Precision@5: 0.0452
+  Recall@5:    0.1401
+  F1@5:        0.0683
+  Precision@10: 0.0462
+  Recall@10:    0.2717
+  F1@10:        0.0790
+  RMSE:          N/A
+  MAE:           N/A
+  Coverage:      88.57%
+
+--- Collaborative Filtering ---
+  Precision@5: 0.0602
+  Recall@5:    0.1909
+  F1@5:        0.0915
+  Precision@10: 0.0581
+  Recall@10:    0.3561
+  F1@10:        0.0998
+  RMSE:          1.2363
+  MAE:           1.0450
+  Coverage:      88.57%
+
+--- Hybrid ---
+  Precision@5: 0.0473
+  Recall@5:    0.1452
+  F1@5:        0.0714
+  Precision@10: 0.0495
+  Recall@10:    0.2910
+  F1@10:        0.0846
+  RMSE:          N/A
+  MAE:           N/A
+  Coverage:      94.29%
+
+======================================================================
+  FOLD 5/10: train_rows=2700, test_rows=300
+======================================================================
+
+======================================================================
+  MODEL EVALUATION RESULTS
+======================================================================
+
+[Content-Based Filtering] Building TF-IDF matrix...
+  ✓ TF-IDF Matrix Shape: (35, 678)
+  ✓ Vocabulary Size: 678
+[Content-Based Filtering] Computing cosine similarity...
+  ✓ Cosine Similarity Matrix: (35, 35)
+
+[Collaborative Filtering] Building User-Item matrix...
+  ✓ User-Item Matrix Shape: (120, 35)
+  ✓ Sparsity: 53.38%
+[Collaborative Filtering] Computing user similarity...
+[Collaborative Filtering] Computing item similarity...
+  ✓ User Similarity Matrix: (120, 120)
+  ✓ Item Similarity Matrix: (35, 35)
+
+======================================================================
+  HYBRID RECOMMENDATION SYSTEM - MODEL TRAINING
+======================================================================
+
+[Content-Based Filtering] Building TF-IDF matrix...
+  ✓ TF-IDF Matrix Shape: (35, 678)
+  ✓ Vocabulary Size: 678
+[Content-Based Filtering] Computing cosine similarity...
+  ✓ Cosine Similarity Matrix: (35, 35)
+
+[Collaborative Filtering] Building User-Item matrix...
+  ✓ User-Item Matrix Shape: (120, 35)
+  ✓ Sparsity: 53.38%
+[Collaborative Filtering] Computing user similarity...
+[Collaborative Filtering] Computing item similarity...
+  ✓ User Similarity Matrix: (120, 120)
+  ✓ Item Similarity Matrix: (35, 35)
+
+======================================================================
+  MODEL TRAINING COMPLETED
+======================================================================
+
+--- Content-Based ---
+  Precision@5: 0.0494
+  Recall@5:    0.1545
+  F1@5:        0.0749
+  Precision@10: 0.0461
+  Recall@10:    0.2725
+  F1@10:        0.0788
+  RMSE:          N/A
+  MAE:           N/A
+  Coverage:      88.57%
+
+--- Collaborative Filtering ---
+  Precision@5: 0.0629
+  Recall@5:    0.1788
+  F1@5:        0.0931
+  Precision@10: 0.0517
+  Recall@10:    0.2978
+  F1@10:        0.0881
+  RMSE:          1.2149
+  MAE:           1.0309
+  Coverage:      85.71%
+
+--- Hybrid ---
+  Precision@5: 0.0472
+  Recall@5:    0.1301
+  F1@5:        0.0693
+  Precision@10: 0.0539
+  Recall@10:    0.3202
+  F1@10:        0.0923
+  RMSE:          N/A
+  MAE:           N/A
+  Coverage:      94.29%
+
+======================================================================
+  FOLD 6/10: train_rows=2700, test_rows=300
+======================================================================
+
+======================================================================
+  MODEL EVALUATION RESULTS
+======================================================================
+
+[Content-Based Filtering] Building TF-IDF matrix...
+  ✓ TF-IDF Matrix Shape: (35, 678)
+  ✓ Vocabulary Size: 678
+[Content-Based Filtering] Computing cosine similarity...
+  ✓ Cosine Similarity Matrix: (35, 35)
+
+[Collaborative Filtering] Building User-Item matrix...
+  ✓ User-Item Matrix Shape: (120, 35)
+  ✓ Sparsity: 53.33%
+[Collaborative Filtering] Computing user similarity...
+[Collaborative Filtering] Computing item similarity...
+  ✓ User Similarity Matrix: (120, 120)
+  ✓ Item Similarity Matrix: (35, 35)
+
+======================================================================
+  HYBRID RECOMMENDATION SYSTEM - MODEL TRAINING
+======================================================================
+
+[Content-Based Filtering] Building TF-IDF matrix...
+  ✓ TF-IDF Matrix Shape: (35, 678)
+  ✓ Vocabulary Size: 678
+[Content-Based Filtering] Computing cosine similarity...
+  ✓ Cosine Similarity Matrix: (35, 35)
+
+[Collaborative Filtering] Building User-Item matrix...
+  ✓ User-Item Matrix Shape: (120, 35)
+  ✓ Sparsity: 53.33%
+[Collaborative Filtering] Computing user similarity...
+[Collaborative Filtering] Computing item similarity...
+  ✓ User Similarity Matrix: (120, 120)
+  ✓ Item Similarity Matrix: (35, 35)
+
+======================================================================
+  MODEL TRAINING COMPLETED
+======================================================================
+
+--- Content-Based ---
+  Precision@5: 0.0593
+  Recall@5:    0.1372
+  F1@5:        0.0828
+  Precision@10: 0.0593
+  Recall@10:    0.2864
+  F1@10:        0.0983
+  RMSE:          N/A
+  MAE:           N/A
+  Coverage:      85.71%
+
+--- Collaborative Filtering ---
+  Precision@5: 0.0527
+  Recall@5:    0.1161
+  F1@5:        0.0725
+  Precision@10: 0.0604
+  Recall@10:    0.3075
+  F1@10:        0.1010
+  RMSE:          1.2814
+  MAE:           1.0946
+  Coverage:      82.86%
+
+--- Hybrid ---
+  Precision@5: 0.0593
+  Recall@5:    0.1390
+  F1@5:        0.0832
+  Precision@10: 0.0659
+  Recall@10:    0.3350
+  F1@10:        0.1102
+  RMSE:          N/A
+  MAE:           N/A
+  Coverage:      82.86%
+
+======================================================================
+  FOLD 7/10: train_rows=2700, test_rows=300
+======================================================================
+
+======================================================================
+  MODEL EVALUATION RESULTS
+======================================================================
+
+[Content-Based Filtering] Building TF-IDF matrix...
+  ✓ TF-IDF Matrix Shape: (35, 678)
+  ✓ Vocabulary Size: 678
+[Content-Based Filtering] Computing cosine similarity...
+  ✓ Cosine Similarity Matrix: (35, 35)
+
+[Collaborative Filtering] Building User-Item matrix...
+  ✓ User-Item Matrix Shape: (120, 35)
+  ✓ Sparsity: 53.31%
+[Collaborative Filtering] Computing user similarity...
+[Collaborative Filtering] Computing item similarity...
+  ✓ User Similarity Matrix: (120, 120)
+  ✓ Item Similarity Matrix: (35, 35)
+
+======================================================================
+  HYBRID RECOMMENDATION SYSTEM - MODEL TRAINING
+======================================================================
+
+[Content-Based Filtering] Building TF-IDF matrix...
+  ✓ TF-IDF Matrix Shape: (35, 678)
+  ✓ Vocabulary Size: 678
+[Content-Based Filtering] Computing cosine similarity...
+  ✓ Cosine Similarity Matrix: (35, 35)
+
+[Collaborative Filtering] Building User-Item matrix...
+  ✓ User-Item Matrix Shape: (120, 35)
+  ✓ Sparsity: 53.31%
+[Collaborative Filtering] Computing user similarity...
+[Collaborative Filtering] Computing item similarity...
+  ✓ User Similarity Matrix: (120, 120)
+  ✓ Item Similarity Matrix: (35, 35)
+
+======================================================================
+  MODEL TRAINING COMPLETED
+======================================================================
+
+--- Content-Based ---
+  Precision@5: 0.0467
+  Recall@5:    0.1254
+  F1@5:        0.0680
+  Precision@10: 0.0467
+  Recall@10:    0.2665
+  F1@10:        0.0794
+  RMSE:          N/A
+  MAE:           N/A
+  Coverage:      88.57%
+
+--- Collaborative Filtering ---
+  Precision@5: 0.0533
+  Recall@5:    0.1763
+  F1@5:        0.0819
+  Precision@10: 0.0500
+  Recall@10:    0.3294
+  F1@10:        0.0868
+  RMSE:          1.2466
+  MAE:           1.0719
+  Coverage:      85.71%
+
+--- Hybrid ---
+  Precision@5: 0.0556
+  Recall@5:    0.1587
+  F1@5:        0.0823
+  Precision@10: 0.0467
+  Recall@10:    0.2869
+  F1@10:        0.0803
+  RMSE:          N/A
+  MAE:           N/A
+  Coverage:      85.71%
+
+======================================================================
+  FOLD 8/10: train_rows=2700, test_rows=300
+======================================================================
+
+======================================================================
+  MODEL EVALUATION RESULTS
+======================================================================
+
+[Content-Based Filtering] Building TF-IDF matrix...
+  ✓ TF-IDF Matrix Shape: (35, 678)
+  ✓ Vocabulary Size: 678
+[Content-Based Filtering] Computing cosine similarity...
+  ✓ Cosine Similarity Matrix: (35, 35)
+
+[Collaborative Filtering] Building User-Item matrix...
+  ✓ User-Item Matrix Shape: (120, 35)
+  ✓ Sparsity: 53.19%
+[Collaborative Filtering] Computing user similarity...
+[Collaborative Filtering] Computing item similarity...
+  ✓ User Similarity Matrix: (120, 120)
+  ✓ Item Similarity Matrix: (35, 35)
+
+======================================================================
+  HYBRID RECOMMENDATION SYSTEM - MODEL TRAINING
+======================================================================
+
+[Content-Based Filtering] Building TF-IDF matrix...
+  ✓ TF-IDF Matrix Shape: (35, 678)
+  ✓ Vocabulary Size: 678
+[Content-Based Filtering] Computing cosine similarity...
+  ✓ Cosine Similarity Matrix: (35, 35)
+
+[Collaborative Filtering] Building User-Item matrix...
+  ✓ User-Item Matrix Shape: (120, 35)
+  ✓ Sparsity: 53.19%
+[Collaborative Filtering] Computing user similarity...
+[Collaborative Filtering] Computing item similarity...
+  ✓ User Similarity Matrix: (120, 120)
+  ✓ Item Similarity Matrix: (35, 35)
+
+======================================================================
+  MODEL TRAINING COMPLETED
+======================================================================
+
+--- Content-Based ---
+  Precision@5: 0.0565
+  Recall@5:    0.1440
+  F1@5:        0.0812
+  Precision@10: 0.0598
+  Recall@10:    0.3188
+  F1@10:        0.1007
+  RMSE:          N/A
+  MAE:           N/A
+  Coverage:      88.57%
+
+--- Collaborative Filtering ---
+  Precision@5: 0.0457
+  Recall@5:    0.1395
+  F1@5:        0.0688
+  Precision@10: 0.0478
+  Recall@10:    0.2808
+  F1@10:        0.0817
+  RMSE:          1.2297
+  MAE:           1.0735
+  Coverage:      88.57%
+
+--- Hybrid ---
+  Precision@5: 0.0522
+  Recall@5:    0.1359
+  F1@5:        0.0754
+  Precision@10: 0.0587
+  Recall@10:    0.3315
+  F1@10:        0.0997
+  RMSE:          N/A
+  MAE:           N/A
+  Coverage:      94.29%
+
+======================================================================
+  FOLD 9/10: train_rows=2700, test_rows=300
+======================================================================
+
+======================================================================
+  MODEL EVALUATION RESULTS
+======================================================================
+
+[Content-Based Filtering] Building TF-IDF matrix...
+  ✓ TF-IDF Matrix Shape: (35, 678)
+  ✓ Vocabulary Size: 678
+[Content-Based Filtering] Computing cosine similarity...
+  ✓ Cosine Similarity Matrix: (35, 35)
+
+[Collaborative Filtering] Building User-Item matrix...
+  ✓ User-Item Matrix Shape: (120, 35)
+  ✓ Sparsity: 53.14%
+[Collaborative Filtering] Computing user similarity...
+[Collaborative Filtering] Computing item similarity...
+  ✓ User Similarity Matrix: (120, 120)
+  ✓ Item Similarity Matrix: (35, 35)
+
+======================================================================
+  HYBRID RECOMMENDATION SYSTEM - MODEL TRAINING
+======================================================================
+
+[Content-Based Filtering] Building TF-IDF matrix...
+  ✓ TF-IDF Matrix Shape: (35, 678)
+  ✓ Vocabulary Size: 678
+[Content-Based Filtering] Computing cosine similarity...
+  ✓ Cosine Similarity Matrix: (35, 35)
+
+[Collaborative Filtering] Building User-Item matrix...
+  ✓ User-Item Matrix Shape: (120, 35)
+  ✓ Sparsity: 53.14%
+[Collaborative Filtering] Computing user similarity...
+[Collaborative Filtering] Computing item similarity...
+  ✓ User Similarity Matrix: (120, 120)
+  ✓ Item Similarity Matrix: (35, 35)
+
+======================================================================
+  MODEL TRAINING COMPLETED
+======================================================================
+
+--- Content-Based ---
+  Precision@5: 0.0467
+  Recall@5:    0.1500
+  F1@5:        0.0712
+  Precision@10: 0.0467
+  Recall@10:    0.2685
+  F1@10:        0.0795
+  RMSE:          N/A
+  MAE:           N/A
+  Coverage:      88.57%
+
+--- Collaborative Filtering ---
+  Precision@5: 0.0289
+  Recall@5:    0.0926
+  F1@5:        0.0440
+  Precision@10: 0.0311
+  Recall@10:    0.1972
+  F1@10:        0.0537
+  RMSE:          1.3147
+  MAE:           1.1286
+  Coverage:      88.57%
+
+--- Hybrid ---
+  Precision@5: 0.0489
+  Recall@5:    0.1667
+  F1@5:        0.0756
+  Precision@10: 0.0411
+  Recall@10:    0.2472
+  F1@10:        0.0705
+  RMSE:          N/A
+  MAE:           N/A
+  Coverage:      94.29%
+
+======================================================================
+  FOLD 10/10: train_rows=2700, test_rows=300
+======================================================================
+
+======================================================================
+  MODEL EVALUATION RESULTS
+======================================================================
+
+[Content-Based Filtering] Building TF-IDF matrix...
+  ✓ TF-IDF Matrix Shape: (35, 678)
+  ✓ Vocabulary Size: 678
+[Content-Based Filtering] Computing cosine similarity...
+  ✓ Cosine Similarity Matrix: (35, 35)
+
+[Collaborative Filtering] Building User-Item matrix...
+  ✓ User-Item Matrix Shape: (120, 35)
+  ✓ Sparsity: 53.43%
+[Collaborative Filtering] Computing user similarity...
+[Collaborative Filtering] Computing item similarity...
+  ✓ User Similarity Matrix: (120, 120)
+  ✓ Item Similarity Matrix: (35, 35)
+
+======================================================================
+  HYBRID RECOMMENDATION SYSTEM - MODEL TRAINING
+======================================================================
+
+[Content-Based Filtering] Building TF-IDF matrix...
+  ✓ TF-IDF Matrix Shape: (35, 678)
+  ✓ Vocabulary Size: 678
+[Content-Based Filtering] Computing cosine similarity...
+  ✓ Cosine Similarity Matrix: (35, 35)
+
+[Collaborative Filtering] Building User-Item matrix...
+  ✓ User-Item Matrix Shape: (120, 35)
+  ✓ Sparsity: 53.43%
+[Collaborative Filtering] Computing user similarity...
+[Collaborative Filtering] Computing item similarity...
+  ✓ User Similarity Matrix: (120, 120)
+  ✓ Item Similarity Matrix: (35, 35)
+
+======================================================================
+  MODEL TRAINING COMPLETED
+======================================================================
+
+--- Content-Based ---
+  Precision@5: 0.0477
+  Recall@5:    0.1225
+  F1@5:        0.0687
+  Precision@10: 0.0580
+  Recall@10:    0.3004
+  F1@10:        0.0972
+  RMSE:          N/A
+  MAE:           N/A
+  Coverage:      88.57%
+
+--- Collaborative Filtering ---
+  Precision@5: 0.0545
+  Recall@5:    0.1420
+  F1@5:        0.0788
+  Precision@10: 0.0591
+  Recall@10:    0.2981
+  F1@10:        0.0986
+  RMSE:          1.2901
+  MAE:           1.1170
+  Coverage:      82.86%
+
+--- Hybrid ---
+  Precision@5: 0.0614
+  Recall@5:    0.1689
+  F1@5:        0.0900
+  Precision@10: 0.0580
+  Recall@10:    0.3104
+  F1@10:        0.0977
+  RMSE:          N/A
+  MAE:           N/A
+  Coverage:      91.43%
+
+======================================================================
+  K-FOLD CROSS-VALIDATION RESULTS (AVERAGED)
+======================================================================
+
+Content-Based:
+----------------------------------------------------------------------
+  EvaluatedUsers: 90.1000 ± 2.3310
+  Precision@5: 0.0488 ± 0.0051
+  Recall@5: 0.1356 ± 0.0122
+  F1@5: 0.0716 ± 0.0061
+  Precision@10: 0.0507 ± 0.0063
+  Recall@10: 0.2838 ± 0.0214
+  F1@10: 0.0860 ± 0.0098
+  RMSE: None
+  MAE: None
+  Coverage: 0.8829 ± 0.0162
+
+Collaborative Filtering:
+----------------------------------------------------------------------
+  EvaluatedUsers: 90.1000 ± 2.3310
+  Precision@5: 0.0504 ± 0.0094
+  Recall@5: 0.1460 ± 0.0323
+  F1@5: 0.0747 ± 0.0139
+  Precision@10: 0.0518 ± 0.0092
+  Recall@10: 0.2962 ± 0.0463
+  F1@10: 0.0880 ± 0.0151
+  RMSE: 1.2663 ± 0.0405
+  MAE: 1.0877 ± 0.0417
+  Coverage: 0.8629 ± 0.0225
+
+Hybrid:
+----------------------------------------------------------------------
+  EvaluatedUsers: 90.1000 ± 2.3310
+  Precision@5: 0.0517 ± 0.0052
+  Recall@5: 0.1453 ± 0.0178
+  F1@5: 0.0761 ± 0.0071
+  Precision@10: 0.0516 ± 0.0082
+  Recall@10: 0.2924 ± 0.0331
+  F1@10: 0.0876 ± 0.0132
+  RMSE: None
+  MAE: None
+  Coverage: 0.9143 ± 0.0404
+
+======================================================================
+  SUMMARY TABLE
+======================================================================
+                     Model  EvaluatedUsers_mean  EvaluatedUsers_std  Precision@5_mean  Precision@5_std  Recall@5_mean  Recall@5_std  F1@5_mean  F1@5_std  Precision@10_mean  Precision@10_std  Recall@10_mean  Recall@10_std  F1@10_mean  F1@10_std  RMSE  MAE  Coverage_mean  Coverage_std  RMSE_mean  RMSE_std  MAE_mean   MAE_std
+0            Content-Based                 90.1            2.330951          0.048801         0.005119       0.135610      0.012159   0.071598  0.006071           0.050707          0.006306        0.283781       0.021409    0.085977   0.009821   NaN  NaN       0.882857      0.016218        NaN       NaN       NaN       NaN
+1  Collaborative Filtering                 90.1            2.330951          0.050387         0.009362       0.146020      0.032256   0.074653  0.013879           0.051761          0.009166        0.296212       0.046300    0.088041   0.015056   NaN  NaN       0.862857      0.022537   1.266301  0.040531  1.087744  0.041705
+2                   Hybrid                 90.1            2.330951          0.051741         0.005226       0.145289      0.017833   0.076110  0.007111           0.051566          0.008163        0.292352       0.033070    0.087622   0.013156   NaN  NaN       0.914286      0.040406        NaN       NaN       NaN       NaN
+
+======================================================================
+  K-FOLD EVALUATION SUMMARY
+======================================================================
+
+                     Model  EvaluatedUsers_mean  EvaluatedUsers_std  Precision@5_mean  Precision@5_std  Recall@5_mean  Recall@5_std  F1@5_mean  F1@5_std  Precision@10_mean  Precision@10_std  Recall@10_mean  Recall@10_std  F1@10_mean  F1@10_std  RMSE  MAE  Coverage_mean  Coverage_std  RMSE_mean  RMSE_std  MAE_mean   MAE_std
+0            Content-Based                 90.1            2.330951          0.048801         0.005119       0.135610      0.012159   0.071598  0.006071           0.050707          0.006306        0.283781       0.021409    0.085977   0.009821   NaN  NaN       0.882857      0.016218        NaN       NaN       NaN       NaN
+1  Collaborative Filtering                 90.1            2.330951          0.050387         0.009362       0.146020      0.032256   0.074653  0.013879           0.051761          0.009166        0.296212       0.046300    0.088041   0.015056   NaN  NaN       0.862857      0.022537   1.266301  0.040531  1.087744  0.041705
+2                   Hybrid                 90.1            2.330951          0.051741         0.005226       0.145289      0.017833   0.076110  0.007111           0.051566          0.008163        0.292352       0.033070    0.087622   0.013156   NaN  NaN       0.914286      0.040406        NaN       NaN       NaN       NaN
+
+✓ Summary saved to: /Users/phamthihang/E-Learning-Recommendation-System/evaluation_results/kfold_summary.csv
+✓ Detailed results saved to: /Users/phamthihang/E-Learning-Recommendation-System/evaluation_results/kfold_detailed_results.txt
+
+======================================================================
+  EVALUATION COMPLETED!
+======================================================================
