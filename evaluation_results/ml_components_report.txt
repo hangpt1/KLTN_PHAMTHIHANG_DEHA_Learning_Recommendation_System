@@ -4,15 +4,15 @@ ML COMPONENTS EVALUATION SNAPSHOT
 GRADE PREDICTOR (GroupKFold by student_id, n_splits=5)
 ------------------------------------------------------------------------
   folds: 5
-  in_progress_mae_mean: 6.168514649887786
-  in_progress_mae_std: 0.28990756743748364
-  in_progress_rmse_mean: 7.379137916236584
-  in_progress_rmse_std: 0.33427143414815413
+  in_progress_mae_mean: 6.168640741019314
+  in_progress_mae_std: 0.2856915599838061
+  in_progress_rmse_mean: 7.379315141106005
+  in_progress_rmse_std: 0.3307624920761151
   in_progress_total_test_samples: 1128
-  pre_start_mae_mean: 6.720979633892453
-  pre_start_mae_std: 0.4034448384158421
-  pre_start_rmse_mean: 8.224349284008394
-  pre_start_rmse_std: 0.4780817359644657
+  pre_start_mae_mean: 6.720559861594691
+  pre_start_mae_std: 0.4025178580403217
+  pre_start_rmse_mean: 8.227218898601537
+  pre_start_rmse_std: 0.4780746229651742
   pre_start_total_test_samples: 1128
 
 STUDENT CLUSTERING (K-Means)
